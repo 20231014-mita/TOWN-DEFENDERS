@@ -1,0 +1,1216 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Town Defenders - Forest Edition</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* フォントと基本設定 */
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
+    body {
+      font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      overflow: hidden;
+      background-color: #4ade80; /* 草原のベースカラー */
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    
+    /* 森のテーマを意識したカスタムUIスタイル */
+    .panel-wood {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border: 3px solid #d97706;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), inset 0 2px 4px rgba(255, 255, 255, 0.5);
+      color: #78350f;
+    }
+    .panel-glass {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+      color: #334155;
+    }
+    .btn-action {
+      background: linear-gradient(to bottom, #4ade80, #22c55e);
+      border: 2px solid #16a34a;
+      color: white;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+      transition: all 0.1s;
+    }
+    .btn-action:active {
+      transform: translateY(2px);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .text-outline {
+      text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    /* 警告アニメーション */
+    @keyframes alertPulse {
+      0% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.05); opacity: 1; box-shadow: 0 0 20px rgba(239, 68, 68, 0.8); }
+      100% { transform: scale(1); opacity: 0.9; }
+    }
+    .alert-anim {
+      animation: alertPulse 1s infinite;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+    .screen-shake {
+      animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both infinite;
+    }
+
+    /* UIレイヤーの重ね順調整 */
+    #home-screen { z-index: 100; }
+    #game-ui { z-index: 10; pointer-events: none; }
+    .pointer-events-auto { pointer-events: auto; }
+    
+    /* 仮想ジョイスティックエリア */
+    #joy-area { position: absolute; bottom: 0; left: 0; width: 50%; height: 60%; z-index: 5; }
+    #action-area { position: absolute; bottom: 0; right: 0; width: 50%; height: 60%; z-index: 5; }
+    
+    /* スクロールバー非表示 */
+    ::-webkit-scrollbar { display: none; }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================
+       ホーム画面 (ロビー)
+       ========================================== -->
+  <div id="home-screen" class="absolute inset-0 flex items-center justify-center bg-green-900/90 backdrop-blur-sm">
+    <div class="panel-wood rounded-3xl p-8 max-w-md w-full mx-4 flex flex-col gap-6">
+      
+      <div class="text-center">
+        <div class="text-5xl mb-2">🌳</div>
+        <h1 class="text-4xl font-black tracking-tight text-amber-900 text-outline">TOWN DEFENDERS</h1>
+        <p class="text-amber-800 font-bold text-sm mt-1">〜 森の開拓と防衛戦 〜</p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-black mb-2 text-amber-900">プレイヤー名</label>
+        <input type="text" id="input-name" maxlength="10" class="w-full text-xl p-3 rounded-xl border-2 border-amber-300 focus:border-green-500 outline-none text-center font-bold text-amber-900" placeholder="名前を入力">
+      </div>
+
+      <div>
+        <label class="block text-sm font-black mb-2 text-amber-900">役割を選ぶ</label>
+        <div id="role-container" class="grid grid-cols-2 gap-3">
+          <!-- JSで動的に生成 -->
+        </div>
+      </div>
+
+      <div class="pt-4 border-t-2 border-amber-300/50 flex flex-col gap-3">
+        <button id="btn-host" class="btn-action w-full py-4 rounded-2xl font-black text-xl shadow-lg flex items-center justify-center gap-2">
+          <span>🛠️ 新しい村を作る (ホスト)</span>
+        </button>
+        
+        <div class="flex items-center gap-2">
+          <div class="h-0.5 bg-amber-300/50 flex-1"></div>
+          <span class="text-xs font-bold text-amber-700">または</span>
+          <div class="h-0.5 bg-amber-300/50 flex-1"></div>
+        </div>
+
+        <div class="flex gap-2">
+          <input type="text" id="input-room" class="flex-1 p-3 rounded-xl border-2 border-amber-300 outline-none text-center font-mono font-bold uppercase text-lg" placeholder="ルームコード">
+          <button id="btn-join" class="bg-blue-500 hover:bg-blue-600 border-2 border-blue-600 text-white font-black px-6 rounded-xl shadow-md transition-transform active:scale-95 disabled:opacity-50">参加</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       ゲーム画面 (キャンバス ＆ HUD)
+       ========================================== -->
+  <div id="game-screen" class="absolute inset-0 hidden">
+    <!-- 描画キャンバス -->
+    <canvas id="game-canvas" class="absolute inset-0 w-full h-full block"></canvas>
+
+    <!-- 画面揺れ用コンテナ -->
+    <div id="shake-container" class="absolute inset-0 w-full h-full pointer-events-none">
+      
+      <!-- 警告メッセージ -->
+      <div id="alert-msg" class="absolute top-24 left-1/2 transform -translate-x-1/2 bg-red-600 text-white border-4 border-red-800 px-8 py-3 rounded-full text-xl font-black hidden alert-anim shadow-2xl z-50 pointer-events-none">
+        警告メッセージ
+      </div>
+
+      <!-- HUD UI レイヤー -->
+      <div id="game-ui" class="absolute inset-0 flex flex-col p-4">
+        
+        <!-- ヘッダー行 -->
+        <div class="flex flex-col md:flex-row justify-between items-start gap-4">
+          
+          <!-- 左上: 資源 -->
+          <div class="panel-glass rounded-2xl p-2 md:p-4 flex gap-4 pointer-events-auto">
+            <div class="flex flex-col items-center min-w-[50px]">
+              <span class="text-2xl drop-shadow-md">🌲</span>
+              <span id="ui-wood" class="font-black text-lg text-green-700">0</span>
+            </div>
+            <div class="flex flex-col items-center min-w-[50px]">
+              <span class="text-2xl drop-shadow-md">🪨</span>
+              <span id="ui-stone" class="font-black text-lg text-slate-600">0</span>
+            </div>
+            <div class="flex flex-col items-center min-w-[50px]">
+              <span class="text-2xl drop-shadow-md">⛰️</span>
+              <span id="ui-iron" class="font-black text-lg text-indigo-600">0</span>
+            </div>
+            <div class="flex flex-col items-center min-w-[50px]">
+              <span class="text-2xl drop-shadow-md">🪙</span>
+              <span id="ui-coin" class="font-black text-lg text-amber-500">0</span>
+            </div>
+          </div>
+
+          <!-- 中央上: 時間・コア・町レベル -->
+          <div class="flex flex-col items-center gap-2 pointer-events-auto mt-2 md:mt-0">
+            <!-- 昼夜と時間 -->
+            <div class="panel-glass rounded-full px-6 py-2 flex items-center gap-4">
+              <span id="ui-day-icon" class="text-3xl drop-shadow-sm">☀️</span>
+              <div class="flex flex-col">
+                <span id="ui-day-text" class="font-black text-sm text-slate-800">1日目 昼</span>
+                <div class="w-32 h-3 bg-slate-200 rounded-full mt-1 overflow-hidden border border-slate-300">
+                  <div id="ui-time-bar" class="h-full bg-amber-400 transition-all duration-1000"></div>
+                </div>
+              </div>
+            </div>
+            <!-- コアHP -->
+            <div class="bg-blue-600 border-2 border-blue-800 rounded-full px-4 py-1 text-white font-bold text-sm shadow-md flex items-center gap-2">
+              <span>💎 コアHP</span>
+              <span id="ui-core-hp">1500 / 1500</span>
+            </div>
+          </div>
+
+          <!-- 右上: ルーム情報と町レベル -->
+          <div class="flex flex-col gap-2 items-end pointer-events-auto">
+            <div class="panel-glass rounded-xl px-4 py-2 text-right">
+              <div class="text-[10px] font-black text-slate-400">ROOM CODE</div>
+              <div id="ui-room-code" class="text-xl font-black text-emerald-600 font-mono tracking-widest">---</div>
+            </div>
+            
+            <div class="panel-glass rounded-xl p-3 flex flex-col items-center shadow-lg">
+              <span class="text-xs font-black text-slate-500">町レベル <span id="ui-town-lvl" class="text-lg text-slate-800">1</span></span>
+              <button id="btn-upgrade-town" class="mt-2 bg-amber-500 hover:bg-amber-600 text-white font-bold py-1 px-4 rounded-lg border-b-4 border-amber-700 active:border-b-0 active:translate-y-1 transition-all">
+                アップグレード
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 画面中段〜下段 -->
+        <div class="flex-1 relative mt-4">
+          
+          <!-- 左側: チャット ＆ 武器強化 -->
+          <div class="absolute left-0 top-0 flex flex-col gap-4 pointer-events-auto">
+            
+            <button id="btn-chat-toggle" class="w-14 h-14 bg-white/90 border-2 border-slate-300 rounded-2xl shadow-lg text-2xl flex items-center justify-center hover:bg-slate-100 transition-colors">
+              💬
+            </button>
+            <div id="chat-menu" class="hidden panel-glass rounded-2xl p-2 w-48 flex flex-col gap-2">
+              <div class="text-xs font-bold text-slate-500 px-2">定型文</div>
+              <!-- JSでボタン生成 -->
+            </div>
+
+            <div class="panel-glass rounded-2xl p-3 w-48 mt-4 shadow-lg">
+              <div class="text-xs font-black text-slate-500 mb-2">⚔️ 武器強化</div>
+              <div class="flex justify-between items-end">
+                <div>
+                  <div class="font-black text-sm">Lv.<span id="ui-weapon-lvl">1</span></div>
+                  <div class="text-[10px] font-bold text-slate-500">攻撃力 <span id="ui-atk-val">15</span></div>
+                </div>
+                <button id="btn-upgrade-weapon" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-1.5 px-3 rounded-lg border-b-4 border-indigo-700 active:border-b-0 active:translate-y-1 flex flex-col items-center">
+                  <span class="text-xs">強化</span>
+                  <span id="ui-weapon-cost" class="text-[10px] text-indigo-200">🪙15</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 右側: 建築メニュー (スクロール可能) -->
+          <div class="absolute right-0 top-0 h-[60vh] overflow-y-auto pointer-events-auto flex flex-col gap-3 pr-2 pb-10" style="-webkit-overflow-scrolling: touch;">
+            <div class="text-xs font-black text-slate-500 text-right pr-2 bg-white/50 rounded-full px-3 py-1 self-end backdrop-blur">
+              🔨 建築メニュー
+            </div>
+            <div id="build-menu-container" class="flex flex-col gap-2 items-end">
+              <!-- JSで生成 -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- スマホ操作用タッチエリア -->
+    <div id="joy-area"></div>
+    <div id="action-area"></div>
+  </div>
+
+  <!-- ==========================================
+       アプリケーション ロジック
+       ========================================== -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc, increment, arrayUnion, deleteField } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // ---------------------------------
+    // 1. 定数・設定データ
+    // ---------------------------------
+    const FPS = 60;
+    const MAP_SIZE = 5000; // 巨大マップに変更
+    const CORE_MAX_HP = 2000;
+    const DAY_DURATION = 60;
+    const NIGHT_DURATION = 45;
+
+    // 森のテーマに合わせたカラーパレット
+    const COLORS = {
+      grass: '#4ade80',      // ベースの草
+      grassDark: '#22c55e',  // グリッドや模様
+      core: '#3b82f6',       // コアのクリスタル
+      shadow: 'rgba(0,0,0,0.2)'
+    };
+
+    const ROLES = {
+      builder: { name: 'ビルダー', color: '#3b82f6', speed: 5.0, attack: 15, costMulti: 0.5, icon: '👷', desc: '建築コスト半額' },
+      fighter: { name: 'ファイター', color: '#ef4444', speed: 5.5, attack: 40, costMulti: 1.0, icon: '⚔️', desc: '初期攻撃力 2.5倍' },
+      scout: { name: 'レンジャー', color: '#10b981', speed: 7.5, attack: 20, costMulti: 1.0, icon: '🏹', desc: '超高速移動・採集ボーナス' },
+      healer: { name: 'ドルイド', color: '#ec4899', speed: 5.0, attack: 12, costMulti: 1.0, icon: '🌿', desc: '周囲の味方と建物を回復' },
+    };
+
+    const BUILDINGS = {
+      woodWall: { id: 'woodWall', name: '木の柵', type: 'wall', hp: 300, cost: { wood: 10 }, color: '#8B4513', size: 40, reqLvl: 1 },
+      farm: { id: 'farm', name: '果樹園', type: 'farm', hp: 150, cost: { wood: 20, food: 5 }, color: '#10B981', size: 50, reqLvl: 1, produce: 4 },
+      stoneWall: { id: 'stoneWall', name: '石の壁', type: 'wall', hp: 800, cost: { stone: 15 }, color: '#9CA3AF', size: 40, reqLvl: 2 },
+      tower: { id: 'tower', name: '見張り塔', type: 'tower', hp: 450, cost: { wood: 30, stone: 10 }, color: '#3B82F6', size: 45, reqLvl: 2, range: 250, damage: 25 },
+      forge: { id: 'forge', name: '鍛冶場', type: 'forge', hp: 600, cost: { stone: 30, iron: 15 }, color: '#F59E0B', size: 60, reqLvl: 3 },
+      healingCenter: { id: 'healingCenter', name: '精霊の泉', type: 'healer', hp: 400, cost: { wood: 25, food: 25 }, color: '#EC4899', size: 55, reqLvl: 3, heal: 10, range: 180 },
+      superTower: { id: 'superTower', name: '魔法塔', type: 'tower', hp: 1000, cost: { stone: 50, iron: 40, coin: 20 }, color: '#8B5CF6', size: 50, reqLvl: 4, range: 350, damage: 70 },
+    };
+
+    const RES_TYPES = {
+      wood: { emoji: '🌳', color: '#16a34a', maxHp: 100 }, // 普通の木より大木に
+      stone: { emoji: '🪨', color: '#64748b', maxHp: 150 },
+      iron: { emoji: '⛰️', color: '#4f46e5', maxHp: 200 },
+      food: { emoji: '🍄', color: '#f43f5e', maxHp: 60 },
+      coin: { emoji: '💎', color: '#06b6d4', maxHp: 120 }
+    };
+
+    const CHAT_MSGS = ["助けて！", "資源集めよう！", "敵が来る！", "修理お願い！", "ボスを攻撃！", "ありがとう！"];
+
+    // 森テーマに合わせた敵
+    const ENEMIES = {
+      slime: { hp: 70, speed: 1.8, damage: 8, color: '#34d399', size: 20, emoji: '🦠', score: 10 },
+      wolf: { hp: 120, speed: 4.2, damage: 15, color: '#94a3b8', size: 24, emoji: '🐺', score: 25 },
+      golem: { hp: 600, speed: 1.2, damage: 45, color: '#7c2d12', size: 36, emoji: '🪵', score: 60 }, // ウッドゴーレム風
+      shadow: { hp: 200, speed: 2.5, damage: 25, color: '#1e1b4b', size: 26, emoji: '🦇', score: 50 },
+      boss: { hp: 3000, speed: 1.4, damage: 80, color: '#991b1b', size: 55, emoji: '👹', score: 800 },
+    };
+
+    // ---------------------------------
+    // 2. グローバル状態とFirebase初期化
+    // ---------------------------------
+    let app, auth, db, appId;
+    const globalState = {
+      user: null,
+      roomId: '',
+      roomRef: null,
+      isHost: false,
+      remoteData: null,
+      playerData: { name: '開拓者', role: 'builder', weaponLevel: 1 },
+      buildMode: null,
+      unsubscribeMap: null
+    };
+
+    try {
+      const fbConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+        apiKey: "", authDomain: "mock", projectId: "mock"
+      };
+      app = initializeApp(fbConfig);
+      auth = getAuth(app);
+      db = getFirestore(app);
+      appId = typeof __app_id !== 'undefined' ? __app_id : 'town-defenders-forest';
+    } catch (e) {
+      console.error("Firebase init err:", e);
+    }
+
+    const genId = () => Math.random().toString(36).substring(2, 8).toUpperCase();
+    const dist = (x1, y1, x2, y2) => Math.hypot(x2 - x1, y2 - y1);
+    const getAtk = (role, wLvl) => (ROLES[role].attack + (wLvl - 1) * 15);
+
+    // ---------------------------------
+    // 3. UI構築とDOM制御
+    // ---------------------------------
+    const DOM = {
+      home: document.getElementById('home-screen'),
+      game: document.getElementById('game-screen'),
+      inputName: document.getElementById('input-name'),
+      inputRoom: document.getElementById('input-room'),
+      roleContainer: document.getElementById('role-container'),
+      btnHost: document.getElementById('btn-host'),
+      btnJoin: document.getElementById('btn-join'),
+      alertMsg: document.getElementById('alert-msg'),
+      shakeCont: document.getElementById('shake-container'),
+      
+      wood: document.getElementById('ui-wood'),
+      stone: document.getElementById('ui-stone'),
+      iron: document.getElementById('ui-iron'),
+      coin: document.getElementById('ui-coin'),
+      dayIcon: document.getElementById('ui-day-icon'),
+      dayText: document.getElementById('ui-day-text'),
+      timeBar: document.getElementById('ui-time-bar'),
+      coreHp: document.getElementById('ui-core-hp'),
+      roomCode: document.getElementById('ui-room-code'),
+      townLvl: document.getElementById('ui-town-lvl'),
+      btnUpTown: document.getElementById('btn-upgrade-town'),
+      
+      weaponLvl: document.getElementById('ui-weapon-lvl'),
+      atkVal: document.getElementById('ui-atk-val'),
+      weaponCost: document.getElementById('ui-weapon-cost'),
+      btnUpWeapon: document.getElementById('btn-upgrade-weapon'),
+      
+      chatToggle: document.getElementById('btn-chat-toggle'),
+      chatMenu: document.getElementById('chat-menu'),
+      buildMenu: document.getElementById('build-menu-container')
+    };
+
+    // 初期データ読み込み
+    const savedData = localStorage.getItem('town_forest_player');
+    if (savedData) {
+      try {
+        globalState.playerData = { ...globalState.playerData, ...JSON.parse(savedData) };
+      } catch (e) {}
+    }
+    DOM.inputName.value = globalState.playerData.name;
+
+    // 役割ボタン生成
+    function renderRoleButtons() {
+      DOM.roleContainer.innerHTML = '';
+      Object.entries(ROLES).forEach(([key, r]) => {
+        const btn = document.createElement('button');
+        const isActive = globalState.playerData.role === key;
+        btn.className = `p-3 rounded-2xl border-4 text-left flex flex-col transition-all ${isActive ? 'bg-white border-green-500 shadow-md transform scale-105' : 'bg-white/80 border-transparent hover:bg-white'}`;
+        btn.innerHTML = `
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-2xl">${r.icon}</span>
+            <span class="font-black" style="color: ${r.color}">${r.name}</span>
+          </div>
+          <span class="text-[10px] text-slate-600 font-bold leading-tight">${r.desc}</span>
+        `;
+        btn.onclick = () => {
+          globalState.playerData.role = key;
+          renderRoleButtons(); // 再描画
+          savePlayerData();
+        };
+        DOM.roleContainer.appendChild(btn);
+      });
+    }
+
+    // チャットボタン生成
+    CHAT_MSGS.forEach(msg => {
+      const btn = document.createElement('button');
+      btn.className = 'bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2 px-3 rounded-lg text-sm text-left';
+      btn.textContent = msg;
+      btn.onclick = () => {
+        if(engine) engine.sendChat(msg);
+        DOM.chatMenu.classList.add('hidden');
+      };
+      DOM.chatMenu.appendChild(btn);
+    });
+
+    DOM.chatToggle.onclick = () => DOM.chatMenu.classList.toggle('hidden');
+    DOM.inputName.addEventListener('input', e => {
+      globalState.playerData.name = e.target.value;
+      savePlayerData();
+    });
+    DOM.inputRoom.addEventListener('input', () => {
+      DOM.btnJoin.disabled = DOM.inputRoom.value.trim().length === 0;
+    });
+
+    function savePlayerData() {
+      localStorage.setItem('town_forest_player', JSON.stringify(globalState.playerData));
+    }
+
+    function showAlert(msg, type = 'info') {
+      DOM.alertMsg.textContent = msg;
+      DOM.alertMsg.classList.remove('hidden');
+      if(type === 'danger') {
+        DOM.shakeCont.classList.add('screen-shake');
+        DOM.alertMsg.className = "absolute top-24 left-1/2 transform -translate-x-1/2 bg-red-600 text-white border-4 border-red-800 px-8 py-3 rounded-full text-xl font-black alert-anim shadow-2xl z-50 pointer-events-none";
+      } else if (type === 'success') {
+        DOM.alertMsg.className = "absolute top-24 left-1/2 transform -translate-x-1/2 bg-amber-500 text-white border-4 border-amber-700 px-8 py-3 rounded-full text-xl font-black alert-anim shadow-2xl z-50 pointer-events-none";
+      }
+      
+      setTimeout(() => {
+        DOM.alertMsg.classList.add('hidden');
+        DOM.shakeCont.classList.remove('screen-shake');
+      }, 4000);
+    }
+
+    // HUD更新処理 (GameEngineまたはFirestoreリスナーから呼ばれる)
+    function updateHUD() {
+      const st = globalState.remoteData;
+      if(!st) return;
+
+      DOM.wood.textContent = st.resources?.wood || 0;
+      DOM.stone.textContent = st.resources?.stone || 0;
+      DOM.iron.textContent = st.resources?.iron || 0;
+      DOM.coin.textContent = st.resources?.coin || 0;
+
+      DOM.dayIcon.textContent = st.isNight ? '🌙' : '☀️';
+      DOM.dayText.textContent = `${st.day}日目 ${st.isNight ? '夜' : '昼'}`;
+      DOM.timeBar.style.width = `${((st.timeRemaining || 0) / (st.isNight ? NIGHT_DURATION : DAY_DURATION)) * 100}%`;
+      DOM.timeBar.className = `h-full transition-all duration-1000 ${st.isNight ? 'bg-indigo-500' : 'bg-amber-400'}`;
+
+      DOM.coreHp.textContent = `${Math.floor(st.coreHp || 0)} / ${CORE_MAX_HP}`;
+      DOM.townLvl.textContent = st.townLevel || 1;
+
+      // 武器UI
+      const pRole = globalState.playerData.role;
+      const wLvl = globalState.playerData.weaponLevel;
+      DOM.weaponLvl.textContent = wLvl;
+      DOM.atkVal.textContent = getAtk(pRole, wLvl);
+      DOM.weaponCost.textContent = `🪙${wLvl * 20}`;
+
+      renderBuildMenu(st.townLevel || 1);
+    }
+
+    function renderBuildMenu(townLvl) {
+      DOM.buildMenu.innerHTML = '';
+      const costMulti = ROLES[globalState.playerData.role].costMulti;
+      
+      Object.values(BUILDINGS).forEach(b => {
+        const isUnlocked = townLvl >= b.reqLvl;
+        const btn = document.createElement('button');
+        const isSelected = globalState.buildMode === b.id;
+        
+        btn.className = `w-20 h-22 rounded-2xl border-4 flex flex-col items-center justify-center transition-all relative ${
+          !isUnlocked ? 'bg-slate-200 border-slate-300 opacity-60' : 
+          isSelected ? 'bg-white border-green-500 transform scale-105 shadow-xl' : 'bg-white/90 border-slate-300 hover:bg-white shadow-md'
+        }`;
+        
+        if(!isUnlocked) {
+          btn.innerHTML = `<div class="absolute top-0 right-0 bg-slate-700 text-white text-[9px] px-1.5 py-0.5 rounded-bl-lg font-bold">Lv.${b.reqLvl}</div>`;
+        }
+
+        let costHtml = '';
+        Object.entries(b.cost).forEach(([res, amt]) => {
+           const icon = res==='wood'?'🌳':res==='stone'?'🪨':res==='iron'?'⛰️':'🪙';
+           costHtml += `<span class="flex items-center gap-0.5">${icon}${Math.floor(amt * costMulti)}</span>`;
+        });
+
+        btn.innerHTML += `
+          <div class="w-8 h-8 rounded-lg mb-1 shadow-inner border-2 border-slate-200" style="background-color:${isUnlocked?b.color:'#94a3b8'}"></div>
+          <div class="text-[11px] font-black ${isUnlocked ? 'text-slate-800' : 'text-slate-500'}">${b.name}</div>
+          <div class="flex flex-wrap justify-center gap-1 text-[9px] font-bold text-slate-600 mt-0.5 w-full px-1">
+            ${costHtml}
+          </div>
+        `;
+
+        if(isUnlocked) {
+          btn.onclick = () => {
+             // 資源チェック
+             let canAfford = true;
+             for (const [res, amt] of Object.entries(b.cost)) {
+               if ((globalState.remoteData?.resources?.[res] || 0) < Math.floor(amt * costMulti)) canAfford = false;
+             }
+             if(canAfford) {
+               globalState.buildMode = (globalState.buildMode === b.id) ? null : b.id;
+               if(engine) engine.setBuildMode(globalState.buildMode);
+               renderBuildMenu(townLvl); // 枠色更新
+             } else {
+               showAlert('必要な資源が足りません', 'danger');
+             }
+          };
+        }
+        DOM.buildMenu.appendChild(btn);
+      });
+    }
+
+    // アップグレード処理
+    DOM.btnUpWeapon.onclick = () => {
+      const cost = globalState.playerData.weaponLevel * 20;
+      const coins = globalState.remoteData?.resources?.coin || 0;
+      if(coins >= cost) {
+        globalState.playerData.weaponLevel++;
+        savePlayerData();
+        updateDoc(globalState.roomRef, {
+          'resources.coin': increment(-cost),
+          [`players.${globalState.user.uid}.weaponLevel`]: globalState.playerData.weaponLevel
+        });
+        showAlert(`武器がLv.${globalState.playerData.weaponLevel}に強化されました！`, 'success');
+        if(engine) engine.weaponLevel = globalState.playerData.weaponLevel;
+        updateHUD();
+      } else {
+        showAlert(`コインが足りません (必要: ${cost})`, 'danger');
+      }
+    };
+
+    DOM.btnUpTown.onclick = () => {
+       const curLvl = globalState.remoteData?.townLevel || 1;
+       if(curLvl >= 5) {
+         showAlert('町レベルはすでに最大です', 'info'); return;
+       }
+       const cost = { wood: curLvl * 25, stone: curLvl * 20, iron: curLvl * 10 };
+       let canAfford = true;
+       for (const [res, amt] of Object.entries(cost)) {
+         if ((globalState.remoteData?.resources?.[res] || 0) < amt) canAfford = false;
+       }
+       if(canAfford) {
+         const updates = { townLevel: curLvl + 1 };
+         for (const [res, amt] of Object.entries(cost)) updates[`resources.${res}`] = increment(-amt);
+         updateDoc(globalState.roomRef, updates);
+         showAlert(`町レベルが ${curLvl + 1} に上がりました！`, 'success');
+       } else {
+         showAlert(`アップグレードに必要な資源が足りません`, 'danger');
+       }
+    };
+
+    // ---------------------------------
+    // 4. ゲーム起動と通信処理
+    // ---------------------------------
+    let engine = null;
+
+    async function startGame(targetRoomId) {
+      if(!globalState.user) return;
+      if(!globalState.playerData.name.trim()) globalState.playerData.name = "開拓者";
+
+      const rId = targetRoomId ? targetRoomId.trim().toUpperCase() : genId();
+      globalState.roomId = rId;
+      globalState.roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'town_rooms', rId);
+
+      DOM.roomCode.textContent = rId;
+      DOM.home.classList.add('hidden');
+      DOM.game.classList.remove('hidden');
+
+      let snap;
+      try { snap = await getDoc(globalState.roomRef); } catch(e) {}
+
+      // ローカルバックアップの復元
+      const savedProg = localStorage.getItem(`forest_prog_${rId}`);
+      let initData = {
+        createdAt: Date.now(), hostId: globalState.user.uid,
+        day: 1, isNight: false, timeRemaining: DAY_DURATION,
+        coreHp: CORE_MAX_HP, townLevel: 1,
+        resources: { wood: 50, stone: 20, iron: 0, food: 30, coin: 0 },
+        buildings: [], enemies: {}, players: {}
+      };
+      if(savedProg) {
+        try { initData = { ...initData, ...JSON.parse(savedProg) }; } catch(e){}
+      }
+
+      if(!snap || !snap.exists()) {
+         initData.players[globalState.user.uid] = {
+           x: 0, y: 150, name: globalState.playerData.name, role: globalState.playerData.role,
+           hp: 100, weaponLevel: globalState.playerData.weaponLevel, lastUpdate: Date.now()
+         };
+         await setDoc(globalState.roomRef, initData);
+      } else {
+         await setDoc(globalState.roomRef, {
+           [`players.${globalState.user.uid}`]: {
+             x: 0, y: 150, name: globalState.playerData.name, role: globalState.playerData.role,
+             hp: 100, weaponLevel: globalState.playerData.weaponLevel, lastUpdate: Date.now()
+           }
+         }, { merge: true });
+      }
+
+      // ゲームエンジン起動
+      engine = new GameEngine(document.getElementById('game-canvas'));
+      engine.start();
+
+      // リスナー設定
+      globalState.unsubscribeMap = onSnapshot(globalState.roomRef, (docSnap) => {
+        if(docSnap.exists()) {
+          const data = docSnap.data();
+          globalState.remoteData = data;
+          updateHUD();
+          if(engine) engine.updateRemote(data);
+
+          // ホストの場合のみローカルバックアップ
+          if(data.hostId === globalState.user.uid) {
+            const backup = { day: data.day, townLevel: data.townLevel, coreHp: data.coreHp, resources: data.resources, buildings: data.buildings||[] };
+            localStorage.setItem(`forest_prog_${rId}`, JSON.stringify(backup));
+          }
+        }
+      });
+    }
+
+    DOM.btnHost.onclick = () => startGame(null);
+    DOM.btnJoin.onclick = () => startGame(DOM.inputRoom.value);
+
+    // Auth初期化
+    const initAuth = async () => {
+      try {
+        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+          await signInWithCustomToken(auth, __initial_auth_token);
+        } else {
+          await signInAnonymously(auth);
+        }
+      } catch (e) { console.error("Auth Err", e); }
+    };
+    initAuth();
+    onAuthStateChanged(auth, u => { globalState.user = u; });
+    renderRoleButtons();
+
+    // ---------------------------------
+    // 5. ゲームエンジンクラス
+    // ---------------------------------
+    class GameEngine {
+      constructor(canvas) {
+        this.canvas = canvas;
+        this.ctx = canvas.getContext('2d');
+        this.isRunning = false;
+        
+        this.cam = { x: 0, y: 0 };
+        this.me = { x: 0, y: 150, hp: 100, angle: 0, chat: '', chatTime: 0, lastAtk: 0, respawn: 0 };
+        this.remotePlayers = {}; // lerp用
+        
+        this.keys = {};
+        this.joy = { active: false, sx: 0, sy: 0, cx: 0, cy: 0, dx: 0, dy: 0 };
+        this.isAction = false;
+        
+        this.weaponLevel = globalState.playerData.weaponLevel;
+        this.roleData = ROLES[globalState.playerData.role];
+
+        this.nodes = this.genNodes();
+        this.particles = [];
+        this.texts = [];
+
+        this.lastSync = 0;
+        this.hostTimer = 0;
+        this.bindEvents();
+      }
+
+      genNodes() {
+        const arr = [];
+        // マップが広いのでノード数を大幅に増やす
+        for(let i=0; i<300; i++) {
+          const a = Math.random() * Math.PI * 2;
+          const r = 300 + Math.random() * (MAP_SIZE/2 - 400);
+          const rand = Math.random();
+          let type = 'wood';
+          if(rand > 0.9) type = 'coin';
+          else if(rand > 0.7) type = 'iron';
+          else if(rand > 0.4) type = 'stone';
+          else if(rand > 0.2) type = 'food';
+
+          arr.push({ id: `n_${i}`, type, x: Math.cos(a)*r, y: Math.sin(a)*r, hp: RES_TYPES[type].maxHp, rT: 0 });
+        }
+        return arr;
+      }
+
+      bindEvents() {
+        window.addEventListener('keydown', e => this.keys[e.key.toLowerCase()] = true);
+        window.addEventListener('keyup', e => this.keys[e.key.toLowerCase()] = false);
+
+        const joyEl = document.getElementById('joy-area');
+        const actEl = document.getElementById('action-area');
+
+        // Mouse (PC用)
+        actEl.addEventListener('mousedown', e => { this.isAction = true; this.attemptBuild(e); });
+        actEl.addEventListener('mouseup', () => this.isAction = false);
+        this.canvas.addEventListener('mousedown', e => { this.isAction = true; this.attemptBuild(e); });
+        this.canvas.addEventListener('mouseup', () => this.isAction = false);
+
+        // Touch
+        const handleTStart = (e, isJoy) => {
+          e.preventDefault();
+          const t = e.changedTouches[0];
+          if(isJoy) {
+            this.joy.active = true;
+            this.joy.sx = this.joy.cx = t.clientX;
+            this.joy.sy = this.joy.cy = t.clientY;
+          } else {
+            this.isAction = true;
+            this.attemptBuild(t);
+          }
+        };
+        const handleTMove = (e, isJoy) => {
+          e.preventDefault();
+          if(!isJoy || !this.joy.active) return;
+          const t = e.changedTouches[0];
+          this.joy.cx = t.clientX; this.joy.cy = t.clientY;
+          const dx = this.joy.cx - this.joy.sx;
+          const dy = this.joy.cy - this.joy.sy;
+          const d = Math.hypot(dx, dy);
+          if(d > 0) {
+            this.joy.dx = (dx/d) * Math.min(d/50, 1);
+            this.joy.dy = (dy/d) * Math.min(d/50, 1);
+          }
+        };
+        const handleTEnd = (e, isJoy) => {
+          e.preventDefault();
+          if(isJoy) { this.joy.active = false; this.joy.dx = this.joy.dy = 0; }
+          else this.isAction = false;
+        };
+
+        joyEl.addEventListener('touchstart', e => handleTStart(e, true));
+        joyEl.addEventListener('touchmove', e => handleTMove(e, true));
+        joyEl.addEventListener('touchend', e => handleTEnd(e, true));
+        
+        actEl.addEventListener('touchstart', e => handleTStart(e, false));
+        actEl.addEventListener('touchend', e => handleTEnd(e, false));
+      }
+
+      setBuildMode(id) {
+        // UI側でセットされた変数を反映するだけ
+      }
+
+      sendChat(msg) {
+        this.me.chat = msg;
+        this.me.chatTime = 180;
+        this.syncMe(true);
+      }
+
+      updateRemote(data) {
+        if(data.hostId === globalState.user.uid) globalState.isHost = true;
+        else {
+          // ホスト引き継ぎチェック
+          const hostP = data.players[data.hostId];
+          if(!hostP || Date.now() - hostP.lastUpdate > 6000) {
+             const acts = Object.entries(data.players).filter(([id,p])=>Date.now()-p.lastUpdate<5000).sort((a,b)=>a[1].lastUpdate-b[1].lastUpdate);
+             if(acts.length>0 && acts[0][0] === globalState.user.uid) {
+               globalState.isHost = true;
+               updateDoc(globalState.roomRef, { hostId: globalState.user.uid });
+             }
+          }
+        }
+
+        // Lerp用の位置データ格納
+        Object.entries(data.players).forEach(([id, p]) => {
+          if(id === globalState.user.uid) return;
+          if(!this.remotePlayers[id]) this.remotePlayers[id] = { rx: p.x, ry: p.y, ...p };
+          else {
+             this.remotePlayers[id].x = p.x; this.remotePlayers[id].y = p.y;
+             this.remotePlayers[id].hp = p.hp; this.remotePlayers[id].name = p.name;
+             this.remotePlayers[id].role = p.role; this.remotePlayers[id].chat = p.chat;
+             this.remotePlayers[id].weaponLevel = p.weaponLevel;
+          }
+        });
+        
+        // 削除
+        Object.keys(this.remotePlayers).forEach(id => {
+          if(!data.players[id]) delete this.remotePlayers[id];
+        });
+      }
+
+      w2s(x,y) { return { x: x - this.cam.x + this.canvas.width/2, y: y - this.cam.y + this.canvas.height/2 }; }
+      s2w(x,y) { return { x: x + this.cam.x - this.canvas.width/2, y: y + this.cam.y - this.canvas.height/2 }; }
+
+      attemptBuild(e) {
+        if(!globalState.buildMode || !globalState.remoteData) return;
+        const {x, y} = this.s2w(e.clientX, e.clientY);
+        
+        if(dist(x,y,0,0) > MAP_SIZE/2 || dist(x,y,0,0) < 80) return;
+
+        const conf = BUILDINGS[globalState.buildMode];
+        const costMulti = ROLES[globalState.playerData.role].costMulti;
+        
+        const updates = {};
+        for (const [res, amt] of Object.entries(conf.cost)) {
+          updates[`resources.${res}`] = increment(-Math.floor(amt * costMulti));
+        }
+        updates['buildings'] = arrayUnion({ id: genId(), type: conf.id, x: Math.round(x), y: Math.round(y), hp: conf.hp });
+        updateDoc(globalState.roomRef, updates);
+        
+        this.addParts(x, y, conf.color, 15);
+        globalState.buildMode = null;
+        updateHUD(); // 選択解除をUIに反映
+      }
+
+      addParts(x,y,c,n) {
+        for(let i=0; i<n; i++) this.particles.push({ x, y, vx: (Math.random()-0.5)*8, vy: (Math.random()-0.5)*8, r: Math.random()*5+3, l: 30, ml: 30, c });
+      }
+      addText(x,y,txt,c) {
+        this.texts.push({ x: x+(Math.random()-0.5)*20, y: y+(Math.random()-0.5)*20, txt, c, l: 40 });
+      }
+
+      start() {
+        this.isRunning = true;
+        this.loop();
+      }
+      stop() { this.isRunning = false; }
+
+      loop = () => {
+        if(!this.isRunning) return;
+        if(this.canvas.width !== window.innerWidth || this.canvas.height !== window.innerHeight){
+          this.canvas.width = window.innerWidth;
+          this.canvas.height = window.innerHeight;
+        }
+        this.update();
+        this.draw();
+        requestAnimationFrame(this.loop);
+      }
+
+      update() {
+        // Lerp
+        Object.values(this.remotePlayers).forEach(p => {
+           p.rx += (p.x - p.rx) * 0.2;
+           p.ry += (p.y - p.ry) * 0.2;
+        });
+
+        if(this.me.hp <= 0) {
+          if(this.me.respawn === 0) this.me.respawn = 300;
+          this.me.respawn--;
+          if(this.me.respawn <= 0) { this.me.hp = 100; this.me.x = 0; this.me.y = 150; }
+          return;
+        }
+
+        // 移動
+        let dx = 0, dy = 0;
+        if(this.joy.active) { dx = this.joy.dx; dy = this.joy.dy; }
+        else {
+          if(this.keys['w']||this.keys['arrowup']) dy -= 1;
+          if(this.keys['s']||this.keys['arrowdown']) dy += 1;
+          if(this.keys['a']||this.keys['arrowleft']) dx -= 1;
+          if(this.keys['d']||this.keys['arrowright']) dx += 1;
+          const l = Math.hypot(dx,dy);
+          if(l>0){ dx/=l; dy/=l; }
+        }
+
+        let nx = this.me.x + dx * this.roleData.speed;
+        let ny = this.me.y + dy * this.roleData.speed;
+        
+        const limit = MAP_SIZE/2;
+        if(nx < -limit) nx = -limit; if(nx > limit) nx = limit;
+        if(ny < -limit) ny = -limit; if(ny > limit) ny = limit;
+
+        // 衝突
+        let canMove = true;
+        if(dist(nx,ny,0,0) < 60) canMove = false;
+        if(globalState.remoteData?.buildings) {
+          for(const b of globalState.remoteData.buildings) {
+             const bs = BUILDINGS[b.type]?.size || 40;
+             if(dist(nx,ny, b.x, b.y) < bs - 5) { canMove = false; break; }
+          }
+        }
+
+        if(canMove) {
+          this.me.x = nx; this.me.y = ny;
+          if(dx!==0 || dy!==0) this.me.angle = Math.atan2(dy, dx);
+        }
+
+        // カメラ
+        this.cam.x += (this.me.x - this.cam.x) * 0.1;
+        this.cam.y += (this.me.y - this.cam.y) * 0.1;
+
+        // アクション
+        if(this.isAction && !globalState.buildMode && Date.now() - this.me.lastAtk > 300) {
+          this.doAction();
+        }
+
+        if(this.me.chatTime > 0) this.me.chatTime--;
+        
+        // エフェクト更新
+        this.particles.forEach((p,i) => { p.x+=p.vx; p.y+=p.vy; p.l--; if(p.l<=0) this.particles.splice(i,1); });
+        this.texts.forEach((t,i) => { t.y-=0.5; t.l--; if(t.l<=0) this.texts.splice(i,1); });
+
+        // 通信
+        const now = Date.now();
+        if(now - this.lastSync > 150) { this.syncMe(); this.lastSync = now; }
+
+        if(globalState.isHost && globalState.remoteData) this.hostProc(now);
+      }
+
+      doAction() {
+        this.me.lastAtk = Date.now();
+        const rng = 70;
+        const hx = this.me.x + Math.cos(this.me.angle)*rng;
+        const hy = this.me.y + Math.sin(this.me.angle)*rng;
+        const atk = getAtk(globalState.playerData.role, this.weaponLevel);
+
+        // 敵
+        if(globalState.remoteData?.enemies) {
+          for(const [eid, e] of Object.entries(globalState.remoteData.enemies)) {
+            if(dist(hx,hy, e.x, e.y) < ENEMIES[e.type].size * 2) {
+               const nhp = e.hp - atk;
+               this.addText(e.x, e.y, `-${atk}`, '#ef4444');
+               if(nhp <= 0) {
+                 const sc = ENEMIES[e.type].score;
+                 updateDoc(globalState.roomRef, { [`enemies.${eid}`]: deleteField(), 'resources.coin': increment(Math.floor(sc/5)) });
+                 this.addParts(e.x, e.y, '#f59e0b', 20);
+               } else {
+                 updateDoc(globalState.roomRef, { [`enemies.${eid}.hp`]: nhp });
+               }
+               return;
+            }
+          }
+        }
+
+        // 資源
+        for(const n of this.nodes) {
+          if(n.hp>0 && dist(hx,hy, n.x, n.y) < 60) {
+            n.hp -= atk;
+            this.addText(n.x, n.y, '採集', '#ffffff');
+            if(n.hp <= 0) {
+              n.rT = 800; // 復活時間
+              const amt = globalState.playerData.role === 'scout' ? 2 : 1;
+              updateDoc(globalState.roomRef, { [`resources.${n.type}`]: increment(amt) });
+            }
+            return;
+          }
+        }
+
+        // ドルイド(ヒーラー)修復
+        if(globalState.playerData.role === 'healer') {
+          if(dist(hx,hy,0,0) < 100 && globalState.remoteData.coreHp < CORE_MAX_HP) {
+            updateDoc(globalState.roomRef, { coreHp: Math.min(CORE_MAX_HP, globalState.remoteData.coreHp + 20) });
+            this.addText(0,0,'+20', '#10b981');
+          }
+          if(globalState.remoteData.buildings) {
+             const bds = [...globalState.remoteData.buildings];
+             for(let i=0; i<bds.length; i++) {
+               const b = bds[i]; const c = BUILDINGS[b.type];
+               if(dist(hx,hy, b.x, b.y) < 70 && b.hp < c.hp) {
+                 bds[i].hp = Math.min(c.hp, b.hp + 30);
+                 updateDoc(globalState.roomRef, { buildings: bds });
+                 this.addText(b.x, b.y, '修復', '#10b981');
+                 break;
+               }
+             }
+          }
+        }
+      }
+
+      syncMe(force=false) {
+        if(!globalState.remoteData) return;
+        updateDoc(globalState.roomRef, {
+          [`players.${globalState.user.uid}`]: {
+            x: Math.round(this.me.x), y: Math.round(this.me.y),
+            name: globalState.playerData.name, role: globalState.playerData.role,
+            hp: this.me.hp, weaponLevel: this.weaponLevel,
+            chat: this.me.chatTime > 0 ? this.me.chat : '', lastUpdate: Date.now()
+          }
+        });
+      }
+
+      hostProc(now) {
+        if(now - this.hostTimer < 1000) return;
+        this.hostTimer = now;
+        const st = globalState.remoteData;
+        const upds = {};
+
+        let time = st.timeRemaining - 1;
+        let isN = st.isNight;
+        let day = st.day;
+
+        if(time <= 0) {
+          isN = !isN; time = isN ? NIGHT_DURATION : DAY_DURATION;
+          if(!isN) day++;
+          if(isN) showAlert(`🌙 ${day}日目の夜が来た！防衛しろ！`, 'danger');
+        }
+        upds.timeRemaining = time; upds.isNight = isN; upds.day = day;
+
+        // 生産・回復
+        if(st.buildings) {
+          const farms = st.buildings.filter(b=>b.type==='farm');
+          if(farms.length>0 && time%5===0) upds['resources.food'] = increment(farms.length * BUILDINGS.farm.produce);
+          
+          const heals = st.buildings.filter(b=>b.type==='healingCenter');
+          heals.forEach(h => {
+             Object.entries(st.players).forEach(([pid, p]) => {
+                if(dist(p.x,p.y, h.x, h.y) < BUILDINGS.healingCenter.range) upds[`players.${pid}.hp`] = Math.min(100, (p.hp||100)+10);
+             });
+             if(dist(0,0, h.x, h.y) < BUILDINGS.healingCenter.range) upds.coreHp = Math.min(CORE_MAX_HP, (st.coreHp||CORE_MAX_HP)+5);
+          });
+        }
+
+        // 敵AI
+        const en = { ...(st.enemies || {}) };
+        if(isN) {
+           if(day%3===0 && time === NIGHT_DURATION-2) {
+             showAlert('👹 ボスが襲来した！！', 'danger');
+             en['boss_'+genId()] = { type:'boss', x: Math.cos(Math.random()*Math.PI*2)*1500, y: Math.sin(Math.random()*Math.PI*2)*1500, hp: ENEMIES.boss.hp };
+           }
+           const limit = Math.min(25, day*5);
+           if(Object.keys(en).length < limit && Math.random()<0.8) {
+              const a = Math.random()*Math.PI*2; const r = 1300;
+              let t = 'slime'; const rnd = Math.random();
+              if(day>=4 && rnd>0.8) t='golem'; else if(day>=3 && rnd>0.5) t='shadow'; else if(day>=2 && rnd>0.3) t='wolf';
+              en[genId()] = { type:t, x:Math.cos(a)*r, y:Math.sin(a)*r, hp:ENEMIES[t].hp };
+           }
+        }
+
+        let cHp = st.coreHp || CORE_MAX_HP;
+        let bChg = false; const bds = [...(st.buildings||[])];
+
+        Object.entries(en).forEach(([eid, e]) => {
+           const conf = ENEMIES[e.type];
+           let tx=0, ty=0, bIdx=-1, mD=dist(e.x,e.y, 0,0);
+           bds.forEach((b,i)=>{
+              const d = dist(e.x,e.y, b.x,b.y);
+              if(d<mD && (b.type.includes('Wall') || b.type.includes('tower'))) { mD=d; tx=b.x; ty=b.y; bIdx=i; }
+           });
+           
+           const dx = tx-e.x; const dy = ty-e.y; const d = Math.hypot(dx,dy);
+           if(d < 45) {
+             if(bIdx===-1) cHp = Math.max(0, cHp - conf.damage);
+             else {
+               bds[bIdx].hp -= conf.damage;
+               if(bds[bIdx].hp<=0){ bds.splice(bIdx,1); bChg=true; }
+             }
+           } else {
+             const stp = conf.speed*2; e.x+=(dx/d)*stp*10; e.y+=(dy/d)*stp*10;
+           }
+        });
+
+        upds.coreHp = cHp; upds.enemies = en; if(bChg) upds.buildings = bds;
+        if(cHp<=0) showAlert('💀 拠点コアが破壊された... ゲームオーバー', 'danger');
+
+        // タワー迎撃
+        if(st.buildings) {
+          st.buildings.filter(b=>b.type.includes('tower')).forEach(t => {
+            const tc = BUILDINGS[t.type];
+            for(const [eid, e] of Object.entries(en)) {
+              if(dist(t.x,t.y, e.x, e.y) < tc.range) {
+                 en[eid].hp -= tc.damage;
+                 if(en[eid].hp<=0) delete en[eid];
+                 break;
+              }
+            }
+          });
+        }
+        updateDoc(globalState.roomRef, upds);
+      }
+
+      draw() {
+        const ctx = this.ctx;
+        ctx.clearRect(0,0, this.canvas.width, this.canvas.height);
+
+        // 1. 草原背景
+        ctx.fillStyle = COLORS.grass;
+        ctx.fillRect(0,0, this.canvas.width, this.canvas.height);
+        
+        ctx.strokeStyle = COLORS.grassDark; ctx.lineWidth = 2;
+        const ox = (this.canvas.width/2 - this.cam.x)%100;
+        const oy = (this.canvas.height/2 - this.cam.y)%100;
+        ctx.beginPath();
+        for(let x=ox-100; x<this.canvas.width; x+=100){ ctx.moveTo(x,0); ctx.lineTo(x,this.canvas.height); }
+        for(let y=oy-100; y<this.canvas.height; y+=100){ ctx.moveTo(0,y); ctx.lineTo(this.canvas.width,y); }
+        ctx.stroke();
+
+        const inV = (x,y,r) => { const s=this.w2s(x,y); return s.x>-r && s.x<this.canvas.width+r && s.y>-r && s.y<this.canvas.height+r; };
+
+        // 限界
+        const mc = this.w2s(0,0);
+        ctx.strokeStyle = 'rgba(255,255,255,0.3)'; ctx.lineWidth=15;
+        ctx.beginPath(); ctx.arc(mc.x, mc.y, MAP_SIZE/2, 0, Math.PI*2); ctx.stroke();
+
+        // 2. 資源
+        this.nodes.forEach(n => {
+          if(n.hp<=0){ n.rT--; if(n.rT<=0) n.hp=RES_TYPES[n.type].maxHp; return; }
+          if(!inV(n.x,n.y, 50)) return;
+          const s = this.w2s(n.x,n.y); const c = RES_TYPES[n.type];
+          
+          ctx.fillStyle = COLORS.shadow; ctx.beginPath(); ctx.arc(s.x, s.y+15, 25, 0, Math.PI*2); ctx.fill();
+          
+          ctx.font = '40px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+          ctx.fillText(c.emoji, s.x, s.y);
+
+          if(n.hp<c.maxHp) {
+            ctx.fillStyle = '#000'; ctx.fillRect(s.x-20, s.y-35, 40, 6);
+            ctx.fillStyle = c.color; ctx.fillRect(s.x-20, s.y-35, 40*(n.hp/c.maxHp), 6);
+          }
+        });
+
+        // 3. 建物
+        if(globalState.remoteData?.buildings) {
+          globalState.remoteData.buildings.forEach(b => {
+             if(!inV(b.x,b.y,80)) return;
+             const s = this.w2s(b.x,b.y); const c = BUILDINGS[b.type];
+             
+             ctx.fillStyle = COLORS.shadow; ctx.beginPath(); ctx.arc(s.x, s.y+c.size/3, c.size/1.5, 0, Math.PI*2); ctx.fill();
+
+             ctx.fillStyle = c.color; ctx.beginPath();
+             if(c.type==='tower') ctx.arc(s.x, s.y, c.size/2, 0, Math.PI*2);
+             else ctx.rect(s.x-c.size/2, s.y-c.size/2, c.size, c.size);
+             ctx.fill(); ctx.lineWidth=3; ctx.strokeStyle='rgba(0,0,0,0.5)'; ctx.stroke();
+
+             if(b.hp<c.hp) {
+               ctx.fillStyle='#000'; ctx.fillRect(s.x-25, s.y-c.size/2-15, 50, 6);
+               ctx.fillStyle='#22c55e'; ctx.fillRect(s.x-25, s.y-c.size/2-15, 50*(b.hp/c.hp), 6);
+             }
+          });
+        }
+
+        // 4. コア
+        ctx.shadowBlur=30; ctx.shadowColor=COLORS.core; ctx.fillStyle=COLORS.core;
+        ctx.beginPath(); ctx.arc(mc.x, mc.y, 60, 0, Math.PI*2); ctx.fill(); ctx.shadowBlur=0;
+        ctx.font = '50px sans-serif'; ctx.fillText('💎', mc.x, mc.y);
+
+        // 5. 敵
+        if(globalState.remoteData?.enemies) {
+          Object.values(globalState.remoteData.enemies).forEach(e => {
+             if(!inV(e.x,e.y, 60)) return;
+             const s=this.w2s(e.x,e.y); const c=ENEMIES[e.type];
+             
+             ctx.fillStyle = COLORS.shadow; ctx.beginPath(); ctx.arc(s.x, s.y+c.size/2, c.size/1.5, 0, Math.PI*2); ctx.fill();
+
+             ctx.fillStyle = c.color; ctx.beginPath(); ctx.arc(s.x, s.y, c.size, 0, Math.PI*2); ctx.fill();
+             ctx.font = `${c.size*1.2}px sans-serif`; ctx.fillText(c.emoji, s.x, s.y);
+
+             ctx.fillStyle='#000'; ctx.fillRect(s.x-20, s.y-c.size-15, 40, 6);
+             ctx.fillStyle='#ef4444'; ctx.fillRect(s.x-20, s.y-c.size-15, 40*(e.hp/c.hp), 6);
+          });
+        }
+
+        // 6. プレイヤー描画
+        const drawP = (p, isMe) => {
+           const s = this.w2s(p.rx!==undefined?p.rx:p.x, p.ry!==undefined?p.ry:p.y);
+           const r = ROLES[p.role];
+           
+           ctx.fillStyle = COLORS.shadow; ctx.beginPath(); ctx.arc(s.x, s.y+15, 20, 0, Math.PI*2); ctx.fill();
+
+           ctx.fillStyle = r.color; ctx.beginPath(); ctx.arc(s.x, s.y, 22, 0, Math.PI*2); ctx.fill();
+           ctx.strokeStyle = isMe ? '#fde047' : '#fff'; ctx.lineWidth=4; ctx.stroke();
+
+           if(isMe) {
+             ctx.beginPath(); ctx.moveTo(s.x, s.y); ctx.lineTo(s.x+Math.cos(this.me.angle)*35, s.y+Math.sin(this.me.angle)*35); ctx.stroke();
+           }
+
+           ctx.fillStyle='#fff'; ctx.font='bold 14px sans-serif'; ctx.shadowBlur=4; ctx.shadowColor='#000';
+           ctx.fillText(p.name, s.x, s.y-35); ctx.shadowBlur=0;
+
+           if(p.chat) {
+             ctx.fillStyle='#fff'; ctx.strokeStyle='#000'; ctx.lineWidth=3; ctx.font='bold 16px sans-serif';
+             ctx.strokeText(p.chat, s.x, s.y-60); ctx.fillText(p.chat, s.x, s.y-60);
+           }
+        };
+
+        Object.values(this.remotePlayers).forEach(p => { if(inV(p.rx,p.ry, 50)) drawP(p, false); });
+        
+        if(this.me.hp>0) drawP(this.me, true);
+        else { ctx.fillStyle='rgba(220,38,38,0.8)'; ctx.font='bold 20px sans-serif'; ctx.fillText(`復活まで ${Math.ceil(this.me.respawn/60)}s`, this.canvas.width/2, this.canvas.height/2); }
+
+        // 7. エフェクト類
+        this.texts.forEach(t=>{
+          const s = this.w2s(t.x,t.y); ctx.fillStyle=t.c; ctx.font='bold 18px sans-serif';
+          ctx.strokeStyle='#000'; ctx.lineWidth=3; ctx.strokeText(t.txt, s.x, s.y); ctx.fillText(t.txt, s.x, s.y);
+        });
+        this.particles.forEach(p=>{
+          const s=this.w2s(p.x,p.y); ctx.globalAlpha=p.l/p.ml; ctx.fillStyle=p.c;
+          ctx.beginPath(); ctx.arc(s.x,s.y, p.r, 0, Math.PI*2); ctx.fill();
+        }); ctx.globalAlpha=1.0;
+
+        // 建築プレビュー
+        if(globalState.buildMode) {
+          const s = this.w2s(this.me.x, this.me.y-80); const c = BUILDINGS[globalState.buildMode];
+          ctx.globalAlpha=0.6; ctx.fillStyle = c.color; ctx.beginPath();
+          if(c.type==='tower') ctx.arc(s.x,s.y, c.size/2, 0,Math.PI*2); else ctx.rect(s.x-c.size/2, s.y-c.size/2, c.size, c.size);
+          ctx.fill(); ctx.globalAlpha=1.0;
+        }
+
+        // 夜
+        if(globalState.remoteData?.isNight) { ctx.fillStyle='rgba(15,23,42,0.6)'; ctx.fillRect(0,0,this.canvas.width,this.canvas.height); }
+
+        // UI Joy
+        if(this.joy.active) {
+           ctx.fillStyle='rgba(255,255,255,0.2)'; ctx.beginPath(); ctx.arc(this.joy.sx, this.joy.sy, 60, 0, Math.PI*2); ctx.fill();
+           ctx.fillStyle='rgba(255,255,255,0.6)'; ctx.beginPath(); ctx.arc(this.joy.cx, this.joy.cy, 25, 0, Math.PI*2); ctx.fill();
+        }
+      }
+    }
+  </script>
+</body>
+</html>
