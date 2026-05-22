@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-<title>Micro Skylines - Yamanote Rail Complete Edition</title>
+<title>Micro Skylines - Land Value Complete Edition</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -30,6 +30,9 @@ html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#030712;col
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 #loading-cover{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 30%,#1e3a8a,#020617 65%);transition:opacity .5s ease;pointer-events:none}
 #loading-cover.hide{opacity:0}
+.incident-pill{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:11px;font-weight:900;background:rgba(15,23,42,.72);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:6px 8px}
+.log-line{font-size:10px;line-height:1.35;color:#cbd5e1;border-top:1px solid rgba(255,255,255,.08);padding-top:6px;margin-top:6px}
+.achievement-chip{display:inline-block;font-size:10px;font-weight:900;border:1px solid rgba(255,255,255,.12);background:rgba(15,23,42,.75);border-radius:999px;padding:3px 7px;margin:2px}
 .loader{width:42px;height:42px;border:3px solid rgba(255,255,255,.2);border-top-color:white;border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
 @media(max-width:760px){
   .hud-wrap{left:8px!important;right:8px!important;top:8px!important;gap:8px!important;align-items:flex-start!important}
@@ -43,7 +46,7 @@ html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#030712;col
 </style>
 </head>
 <body oncontextmenu="return false;">
-<div id="loading-cover"><div class="text-center"><div class="loader mx-auto mb-4"></div><div class="font-black tracking-widest text-sm text-slate-200">CITY ENGINE V2 LOADING</div><div class="text-xs text-slate-400 mt-2">procedural realism / traffic / rail / citizens</div></div></div>
+<div id="loading-cover"><div class="text-center"><div class="loader mx-auto mb-4"></div><div class="font-black tracking-widest text-sm text-slate-200">CITY ENGINE V2 LOADING</div><div class="text-xs text-slate-400 mt-2">disaster / safety / land value / rail</div></div></div>
 <div id="canvas-container"></div>
 
 <!-- HUD -->
@@ -90,12 +93,28 @@ html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#030712;col
     <div class="small-panel p-3"><div class="text-slate-400 font-bold">交通量</div><div id="ui-traffic" class="text-xl font-black">0%</div></div>
     <div class="small-panel p-3"><div class="text-slate-400 font-bold">電力</div><div id="ui-power" class="text-xl font-black">OK</div></div>
     <div class="small-panel p-3"><div class="text-slate-400 font-bold">鉄道</div><div id="ui-rail" class="text-xl font-black">0</div></div>
+    <div class="small-panel p-3"><div class="text-slate-400 font-bold">平均地価</div><div id="ui-land" class="text-xl font-black">50</div></div>
+    <div class="small-panel p-3"><div class="text-slate-400 font-bold">地価ランク</div><div id="ui-land-rank" class="text-xl font-black">C</div></div>
+    <div class="small-panel p-3"><div class="text-slate-400 font-bold">安全度</div><div id="ui-safety" class="text-xl font-black text-emerald-300">100%</div></div>
+    <div class="small-panel p-3"><div class="text-slate-400 font-bold">実績</div><div id="ui-ach-count" class="text-xl font-black text-violet-300">0/8</div></div>
+  </div>
+  <div class="mt-3 small-panel p-3">
+    <div class="text-[10px] text-slate-400 uppercase tracking-widest font-black mb-2">災害・事件リスク</div>
+    <div class="grid grid-cols-2 gap-2">
+      <div class="incident-pill"><span>火災</span><span id="ui-fire-risk" class="text-orange-300">0%</span></div>
+      <div class="incident-pill"><span>治安</span><span id="ui-crime-risk" class="text-sky-300">0%</span></div>
+      <div class="incident-pill"><span>事故</span><span id="ui-accident-risk" class="text-yellow-300">0%</span></div>
+      <div class="incident-pill"><span>停電</span><span id="ui-blackout-risk" class="text-red-300">0%</span></div>
+    </div>
+    <div id="ui-event-log" class="log-line">まだ大きな事件はありません</div>
+    <div id="ui-achievements" class="mt-2"></div>
   </div>
   <div class="mt-3 small-panel p-3">
     <div class="text-[10px] text-slate-400 uppercase tracking-widest font-black mb-2">表示</div>
     <div class="flex gap-2">
       <button id="toggle-night" class="mini-btn flex-1 px-3 py-2 rounded-lg bg-slate-900 text-xs font-black text-slate-300 border border-white/10">夜景</button>
       <button id="toggle-quality" class="mini-btn active flex-1 px-3 py-2 rounded-lg text-xs font-black border border-white/10">高画質</button>
+      <button id="toggle-land" class="mini-btn flex-1 px-3 py-2 rounded-lg bg-slate-900 text-xs font-black text-slate-300 border border-white/10">地価</button>
     </div>
   </div>
   <div class="mt-3 small-panel p-3">
@@ -132,7 +151,11 @@ html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#030712;col
   <div class="w-px bg-white/10 my-2 mx-1 shrink-0"></div>
   <button class="tool-btn flex flex-col items-center justify-center w-16 h-16 rounded-2xl" data-tool="school" title="学校 $620"><i data-lucide="school" class="w-6 h-6 mb-1 text-violet-300"></i><span class="text-[10px] font-black text-violet-300">学校</span></button>
   <button class="tool-btn flex flex-col items-center justify-center w-16 h-16 rounded-2xl" data-tool="hospital" title="病院 $760"><i data-lucide="cross" class="w-6 h-6 mb-1 text-rose-300"></i><span class="text-[10px] font-black text-rose-300">病院</span></button>
+  <button class="tool-btn flex flex-col items-center justify-center w-16 h-16 rounded-2xl" data-tool="fire" title="消防署 $850"><i data-lucide="flame" class="w-6 h-6 mb-1 text-orange-300"></i><span class="text-[10px] font-black text-orange-300">消防</span></button>
+  <button class="tool-btn flex flex-col items-center justify-center w-16 h-16 rounded-2xl" data-tool="police" title="警察署 $780"><i data-lucide="shield" class="w-6 h-6 mb-1 text-blue-300"></i><span class="text-[10px] font-black text-blue-300">警察</span></button>
   <button class="tool-btn flex flex-col items-center justify-center w-16 h-16 rounded-2xl" data-tool="power" title="発電所 $950"><i data-lucide="zap" class="w-6 h-6 mb-1 text-amber-300"></i><span class="text-[10px] font-black text-amber-300">電力</span></button>
+  <button class="tool-btn flex flex-col items-center justify-center w-16 h-16 rounded-2xl" data-tool="factory" title="大工場 $680"><i data-lucide="factory" class="w-6 h-6 mb-1 text-zinc-300"></i><span class="text-[10px] font-black text-zinc-300">工場</span></button>
+  <button class="tool-btn flex flex-col items-center justify-center w-16 h-16 rounded-2xl" data-tool="library" title="図書館 $540"><i data-lucide="book-open" class="w-6 h-6 mb-1 text-indigo-300"></i><span class="text-[10px] font-black text-indigo-300">図書館</span></button>
   <div class="w-px bg-white/10 my-2 mx-1 shrink-0"></div>
   <button class="tool-btn flex flex-col items-center justify-center w-16 h-16 rounded-2xl" data-tool="bulldoze" title="撤去 $5"><i data-lucide="tractor" class="w-6 h-6 mb-1 text-red-400"></i><span class="text-[10px] font-black text-red-400">撤去</span></button>
 </div>
@@ -156,26 +179,26 @@ if (!window.THREE || !THREE.OrbitControls) {
 // =============================
 // 基本設定
 // =============================
-const COLS = 96;
-const ROWS = 96;
+const COLS = 240;
+const ROWS = 240; // 前版96x96の約6.25倍。描画は近くの範囲だけにして軽量化
 const CENTER_X = COLS / 2 - 0.5;
 const CENTER_Z = ROWS / 2 - 0.5;
-const MAX_LEVEL = 5;
-const SAVE_KEY = 'micro_skylines_ultimate_complete_v1'; // 同じキーで保存を継続。今回から都市状態もまとめて保存
+const MAX_LEVEL = 5; // 内部レベルは5まで。見た目の高さは地区ごとの高さ規制で現実的に制限
+const SAVE_KEY = 'micro_skylines_ultimate_complete_v1'; // 同じキーで保存を継続。旧96x96の街は中央に自動移行
 
 const TYPES = Object.freeze({
   EMPTY:0, WATER:1, TREE:2, ROAD:3, RES:4, COM:5, IND:6, PARK:7,
-  RAIL:8, STATION:9, SCHOOL:10, HOSPITAL:11, POWER:12
+  RAIL:8, STATION:9, SCHOOL:10, HOSPITAL:11, POWER:12, FIRE:13, POLICE:14, FACTORY:15, LIBRARY:16
 });
 const TYPE_NAME = {
   [TYPES.EMPTY]:'未開発地', [TYPES.WATER]:'水辺', [TYPES.TREE]:'自然林', [TYPES.ROAD]:'道路',
   [TYPES.RES]:'住宅区画', [TYPES.COM]:'商業区画', [TYPES.IND]:'産業区画', [TYPES.PARK]:'公園',
-  [TYPES.RAIL]:'線路', [TYPES.STATION]:'駅', [TYPES.SCHOOL]:'学校', [TYPES.HOSPITAL]:'病院', [TYPES.POWER]:'発電所'
+  [TYPES.RAIL]:'線路', [TYPES.STATION]:'駅', [TYPES.SCHOOL]:'学校', [TYPES.HOSPITAL]:'病院', [TYPES.POWER]:'発電所', [TYPES.FIRE]:'消防署', [TYPES.POLICE]:'警察署', [TYPES.FACTORY]:'大工場', [TYPES.LIBRARY]:'図書館'
 };
 const COSTS = {
-  road:10, rail:70, station:420, res:25, com:35, ind:35, park:80, school:620, hospital:760, power:950, bulldoze:5
+  road:10, rail:70, station:420, res:25, com:35, ind:35, park:80, school:620, hospital:760, fire:850, police:780, power:950, factory:680, library:540, bulldoze:5
 };
-const TOOL_TYPE = { road:TYPES.ROAD, rail:TYPES.RAIL, station:TYPES.STATION, res:TYPES.RES, com:TYPES.COM, ind:TYPES.IND, park:TYPES.PARK, school:TYPES.SCHOOL, hospital:TYPES.HOSPITAL, power:TYPES.POWER };
+const TOOL_TYPE = { road:TYPES.ROAD, rail:TYPES.RAIL, station:TYPES.STATION, res:TYPES.RES, com:TYPES.COM, ind:TYPES.IND, park:TYPES.PARK, school:TYPES.SCHOOL, hospital:TYPES.HOSPITAL, fire:TYPES.FIRE, police:TYPES.POLICE, power:TYPES.POWER, factory:TYPES.FACTORY, library:TYPES.LIBRARY };
 
 let randSeed = 913257;
 function rand(){
@@ -194,14 +217,14 @@ function cellAt(x,y){ return inside(x,y) ? state.grid[y][x] : null; }
 function isRoadLike(t){ return t === TYPES.ROAD || t === TYPES.STATION; }
 function isRailLike(t){ return t === TYPES.RAIL || t === TYPES.STATION; }
 function isZone(t){ return t === TYPES.RES || t === TYPES.COM || t === TYPES.IND; }
-function isService(t){ return t === TYPES.PARK || t === TYPES.SCHOOL || t === TYPES.HOSPITAL || t === TYPES.POWER || t === TYPES.STATION; }
+function isService(t){ return t === TYPES.PARK || t === TYPES.SCHOOL || t === TYPES.HOSPITAL || t === TYPES.POWER || t === TYPES.STATION || t === TYPES.FIRE || t === TYPES.POLICE || t === TYPES.FACTORY || t === TYPES.LIBRARY; }
 function moneyText(v){ return '$' + Math.round(v).toLocaleString(); }
 
 const state = {
   grid: [], money: 52000, population: 0, jobs: 0, happiness: 82, traffic: 0,
   day: 1, hour: 6, tickCounter: 0, speed: 1, selectedTool:'pointer', isDraggingTool:false,
   demandR:65, demandC:25, demandI:25, incomeLastDay:0, upkeepLastDay:0,
-  powerUse:0, powerCap:0, railCount:0, stationCount:0, highQuality:true, forceNight:false,
+  powerUse:0, powerCap:0, railCount:0, stationCount:0, avgLandValue:50, safety:92, fireRisk:8, crimeRisk:6, accidentRisk:7, blackoutRisk:4, activeIncidents:0, incidentsResolved:0, eventLog:[], achievements:{}, highQuality:true, forceNight:false, showLandValue:false,
   lastAppliedKey:'', autoSaveCounter:0
 };
 
@@ -210,9 +233,9 @@ const state = {
 // =============================
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x8bbfe8);
-scene.fog = new THREE.FogExp2(0x8bbfe8, 0.011);
+scene.fog = new THREE.FogExp2(0x8bbfe8, 0.0085);
 
-const camera = new THREE.PerspectiveCamera(48, window.innerWidth / window.innerHeight, 0.1, 700);
+const camera = new THREE.PerspectiveCamera(48, window.innerWidth / window.innerHeight, 0.1, 1050);
 camera.position.set(CENTER_X + 28, 56, CENTER_Z + 64);
 
 const renderer = new THREE.WebGLRenderer({ antialias:true, powerPreference:'high-performance', alpha:false });
@@ -230,7 +253,7 @@ controls.target.set(CENTER_X, 0, CENTER_Z);
 controls.enableDamping = true;
 controls.dampingFactor = 0.06;
 controls.minDistance = 7;
-controls.maxDistance = 165;
+controls.maxDistance = 360;
 controls.maxPolarAngle = Math.PI/2 - 0.025;
 controls.rotateSpeed = 0.7;
 controls.panSpeed = 0.85;
@@ -346,10 +369,15 @@ const matWindowNight = new THREE.MeshStandardMaterial({ color:0xfff7ca, emissive
 const matBlack = new THREE.MeshStandardMaterial({ color:0x08090b, roughness:.35, metalness:.3 });
 const matWhite = new THREE.MeshStandardMaterial({ color:0xf8fafc, roughness:.48, metalness:.04 });
 const matSmoke = new THREE.MeshStandardMaterial({ color:0xd4d4d8, roughness:1, transparent:true, opacity:.45, depthWrite:false });
+const matFireRed = new THREE.MeshStandardMaterial({ color:0xef4444, emissive:0x7f1d1d, emissiveIntensity:.9, roughness:.32 });
+const matFireOrange = new THREE.MeshStandardMaterial({ color:0xf97316, emissive:0xff7a18, emissiveIntensity:1.25, roughness:.22 });
+const matPoliceBlue = new THREE.MeshStandardMaterial({ color:0x1d4ed8, roughness:.34, metalness:.28, emissive:0x0b2b73, emissiveIntensity:.18 });
+const matEmergencyWhite = new THREE.MeshStandardMaterial({ color:0xf8fafc, roughness:.42, metalness:.06 });
 const matZoneRes = new THREE.MeshBasicMaterial({ color:0x22c55e, transparent:true, opacity:.12 });
 const matZoneCom = new THREE.MeshBasicMaterial({ color:0x38bdf8, transparent:true, opacity:.12 });
 const matZoneInd = new THREE.MeshBasicMaterial({ color:0xfacc15, transparent:true, opacity:.12 });
 const matCursor = new THREE.MeshBasicMaterial({ color:0xffffff, transparent:true, opacity:.62, wireframe:true });
+const matLandHeat = new THREE.MeshBasicMaterial({ transparent:true, opacity:.28, vertexColors:true, depthWrite:false });
 
 const matsRes = texRes.map(t=>new THREE.MeshStandardMaterial({ map:t, roughness:.62, metalness:.08 }));
 const matsCom = texCom.map(t=>new THREE.MeshStandardMaterial({ map:t, roughness:.18, metalness:.62, envMapIntensity:1.35 }));
@@ -363,7 +391,20 @@ scene.add(ground);
 
 const meshGroup = new THREE.Group(); scene.add(meshGroup);
 const dynamicGroup = new THREE.Group(); scene.add(dynamicGroup);
+const landHeatGroup = new THREE.Group(); scene.add(landHeatGroup);
+let landHeatMesh = null;
 const cursorMesh = new THREE.Mesh(new THREE.BoxGeometry(1.05,1.05,1.05), matCursor); cursorMesh.visible=false; scene.add(cursorMesh);
+
+// 6倍マップ用の軽量化：全マスを描画せず、カメラ周辺だけを3D化する
+const RENDER_RADIUS_HQ = 54;
+const RENDER_RADIUS_LITE = 38;
+let visibleCellKeys = new Set();
+let renderedCellKeys = new Set();
+let lastRenderCX = -99999;
+let lastRenderCY = -99999;
+function cellKey(x,y){ return x + ',' + y; }
+function renderRadius(){ return state.highQuality ? RENDER_RADIUS_HQ : RENDER_RADIUS_LITE; }
+function isCellVisibleForMesh(x,y){ return visibleCellKeys.has(cellKey(x,y)); }
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
@@ -374,6 +415,17 @@ const pedestrians = [];
 const trains = [];
 const smokeParticles = [];
 const streetLights = [];
+const incidents = [];
+const ACHIEVEMENTS = [
+  {id:'pop100', name:'小さな街', check:()=>state.population>=100},
+  {id:'pop1000', name:'都市化開始', check:()=>state.population>=1000},
+  {id:'safe85', name:'安全都市', check:()=>state.safety>=85 && state.population>=150},
+  {id:'land70', name:'高級住宅地', check:()=>state.avgLandValue>=70},
+  {id:'rail3', name:'鉄道都市', check:()=>state.stationCount>=3},
+  {id:'balanced', name:'黒字経営', check:()=>state.incomeLastDay>state.upkeepLastDay && state.population>=200},
+  {id:'rescuer', name:'危機管理官', check:()=>state.incidentsResolved>=5},
+  {id:'facilities', name:'公共施設マスター', check:()=>countType(TYPES.FIRE)+countType(TYPES.POLICE)+countType(TYPES.SCHOOL)+countType(TYPES.HOSPITAL)+countType(TYPES.LIBRARY)>=8}
+];
 
 // =============================
 // 初期マップ
@@ -396,20 +448,22 @@ function initGrid(){
     }
     state.grid.push(row);
   }
-  // 初期の小さな街・道路・線路
-  for(let x=37;x<=59;x++){ safeSet(x,48,TYPES.ROAD); }
-  for(let y=39;y<=58;y++){ safeSet(48,y,TYPES.ROAD); }
-  for(let x=35;x<=61;x++){ if(x%2===0) safeSet(x,54,TYPES.ROAD); }
-  for(let y=42;y<=56;y++){ if(y%2===0) safeSet(42,y,TYPES.ROAD); }
+  // 初期の小さな街・道路・線路（巨大マップでも中央から始めやすい配置）
+  const cx=Math.round(CENTER_X), cy=Math.round(CENTER_Z);
+  for(let x=cx-14;x<=cx+14;x++){ safeSet(x,cy,TYPES.ROAD); }
+  for(let y=cy-12;y<=cy+12;y++){ safeSet(cx,y,TYPES.ROAD); }
+  for(let x=cx-17;x<=cx+17;x++){ if((x-cx)%2===0) safeSet(x,cy+7,TYPES.ROAD); }
+  for(let y=cy-8;y<=cy+10;y++){ if((y-cy)%2===0) safeSet(cx-7,y,TYPES.ROAD); }
+  for(let y=cy-8;y<=cy+8;y++){ if((y-cy)%2===0) safeSet(cx+8,y,TYPES.ROAD); }
   const zones = [
-    [45,45,TYPES.RES],[46,45,TYPES.RES],[49,45,TYPES.COM],[50,45,TYPES.COM],[45,50,TYPES.RES],[46,50,TYPES.RES],
-    [51,50,TYPES.COM],[52,50,TYPES.COM],[40,51,TYPES.IND],[40,52,TYPES.IND],[54,52,TYPES.PARK],
-    [43,47,TYPES.SCHOOL],[53,47,TYPES.HOSPITAL]
+    [-3,-3,TYPES.RES],[-2,-3,TYPES.RES],[1,-3,TYPES.COM],[2,-3,TYPES.COM],[-3,2,TYPES.RES],[-2,2,TYPES.RES],
+    [3,2,TYPES.COM],[4,2,TYPES.COM],[-8,3,TYPES.IND],[-8,4,TYPES.IND],[6,4,TYPES.PARK],
+    [-5,-1,TYPES.SCHOOL],[5,-1,TYPES.HOSPITAL],[-4,5,TYPES.FIRE],[4,5,TYPES.POLICE],[8,3,TYPES.LIBRARY],[-10,7,TYPES.FACTORY]
   ];
-  zones.forEach(([x,y,t])=>{ if(cellAt(x,y)?.type!==TYPES.WATER){ safeSet(x,y,t); if(isZone(t)) cellAt(x,y).level=1; }});
-  for(let x=31;x<=65;x++) safeSet(x,62,TYPES.RAIL);
-  safeSet(48,62,TYPES.STATION);
-  safeSet(61,62,TYPES.STATION);
+  zones.forEach(([dx,dy,t])=>{ const x=cx+dx,y=cy+dy; if(cellAt(x,y)?.type!==TYPES.WATER){ safeSet(x,y,t); if(isZone(t)) cellAt(x,y).level=1; }});
+  for(let x=cx-22;x<=cx+22;x++) safeSet(x,cy+14,TYPES.RAIL);
+  safeSet(cx,cy+14,TYPES.STATION);
+  safeSet(cx+16,cy+14,TYPES.STATION);
 }
 function safeSet(x,y,type){ if(inside(x,y) && state.grid[y][x].type !== TYPES.WATER) state.grid[y][x].type=type; }
 
@@ -418,6 +472,7 @@ function safeSet(x,y,type){ if(inside(x,y) && state.grid[y][x].type !== TYPES.WA
 // =============================
 function removeCellMesh(cell){
   if(cell.meshObj){ meshGroup.remove(cell.meshObj); cell.meshObj.traverse(o=>{ if(o.geometry && o.userData.tempGeo) o.geometry.dispose(); }); cell.meshObj = null; }
+  cell.glowObj = null;
 }
 function updateSmokeEmitter(x,y,removeOnly=false,emitY=0){
   const idx=smokeEmitters.findIndex(s=>s.x===x && s.z===y);
@@ -522,31 +577,89 @@ function createConstruction(group,x,y){
   group.add(smallBox(.75,.035,.035,steel,0,.7,.32,true,true));
   group.add(smallBox(.035,.035,.75,steel,.32,.7,0,true,true));
 }
+
+function realisticLevelCap(x,y,type){
+  // 高さ規制＋地価：高層化しすぎず、駅前や地価の高い場所だけ自然に上がる
+  const land = computeLandValue(x,y);
+  const nearStation = nearbyAny(x,y,TYPES.STATION,6);
+  const nearCenter = Math.hypot(x-CENTER_X,y-CENTER_Z) < 16;
+  const goodResidentialArea = nearbyAny(x,y,TYPES.PARK,3) || nearbyAny(x,y,TYPES.SCHOOL,6) || nearbyAny(x,y,TYPES.HOSPITAL,6) || nearbyAny(x,y,TYPES.LIBRARY,5);
+  if(type===TYPES.RES){
+    if(land<28) return 1;
+    return nearStation ? (land>72?4:3) : (goodResidentialArea && land>58 ? 3 : 2);
+  }
+  if(type===TYPES.COM){
+    if(land<30) return 2;
+    if(nearStation && land>76) return 5;
+    return nearStation || nearCenter ? (land>62?4:3) : 3;
+  }
+  if(type===TYPES.IND){
+    // 工業は低〜中層中心。地価が高い住宅地に工場ビルが伸びすぎないようにする
+    if(land>65) return 2;
+    return nearbyAny(x,y,TYPES.ROAD,2) ? 3 : 2;
+  }
+  return MAX_LEVEL;
+}
+function realisticHeight(type,level,seed){
+  // 1マスの都市模型として自然に見える高さ。高くなりすぎないよう上限を設定
+  if(type===TYPES.RES){
+    const h=[0, .95, 1.35, 1.85, 2.45, 2.75][level] || 1.4;
+    return h + seed*.18;
+  }
+  if(type===TYPES.COM){
+    const h=[0, 1.15, 1.75, 2.55, 3.35, 4.25][level] || 2.4;
+    return h + seed*.28;
+  }
+  if(type===TYPES.IND){
+    const h=[0, .95, 1.35, 1.85, 2.25, 2.45][level] || 1.6;
+    return h + seed*.2;
+  }
+  return 1;
+}
+function realisticFootprint(type,level,seed){
+  // 高層化よりも敷地の広がり・屋上設備で発展を表現する
+  if(type===TYPES.RES) return .78 - Math.min(level,3)*.025 + seed*.02;
+  if(type===TYPES.COM) return .82 - Math.min(level,4)*.018 + seed*.015;
+  return .86 - Math.min(level,3)*.015;
+}
 function createBuilding(group,x,y,cell){
   createZoneBase(group,cell.type);
   if(cell.level<=0){ createConstruction(group,x,y); return; }
   const s = cell.seed || hash01(x,y,5);
+  const cap = realisticLevelCap(x,y,cell.type);
+  const visualLevel = Math.max(1, Math.min(cell.level, cap));
   let matArr = cell.type===TYPES.RES ? matsRes : cell.type===TYPES.COM ? matsCom : matsInd;
-  const mat = matArr[Math.min(matArr.length-1, Math.floor((cell.level-1)/2))];
-  let width = cell.type===TYPES.RES ? .78 : cell.type===TYPES.COM ? .84 : .86;
-  let depth = width * (.88 + s*.22);
-  let height = (cell.type===TYPES.RES? .65 : cell.type===TYPES.COM? .9 : .75) + cell.level * (cell.type===TYPES.COM?1.35:cell.type===TYPES.RES?.86:1.0) + s*.65;
-  if(cell.type===TYPES.COM && cell.level>=4) height += 2.2;
+  const mat = matArr[Math.min(matArr.length-1, Math.floor((visualLevel-1)/2))];
+  let width = realisticFootprint(cell.type,visualLevel,s);
+  let depth = width * (.9 + s*.16);
+  let height = realisticHeight(cell.type,visualLevel,s);
   const body=smallBox(width,height,depth,mat,0,height/2,0,true,true);
   body.rotation.y = (s>.5 ? 0 : Math.PI/2);
   group.add(body);
-  // ガラス高層棟
-  if(cell.type===TYPES.COM && cell.level>=3){
-    const tower=smallBox(width*.48,height*.78,depth*.48,matGlass,.18,height+height*.39,-.14,true,true);
+  // 現実感を上げる小物：低層住宅は庭・駐車場、中層以上は屋上設備を追加
+  if(cell.type===TYPES.RES && visualLevel<=2){
+    const yardMat=new THREE.MeshStandardMaterial({color:0x2f6b3f,roughness:.92});
+    group.add(smallBox(.24,.018,.28,yardMat,-.32,.065,.24,false,true));
+    if(hash01(x,y,34)>.45) group.add(smallBox(.18,.055,.32,carMats[Math.floor(hash01(x,y,35)*carMats.length)],.28,.095,.28,true,true));
+  }
+  if(cell.type===TYPES.COM && visualLevel>=3){
+    group.add(smallBox(width*.42,.06,depth*.42,matRoadEdge,-.18,height+.09,.18,true,true));
+  }
+  if(cell.type===TYPES.IND && visualLevel>=2){
+    group.add(smallBox(.24,.12,.38,matRoadEdge,.22,.12,-.32,true,true));
+  }
+  // ガラス中高層棟
+  if(cell.type===TYPES.COM && visualLevel>=4){
+    const tower=smallBox(width*.42,height*.48,depth*.42,matGlass,.16,height+height*.24,-.14,true,true);
     group.add(tower);
-    const cap=smallBox(width*.58,.18,depth*.58,matBlack,.18,height*1.78+.1,-.14,true,true); group.add(cap);
+    const cap=smallBox(width*.52,.14,depth*.52,matBlack,.16,height*1.48+.08,-.14,true,true); group.add(cap);
   }
   // 住宅屋根
-  if(cell.type===TYPES.RES && cell.level<=2){
+  if(cell.type===TYPES.RES && visualLevel<=2){
     const roof=new THREE.Mesh(geoCone,matRoof); roof.scale.set(width*.78,.38,depth*.78); roof.position.y=height+.19; roof.rotation.y=Math.PI/4; roof.castShadow=true; group.add(roof);
   } else {
     group.add(smallBox(width*.86,.1,depth*.86,matBlack,0,height+.05,0,true,true));
-    if(cell.level>=2) group.add(smallBox(.24,.18,.24,matRoadEdge,-.18,height+.18,.18,true,true));
+    if(visualLevel>=2) group.add(smallBox(.24,.16,.24,matRoadEdge,-.18,height+.16,.18,true,true));
   }
   // 産業設備
   if(cell.type===TYPES.IND){
@@ -556,7 +669,7 @@ function createBuilding(group,x,y,cell){
     const tank=cyl(.22,Math.max(.45,height*.42),matsInd[1],-.25,Math.max(.45,height*.42)/2,-.24); group.add(tank);
   }
   // 夜用の窓パネル
-  if(cell.level>=3 && hash01(x,y,10)>.35){
+  if(visualLevel>=3 && hash01(x,y,10)>.35){
     const glow=smallBox(width*.08,height*.7,.012,matWindowNight,width*.49,height*.52,0,false,false);
     glow.visible = isNight(); group.add(glow); cell.glowObj=glow;
   }
@@ -593,10 +706,45 @@ function createPower(group,x,y){
   updateSmokeEmitter(x,y,false,1.52);
   addLabelPlane(group,'POWER','#fde68a',1.25);
 }
+function createFireStation(group,x,y){
+  group.add(smallBox(.98,.04,.98,new THREE.MeshBasicMaterial({color:0xef4444,transparent:true,opacity:.15}),0,.02,0,false,false));
+  group.add(smallBox(.84,.58,.68,matFireRed,0,.29,0,true,true));
+  group.add(smallBox(.38,.36,.04,matEmergencyWhite,-.18,.22,-.35,true,false));
+  group.add(smallBox(.38,.36,.04,matEmergencyWhite,.22,.22,-.35,true,false));
+  group.add(smallBox(.2,.12,.18,matFireOrange,.28,.68,.22,true,true));
+  group.add(cyl(.055,.78,matRoadEdge,-.36,.39,.28));
+  addLabelPlane(group,'FIRE','#fed7aa',.98);
+}
+function createPoliceStation(group,x,y){
+  group.add(smallBox(.98,.04,.98,new THREE.MeshBasicMaterial({color:0x3b82f6,transparent:true,opacity:.14}),0,.02,0,false,false));
+  group.add(smallBox(.82,.62,.66,matEmergencyWhite,0,.31,0,true,true));
+  group.add(smallBox(.9,.09,.72,matPoliceBlue,0,.67,0,true,true));
+  group.add(smallBox(.28,.24,.04,matPoliceBlue,0,.32,-.35,true,false));
+  for(const sx of [-.24,.24]) group.add(smallBox(.14,.16,.04,matTrainGlass,sx,.38,-.36,true,false));
+  addLabelPlane(group,'POLICE','#bfdbfe',1.02);
+}
+function createFactoryFacility(group,x,y){
+  group.add(smallBox(.98,.04,.98,matZoneInd,0,.02,0,false,false));
+  group.add(smallBox(.86,.52,.72,new THREE.MeshStandardMaterial({color:0x52525b,roughness:.62,metalness:.44}),0,.26,0,true,true));
+  group.add(smallBox(.88,.12,.74,new THREE.MeshStandardMaterial({color:0x27272a,roughness:.36,metalness:.58}),0,.58,0,true,true));
+  group.add(cyl(.13,1.08,matDirt,.28,.54,.24));
+  group.add(cyl(.18,.52,matsInd[1],-.28,.26,-.22));
+  group.add(smallBox(.26,.18,.36,matRoadEdge,.08,.12,-.32,true,true));
+  updateSmokeEmitter(x,y,false,1.12);
+  addLabelPlane(group,'FACTORY','#e5e7eb',1.02);
+}
+function createLibrary(group,x,y){
+  group.add(smallBox(.98,.04,.98,new THREE.MeshBasicMaterial({color:0x6366f1,transparent:true,opacity:.12}),0,.02,0,false,false));
+  group.add(smallBox(.86,.52,.66,new THREE.MeshStandardMaterial({color:0x9a3412,roughness:.78}),0,.26,0,true,true));
+  group.add(smallBox(.94,.09,.72,matRoof,0,.57,0,true,true));
+  for(const sx of [-.3,-.1,.1,.3]) group.add(cyl(.045,.42,matEmergencyWhite,sx,.22,-.35));
+  group.add(smallBox(.32,.18,.04,matTrainGlass,0,.34,-.36,true,false));
+  addLabelPlane(group,'LIBRARY','#c7d2fe',.92);
+}
 function createMeshForCell(x,y,cell,animate=false){
   removeCellMesh(cell);
   updateSmokeEmitter(x,y,true);
-  if(cell.type===TYPES.EMPTY) return;
+  if(!isCellVisibleForMesh(x,y) || cell.type===TYPES.EMPTY) return;
   const group=new THREE.Group(); group.position.set(x,0,y); group.userData.gridX=x; group.userData.gridY=y;
   if(cell.type===TYPES.WATER) createWater(group,x,y);
   else if(cell.type===TYPES.TREE) createTree(group,x,y,.85+hash01(x,y,7)*.45);
@@ -608,6 +756,10 @@ function createMeshForCell(x,y,cell,animate=false){
   else if(cell.type===TYPES.SCHOOL) createSchool(group,x,y);
   else if(cell.type===TYPES.HOSPITAL) createHospital(group,x,y);
   else if(cell.type===TYPES.POWER) createPower(group,x,y);
+  else if(cell.type===TYPES.FIRE) createFireStation(group,x,y);
+  else if(cell.type===TYPES.POLICE) createPoliceStation(group,x,y);
+  else if(cell.type===TYPES.FACTORY) createFactoryFacility(group,x,y);
+  else if(cell.type===TYPES.LIBRARY) createLibrary(group,x,y);
   meshGroup.add(group); cell.meshObj=group;
   if(animate){
     group.scale.y = .02;
@@ -618,10 +770,32 @@ function updateCellAndNeighbors(x,y){
   const pts=[[x,y],[x-1,y],[x+1,y],[x,y-1],[x,y+1]];
   for(const [px,py] of pts){ if(inside(px,py)){ const c=state.grid[py][px]; if(c.type!==TYPES.EMPTY) createMeshForCell(px,py,c,false); } }
 }
-function buildAllMeshes(){
-  meshGroup.clear(); streetLights.length=0; smokeEmitters.length=0;
-  for(let y=0;y<ROWS;y++) for(let x=0;x<COLS;x++) createMeshForCell(x,y,state.grid[y][x],false);
+function clearRenderedMeshes(){
+  for(const key of renderedCellKeys){
+    const [x,y]=key.split(',').map(Number);
+    const c=cellAt(x,y); if(c){ c.meshObj=null; c.glowObj=null; }
+  }
+  meshGroup.clear();
+  streetLights.length=0; smokeEmitters.length=0; renderedCellKeys.clear(); visibleCellKeys.clear(); buildingAnimations.length=0;
 }
+function buildVisibleMeshes(force=false){
+  const cx=clamp(Math.round(controls.target.x),0,COLS-1);
+  const cy=clamp(Math.round(controls.target.z),0,ROWS-1);
+  const moveThreshold = state.highQuality ? 7 : 10;
+  if(!force && Math.abs(cx-lastRenderCX)<moveThreshold && Math.abs(cy-lastRenderCY)<moveThreshold) return;
+  lastRenderCX=cx; lastRenderCY=cy;
+  clearRenderedMeshes();
+  const r=renderRadius();
+  const minX=Math.max(0,cx-r), maxX=Math.min(COLS-1,cx+r);
+  const minY=Math.max(0,cy-r), maxY=Math.min(ROWS-1,cy+r);
+  for(let y=minY;y<=maxY;y++) for(let x=minX;x<=maxX;x++) visibleCellKeys.add(cellKey(x,y));
+  for(let y=minY;y<=maxY;y++) for(let x=minX;x<=maxX;x++){
+    const c=state.grid[y][x];
+    if(c.type!==TYPES.EMPTY){ renderedCellKeys.add(cellKey(x,y)); createMeshForCell(x,y,c,false); }
+  }
+  updateLighting();
+}
+function buildAllMeshes(){ buildVisibleMeshes(true); }
 
 // =============================
 // 乗り物・人・煙
@@ -846,11 +1020,78 @@ function nearbyCount(x,y,type,rad){
   let c=0; for(let yy=y-rad;yy<=y+rad;yy++) for(let xx=x-rad;xx<=x+rad;xx++) if(inside(xx,yy) && state.grid[yy][xx].type===type) c++; return c;
 }
 function nearbyAny(x,y,type,rad){ return nearbyCount(x,y,type,rad)>0; }
+function nearestEffect(x,y,type,rad,weight){
+  let best = 999;
+  for(let yy=y-rad; yy<=y+rad; yy++) for(let xx=x-rad; xx<=x+rad; xx++){
+    if(!inside(xx,yy) || state.grid[yy][xx].type!==type) continue;
+    const d = Math.abs(xx-x) + Math.abs(yy-y);
+    if(d<best) best=d;
+  }
+  if(best>rad) return 0;
+  return weight * (1 - best / Math.max(1,rad));
+}
+function hasRoadConnectionValue(x,y){ return adjacentCount(x,y,isRoadLike)>0 ? 8 : -10; }
+function computeLandValue(x,y){
+  const c = cellAt(x,y);
+  if(!c || c.type===TYPES.WATER) return 0;
+  let v = 44;
+  v += hasRoadConnectionValue(x,y);
+  v += nearestEffect(x,y,TYPES.STATION,9,30);
+  v += nearestEffect(x,y,TYPES.PARK,5,19);
+  v += nearestEffect(x,y,TYPES.SCHOOL,7,15);
+  v += nearestEffect(x,y,TYPES.HOSPITAL,7,14);
+  v += nearestEffect(x,y,TYPES.FIRE,6,7);
+  v += nearestEffect(x,y,TYPES.POLICE,6,8);
+  v += nearestEffect(x,y,TYPES.LIBRARY,6,13);
+  v += nearestEffect(x,y,TYPES.WATER,4,7);
+  v += nearestEffect(x,y,TYPES.TREE,3,5);
+  const centerDist = Math.hypot(x-CENTER_X,y-CENTER_Z);
+  v += clamp(18 - centerDist*.55,0,18);
+  // 工場・発電所・渋滞の近くは地価低下
+  v -= nearestEffect(x,y,TYPES.IND,5,18);
+  v -= nearestEffect(x,y,TYPES.POWER,7,22);
+  v -= nearestEffect(x,y,TYPES.FACTORY,6,20);
+  const localRoads = nearbyCount(x,y,TYPES.ROAD,2) + nearbyCount(x,y,TYPES.STATION,2);
+  if(localRoads>3 && state.traffic>45) v -= (localRoads-3) * Math.max(0,state.traffic-45) * .12;
+  // 公園や学校が近い住宅は、渋滞ダメージを少し受けにくい
+  if((nearbyAny(x,y,TYPES.PARK,3) || nearbyAny(x,y,TYPES.SCHOOL,5)) && state.traffic<65) v += 4;
+  return clamp(v,0,100);
+}
+function landValueRank(v){ return v>=82?'S':v>=68?'A':v>=52?'B':v>=36?'C':'D'; }
+function landValueColor(v){
+  const c = new THREE.Color();
+  const t = clamp(v/100,0,1);
+  c.setHSL(0.02 + t*.35, .92, .54);
+  return c;
+}
+function updateLandValueHeatmap(){
+  if(!state.showLandValue){ if(landHeatMesh) landHeatMesh.visible=false; return; }
+  if(!landHeatMesh){
+    landHeatMesh = new THREE.InstancedMesh(new THREE.BoxGeometry(.96,.018,.96), matLandHeat, COLS*ROWS);
+    landHeatMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+    landHeatGroup.add(landHeatMesh);
+  }
+  const dummy = new THREE.Object3D();
+  let i=0;
+  for(let y=0;y<ROWS;y++) for(let x=0;x<COLS;x++){
+    const c=state.grid[y][x];
+    if(c.type===TYPES.WATER){ dummy.position.set(x,-10,y); dummy.scale.set(.001,.001,.001); }
+    else { dummy.position.set(x,.085,y); dummy.scale.set(1,1,1); }
+    dummy.updateMatrix();
+    landHeatMesh.setMatrixAt(i,dummy.matrix);
+    landHeatMesh.setColorAt(i,landValueColor(computeLandValue(x,y)));
+    i++;
+  }
+  landHeatMesh.instanceMatrix.needsUpdate=true;
+  if(landHeatMesh.instanceColor) landHeatMesh.instanceColor.needsUpdate=true;
+  landHeatMesh.visible=true;
+}
 function countType(type, builtOnly=false){
   let c=0; for(let y=0;y<ROWS;y++) for(let x=0;x<COLS;x++){ const cell=state.grid[y][x]; if(cell.type===type && (!builtOnly || cell.level>0)) c++; } return c;
 }
 function updateStatsImmediate(){
-  let pop=0,jobs=0,roads=0,parks=0,schools=0,hospitals=0,power=0,rail=0,stations=0,water=0,trees=0,zones=0;
+  let pop=0,jobs=0,roads=0,parks=0,schools=0,hospitals=0,power=0,rail=0,stations=0,water=0,trees=0,zones=0,fireStations=0,policeStations=0,factories=0,libraries=0;
+  let landTotal=0, landCount=0;
   for(let y=0;y<ROWS;y++){
     for(let x=0;x<COLS;x++){
       const c=state.grid[y][x];
@@ -861,43 +1102,174 @@ function updateStatsImmediate(){
       else if(c.type===TYPES.SCHOOL) schools++;
       else if(c.type===TYPES.HOSPITAL) hospitals++;
       else if(c.type===TYPES.POWER) power++;
+      else if(c.type===TYPES.FIRE) fireStations++;
+      else if(c.type===TYPES.POLICE) policeStations++;
+      else if(c.type===TYPES.FACTORY){ factories++; jobs += 48; }
+      else if(c.type===TYPES.LIBRARY) libraries++;
       else if(c.type===TYPES.WATER) water++;
       else if(c.type===TYPES.TREE) trees++;
-      if(c.type===TYPES.RES && c.level>0){ pop += c.level * (7 + c.level*2); zones++; }
-      if(c.type===TYPES.COM && c.level>0){ jobs += c.level * (8 + c.level*3); zones++; }
-      if(c.type===TYPES.IND && c.level>0){ jobs += c.level * (10 + c.level*4); zones++; }
+      if(c.type!==TYPES.WATER){
+        // 巨大マップでは空き地まで毎日すべて精密計算すると重いので、未開発地はサンプリングして平均地価を推定
+        const exactLand = c.type!==TYPES.EMPTY && c.type!==TYPES.TREE;
+        const sampleEmpty = ((x*17 + y*31) % 16) === 0;
+        if(exactLand || sampleEmpty){
+          const lvLand=computeLandValue(x,y); c.landValue=lvLand;
+          const weight = exactLand ? 1 : 16;
+          landTotal += lvLand * weight; landCount += weight;
+        }
+      }
+      if(c.type===TYPES.RES && c.level>0){ const lv=Math.min(c.level,realisticLevelCap(x,y,c.type)); pop += lv * (7 + lv*2); zones++; }
+      if(c.type===TYPES.COM && c.level>0){ const lv=Math.min(c.level,realisticLevelCap(x,y,c.type)); jobs += lv * (8 + lv*3); zones++; }
+      if(c.type===TYPES.IND && c.level>0){ const lv=Math.min(c.level,realisticLevelCap(x,y,c.type)); jobs += lv * (10 + lv*4); zones++; }
     }
   }
-  const traffic = roads ? clamp((vehicles.length*2 + pop*.015 + jobs*.011) / Math.max(1,roads) * 11, 0, 100) : 0;
-  const powerCap = power*1600 + 700;
-  const powerUse = pop*1.35 + jobs*.95 + zones*8;
-  const serviceScore = clamp((parks*2 + schools*18 + hospitals*22 + stations*8) / Math.max(12, pop/80 + 12),0,35);
-  const pollution = clamp(countType(TYPES.IND,true)*1.8 + power*8 - parks*.45 - trees*.025,0,32);
-  const happiness = clamp(72 + serviceScore - pollution - Math.max(0,traffic-55)*.32 - (powerUse>powerCap?22:0), 5, 100);
-  state.population=pop; state.jobs=jobs; state.traffic=Math.round(traffic); state.powerCap=powerCap; state.powerUse=powerUse; state.happiness=Math.round(happiness); state.railCount=rail; state.stationCount=stations;
-  return {pop,jobs,roads,parks,schools,hospitals,power,rail,stations,traffic,happiness,powerCap,powerUse,zones};
+  const traffic = roads ? clamp((vehicles.length*2 + pop*.015 + jobs*.011 + factories*.55) / Math.max(1,roads) * 11, 0, 100) : 0;
+  const powerCap = power*1700 + 700;
+  const powerUse = pop*1.25 + jobs*.82 + zones*7 + factories*95;
+  const avgLandValue = landCount ? landTotal/landCount : 50;
+  const serviceScore = clamp((parks*2 + schools*18 + hospitals*22 + stations*8 + libraries*12 + fireStations*7 + policeStations*7) / Math.max(12, pop/80 + 12),0,38);
+  const pollution = clamp(countType(TYPES.IND,true)*1.6 + factories*8 + power*7 - parks*.45 - trees*.025,0,34);
+  const landHappy = (avgLandValue-50)*.11;
+  const safetyBonus = (state.safety-70)*.06;
+  const happiness = clamp(72 + serviceScore + landHappy + safetyBonus - pollution - Math.max(0,traffic-55)*.3 - (powerUse>powerCap?22:0), 5, 100);
+  state.population=pop; state.jobs=jobs; state.traffic=Math.round(traffic); state.powerCap=powerCap; state.powerUse=powerUse; state.happiness=Math.round(happiness); state.railCount=rail; state.stationCount=stations; state.avgLandValue=Math.round(avgLandValue);
+  state.fireStationCount=fireStations; state.policeStationCount=policeStations; state.factoryCount=factories; state.libraryCount=libraries;
+  return {pop,jobs,roads,parks,schools,hospitals,power,rail,stations,traffic,happiness,powerCap,powerUse,zones,avgLandValue,fireStations,policeStations,factories,libraries,water,trees};
+}
+
+function updateSafetyMetrics(stats){
+  const builtZones = countType(TYPES.RES,true)+countType(TYPES.COM,true)+countType(TYPES.IND,true)+stats.factories;
+  const fireCoverage = stats.fireStations*16 + stats.hospitals*2 + stats.parks*.8;
+  const policeCoverage = stats.policeStations*17 + stats.schools*1.5 + stats.libraries*4;
+  state.fireRisk = Math.round(clamp(8 + countType(TYPES.IND,true)*1.7 + stats.factories*6 + stats.power*4 + builtZones*.28 - fireCoverage,0,100));
+  state.crimeRisk = Math.round(clamp(7 + stats.pop*.018 + stats.jobs*.01 + stats.traffic*.08 - policeCoverage,0,100));
+  state.accidentRisk = Math.round(clamp(6 + stats.traffic*.72 + stats.factories*2.5 - stats.policeStations*5 - stats.hospitals*2,0,100));
+  const shortage = Math.max(0, stats.powerUse - stats.powerCap);
+  state.blackoutRisk = Math.round(shortage>0 ? clamp(34 + shortage/24,0,100) : clamp(6 + stats.powerUse/Math.max(1,stats.powerCap)*14 - stats.power*6,0,42));
+  state.safety = Math.round(clamp(100 - (state.fireRisk*.28 + state.crimeRisk*.25 + state.accidentRisk*.25 + state.blackoutRisk*.22),0,100));
+  state.activeIncidents = incidents.length;
+}
+function addCityLog(text){
+  state.eventLog.unshift({day:state.day,hour:Math.floor(state.hour),text});
+  if(state.eventLog.length>5) state.eventLog.length=5;
+}
+function randomCellBy(pred){
+  for(let i=0;i<220;i++){
+    const x=Math.floor(rand()*COLS), y=Math.floor(rand()*ROWS);
+    if(pred(x,y,state.grid[y][x])) return {x,y};
+  }
+  return null;
+}
+function incidentDuration(type,x,y){
+  if(type==='fire') return nearbyAny(x,y,TYPES.FIRE,9) ? 10 : 18;
+  if(type==='crime') return nearbyAny(x,y,TYPES.POLICE,8) ? 8 : 15;
+  if(type==='accident') return (nearbyAny(x,y,TYPES.POLICE,7)||nearbyAny(x,y,TYPES.HOSPITAL,7)) ? 8 : 14;
+  if(type==='blackout') return nearbyAny(x,y,TYPES.POWER,9) ? 7 : 13;
+  return 10;
+}
+function createIncidentMarker(type,x,y){
+  const g=new THREE.Group(); g.position.set(x,.18,y);
+  if(type==='fire'){
+    g.add(new THREE.Mesh(geoCone,matFireOrange)); g.children[0].scale.set(.32,.82,.32); g.children[0].position.y=.42;
+    g.add(new THREE.Mesh(geoCone,matFireRed)); g.children[1].scale.set(.2,.55,.2); g.children[1].position.y=.55;
+  } else if(type==='crime'){
+    g.add(smallBox(.48,.46,.08,matPoliceBlue,0,.3,0,true,false));
+    g.add(smallBox(.16,.16,.1,matEmergencyWhite,0,.42,.01,true,false));
+  } else if(type==='accident'){
+    g.add(smallBox(.55,.08,.24,matFireOrange,0,.12,0,true,true));
+    g.add(smallBox(.24,.08,.55,matFireOrange,0,.125,0,true,true));
+    g.rotation.y=Math.PI/4;
+  } else if(type==='blackout'){
+    g.add(smallBox(.5,.5,.08,matBlack,0,.32,0,true,false));
+    g.add(smallBox(.12,.42,.1,matFireOrange,0,.36,.01,true,false));
+  }
+  dynamicGroup.add(g); return g;
+}
+function addIncident(type,x,y,msg){
+  if(incidents.length>=8) return;
+  const marker=createIncidentMarker(type,x,y);
+  incidents.push({type,x,y,age:0,maxAge:incidentDuration(type,x,y),marker,resolved:false});
+  addCityLog(msg);
+  toast(msg);
+}
+function maybeGenerateIncidents(stats,developedRoads){
+  if(state.day<4 || incidents.length>5) return;
+  const scale = state.speed===3 ? .72 : 1;
+  if(rand() < (state.fireRisk/100)*.018*scale){
+    const p=randomCellBy((x,y,c)=>isZone(c.type) || c.type===TYPES.FACTORY || c.type===TYPES.POWER);
+    if(p) addIncident('fire',p.x,p.y,'火災発生：消防署の近くだと早く収まります');
+  }
+  if(rand() < (state.crimeRisk/100)*.014*scale){
+    const p=randomCellBy((x,y,c)=>c.type===TYPES.RES || c.type===TYPES.COM || c.type===TYPES.STATION);
+    if(p) addIncident('crime',p.x,p.y,'事件発生：警察署の整備が必要です');
+  }
+  if(rand() < (state.accidentRisk/100)*.016*scale && developedRoads.length){
+    const p=developedRoads[Math.floor(rand()*developedRoads.length)];
+    addIncident('accident',p.x,p.y,'交通事故：渋滞が多い道路で発生しました');
+  }
+  if(rand() < (state.blackoutRisk/100)*.012*scale){
+    const p=randomCellBy((x,y,c)=>isZone(c.type) || c.type===TYPES.COM || c.type===TYPES.FACTORY);
+    if(p) addIncident('blackout',p.x,p.y,'停電発生：発電所を増やすと防ぎやすくなります');
+  }
+}
+function updateIncidents(delta){
+  for(let i=incidents.length-1;i>=0;i--){
+    const inc=incidents[i]; inc.age+=delta;
+    if(inc.marker){
+      inc.marker.position.y=.18 + Math.sin(performance.now()*.006+i)*.06;
+      inc.marker.rotation.y += delta*1.8;
+    }
+    if(inc.type==='fire' && rand()<.16) spawnSmoke(inc.x, .62, inc.y);
+    if(inc.age>=inc.maxAge){
+      const c=cellAt(inc.x,inc.y);
+      if(inc.type==='fire' && c && isZone(c.type) && !nearbyAny(inc.x,inc.y,TYPES.FIRE,9) && c.level>0){
+        c.level=Math.max(0,c.level-1); createMeshForCell(inc.x,inc.y,c,false); addCityLog('火災被害：建物レベルが下がりました');
+      } else {
+        state.incidentsResolved++;
+        if(inc.type==='fire') addCityLog('消防対応により火災が収束しました');
+        else if(inc.type==='crime') addCityLog('警察対応により事件が解決しました');
+        else if(inc.type==='accident') addCityLog('事故処理が完了しました');
+        else if(inc.type==='blackout') addCityLog('停電が復旧しました');
+      }
+      if(inc.marker) dynamicGroup.remove(inc.marker);
+      incidents.splice(i,1);
+      state.activeIncidents=incidents.length;
+    }
+  }
+}
+function checkAchievements(){
+  let unlocked=false;
+  for(const a of ACHIEVEMENTS){
+    if(!state.achievements[a.id] && a.check()){
+      state.achievements[a.id]=true; unlocked=true; addCityLog('実績解除：'+a.name); toast('実績解除：'+a.name);
+    }
+  }
+  return unlocked;
 }
 function simulateDay(){
   state.day++;
   state.hour = (state.hour + 2) % 24;
   const stats = updateStatsImmediate();
+  updateSafetyMetrics(stats);
   // 収支バランスを調整：序盤からずっと赤字にならないよう、税収を少し強化して維持費を現実的に下げる
-  const cityGrant = stats.pop < 240 ? 120 : 0;
-  const tax = Math.floor(cityGrant + stats.pop*4.6 + stats.jobs*3.4 + state.happiness*3.2 + stats.stations*24);
-  const upkeep = Math.floor(stats.roads*.45 + stats.rail*1.05 + stats.parks*3.5 + stats.schools*16 + stats.hospitals*22 + stats.power*30 + stats.stations*14);
+  const cityGrant = stats.pop < 260 ? 170 : 45;
+  const landTaxMultiplier = clamp(.88 + (stats.avgLandValue/100)*.34, .86, 1.25);
+  const tax = Math.floor((cityGrant + stats.pop*5.0 + stats.jobs*3.6 + state.happiness*3.5 + stats.stations*32) * landTaxMultiplier);
+  const upkeep = Math.floor(stats.roads*.36 + stats.rail*.88 + stats.parks*3.0 + stats.schools*14 + stats.hospitals*20 + stats.fireStations*16 + stats.policeStations*14 + stats.libraries*9 + stats.power*28 + stats.factories*18 + stats.stations*12);
   state.incomeLastDay = tax; state.upkeepLastDay = upkeep; state.money += tax - upkeep;
 
   const powerPenalty = stats.powerUse > stats.powerCap ? 25 : 0;
-  const serviceBoost = clamp((stats.parks + stats.schools*4 + stats.hospitals*5 + stats.stations*2) / 20, 0, 22);
-  state.demandR = clamp(68 + stats.jobs*.55 - stats.pop*.22 + serviceBoost - powerPenalty,0,100);
-  state.demandC = clamp(stats.pop*.18 + state.happiness*.25 - countType(TYPES.COM,true)*5 + stats.stations*3 - powerPenalty,0,100);
-  state.demandI = clamp(stats.pop*.13 + countType(TYPES.COM,true)*1.8 - countType(TYPES.IND,true)*5 - powerPenalty*.7,0,100);
+  const serviceBoost = clamp((stats.parks + stats.schools*4 + stats.hospitals*5 + stats.stations*2 + stats.fireStations*2 + stats.policeStations*2 + stats.libraries*3) / 20, 0, 25);
+  const landDemandBoost = (stats.avgLandValue-50)*.16;
+  state.demandR = clamp(68 + stats.jobs*.55 - stats.pop*.22 + serviceBoost + landDemandBoost - powerPenalty,0,100);
+  state.demandC = clamp(stats.pop*.18 + state.happiness*.25 + landDemandBoost*.7 - countType(TYPES.COM,true)*5 + stats.stations*3 - powerPenalty,0,100);
+  state.demandI = clamp(stats.pop*.13 + countType(TYPES.COM,true)*1.8 + stats.factories*1.2 - countType(TYPES.IND,true)*5 - powerPenalty*.7,0,100);
 
   const roadCells=[]; const railStationCells=[]; const developedRoads=[];
   for(let y=0;y<ROWS;y++){
     for(let x=0;x<COLS;x++){
       const c=state.grid[y][x];
-      if(isRoadLike(c.type)){ roadCells.push({x,y}); if(nearbyCount(x,y,TYPES.RES,2)+nearbyCount(x,y,TYPES.COM,2)+nearbyCount(x,y,TYPES.IND,2)>0) developedRoads.push({x,y}); }
+      if(isRoadLike(c.type)){ roadCells.push({x,y}); if(nearbyCount(x,y,TYPES.RES,2)+nearbyCount(x,y,TYPES.COM,2)+nearbyCount(x,y,TYPES.IND,2)+nearbyCount(x,y,TYPES.FACTORY,2)>0) developedRoads.push({x,y}); }
       if(c.type===TYPES.STATION) railStationCells.push({x,y});
       if(!isZone(c.type)) continue;
       const roadOk = adjacentCount(x,y,isRoadLike)>0;
@@ -907,7 +1279,10 @@ function simulateDay(){
       }
       c.age++;
       let demand = c.type===TYPES.RES?state.demandR:(c.type===TYPES.COM?state.demandC:state.demandI);
+      const land = computeLandValue(x,y);
       let score = demand/100;
+      if(c.type===TYPES.RES || c.type===TYPES.COM) score += (land-50) * .0062;
+      if(c.type===TYPES.IND) score += clamp((58-land)*.0035,-.06,.13);
       if(nearbyAny(x,y,TYPES.PARK,3)) score += .18;
       if(nearbyAny(x,y,TYPES.SCHOOL,6) && c.type===TYPES.RES) score += .14;
       if(nearbyAny(x,y,TYPES.HOSPITAL,6) && c.type===TYPES.RES) score += .12;
@@ -915,10 +1290,13 @@ function simulateDay(){
       if(state.happiness>80) score += .08;
       if(state.powerUse>state.powerCap) score -= .28;
       if(c.type===TYPES.IND && nearbyAny(x,y,TYPES.RES,2)) score -= .15;
+      if(land<30 && (c.type===TYPES.RES || c.type===TYPES.COM)) score -= .12;
+      const cap = realisticLevelCap(x,y,c.type);
+      if(c.level>cap){ c.level=cap; createMeshForCell(x,y,c,false); }
       c.lastScore = score;
-      const growChance = clamp(score*.30/(c.level+1),0,.28);
-      const decayChance = score<.08 ? .05 : 0;
-      if(c.level<MAX_LEVEL && rand()<growChance){ c.level++; createMeshForCell(x,y,c,true); }
+      const growChance = clamp(score*.22/(c.level+1),0,.20);
+      const decayChance = score<.06 ? .035 : 0;
+      if(c.level<cap && rand()<growChance){ c.level++; createMeshForCell(x,y,c,true); }
       else if(c.level>0 && rand()<decayChance){ c.level--; createMeshForCell(x,y,c,false); }
     }
   }
@@ -927,9 +1305,12 @@ function simulateDay(){
   for(let i=0;i<spawnCount;i++) if(developedRoads.length && rand()<.8) { const s=developedRoads[Math.floor(rand()*developedRoads.length)]; spawnVehicle(s.x,s.y); }
   for(let i=0;i<Math.min(8,spawnCount+2);i++) if(developedRoads.length && rand()<.65) { const s=developedRoads[Math.floor(rand()*developedRoads.length)]; spawnPedestrian(s.x,s.y); }
   if(railStationCells.length>=1 && stats.rail>5 && rand()<.45){ const s=railStationCells[Math.floor(rand()*railStationCells.length)]; spawnTrain(s.x,s.y); }
+  maybeGenerateIncidents(stats,developedRoads);
+  checkAchievements();
   state.autoSaveCounter++;
   if(state.autoSaveCounter>=10){ saveGame(false); state.autoSaveCounter=0; }
   updateUI();
+  updateLandValueHeatmap();
 }
 
 // =============================
@@ -973,7 +1354,7 @@ function applyTool(gx,gy){
   state.money -= cost;
   createMeshForCell(gx,gy,cell,true);
   updateCellAndNeighbors(gx,gy);
-  updateStatsImmediate(); updateUI();
+  updateStatsImmediate(); updateUI(); updateLandValueHeatmap();
   saveGame(false);
 }
 function setTool(tool,btn){
@@ -987,7 +1368,7 @@ function setTool(tool,btn){
   toast(tool==='pointer'?'カメラ操作モード':`${toolLabel(tool)} モード`);
 }
 function toolLabel(tool){
-  const map={road:'道路',rail:'線路',station:'駅',res:'住宅',com:'商業',ind:'産業',park:'公園',school:'学校',hospital:'病院',power:'発電所',bulldoze:'撤去',pointer:'カメラ'};
+  const map={road:'道路',rail:'線路',station:'駅',res:'住宅',com:'商業',ind:'産業',park:'公園',school:'学校',hospital:'病院',fire:'消防署',police:'警察署',power:'発電所',factory:'大工場',library:'図書館',bulldoze:'撤去',pointer:'カメラ'};
   return map[tool]||tool;
 }
 container.addEventListener('pointerdown',e=>{
@@ -1019,7 +1400,8 @@ document.querySelectorAll('.speed-btn').forEach(btn=>btn.addEventListener('click
 }));
 
 document.getElementById('toggle-night').addEventListener('click',e=>{ state.forceNight=!state.forceNight; e.currentTarget.classList.toggle('active',state.forceNight); updateLighting(); saveGame(false); toast(state.forceNight?'夜景モード ON':'夜景モード OFF'); });
-document.getElementById('toggle-quality').addEventListener('click',e=>{ state.highQuality=!state.highQuality; e.currentTarget.classList.toggle('active',state.highQuality); renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,state.highQuality?1.75:1.05)); renderer.shadowMap.enabled=state.highQuality; saveGame(false); toast(state.highQuality?'高画質モード':'軽量モード'); });
+document.getElementById('toggle-quality').addEventListener('click',e=>{ state.highQuality=!state.highQuality; e.currentTarget.classList.toggle('active',state.highQuality); renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,state.highQuality?1.75:1.05)); renderer.shadowMap.enabled=state.highQuality; buildVisibleMeshes(true); saveGame(false); toast(state.highQuality?'高画質モード':'軽量モード'); });
+document.getElementById('toggle-land').addEventListener('click',e=>{ state.showLandValue=!state.showLandValue; e.currentTarget.classList.toggle('active',state.showLandValue); updateLandValueHeatmap(); saveGame(false); toast(state.showLandValue?'地価表示 ON':'地価表示 OFF'); });
 document.getElementById('btn-save').addEventListener('click',()=>saveGame(true));
 document.getElementById('btn-reset').addEventListener('click',()=>{
   if(confirm('街を最初から作り直しますか？')){ localStorage.removeItem(SAVE_KEY); resetGame(); toast('新しい街を生成しました'); }
@@ -1032,6 +1414,8 @@ function updateTooltip(cx,cy,gx,gy){
   const tooltip=document.getElementById('tooltip');
   if(state.selectedTool!=='pointer'){ tooltip.classList.add('hidden'); return; }
   const c=cellAt(gx,gy); if(!c) return;
+  const land = Math.round(computeLandValue(gx,gy));
+  const landInfo = `地価 ${land} / ランク ${landValueRank(land)}`;
   let title=TYPE_NAME[c.type] || 'セル'; let desc='開発可能な土地です。'; let hint='';
   if(c.type===TYPES.WATER) desc='水辺です。ここには建設できません。';
   else if(c.type===TYPES.TREE) desc='自然林です。公園や道路にできます。';
@@ -1042,12 +1426,19 @@ function updateTooltip(cx,cy,gx,gy){
   else if(c.type===TYPES.SCHOOL) desc='学校です。住宅地の価値と幸福度を上げます。';
   else if(c.type===TYPES.HOSPITAL) desc='病院です。幸福度を大きく上げます。';
   else if(c.type===TYPES.POWER) desc='発電所です。都市全体に電力を供給します。';
+  else if(c.type===TYPES.FIRE) desc='消防署です。火災リスクを下げ、火災の被害を小さくします。';
+  else if(c.type===TYPES.POLICE) desc='警察署です。治安リスクと交通事故リスクを下げます。';
+  else if(c.type===TYPES.FACTORY) desc='大工場です。雇用と産業需要を増やしますが、地価と火災リスクに注意が必要です。';
+  else if(c.type===TYPES.LIBRARY) desc='図書館です。地価・幸福度・治安を少し改善します。';
   else if(isZone(c.type)){
-    desc = c.level===0 ? '建設予定地です。道路につながると建物が成長します。' : `レベル ${c.level} / ${MAX_LEVEL} の建物です。成長スコア ${Math.round(c.lastScore*100)}%`;
+    const cap=realisticLevelCap(gx,gy,c.type);
+    desc = c.level===0 ? `建設予定地です。道路につながると建物が成長します。高さ上限 Lv.${cap}` : `レベル ${c.level} / 高さ上限 ${cap} の建物です。成長スコア ${Math.round(c.lastScore*100)}%`;
     if(adjacentCount(gx,gy,isRoadLike)===0) hint='道路を横につなげると発展します。';
     else if(state.powerUse>state.powerCap) hint='電力不足です。発電所を追加してください。';
+    else if(land<35) hint='地価が低めです。駅・公園・学校・病院を近くに置くと改善します。';
     else if(c.type===TYPES.RES && !nearbyAny(gx,gy,TYPES.PARK,3)) hint='近くに公園を置くと成長しやすくなります。';
   }
+  if(c.type!==TYPES.WATER) desc += `\n${landInfo}`;
   document.getElementById('tt-title').innerText=title;
   document.getElementById('tt-desc').innerText=desc;
   const h=document.getElementById('tt-hint'); if(hint){h.innerText='💡 '+hint;h.classList.remove('hidden');}else h.classList.add('hidden');
@@ -1070,6 +1461,16 @@ function updateUI(){
   document.getElementById('ui-power').innerText=state.powerUse>state.powerCap?'不足':'OK';
   document.getElementById('ui-power').className='text-xl font-black '+(state.powerUse>state.powerCap?'text-red-400':'text-emerald-400');
   document.getElementById('ui-rail').innerText=state.stationCount+'駅';
+  document.getElementById('ui-land').innerText=state.avgLandValue;
+  const rank=landValueRank(state.avgLandValue);
+  document.getElementById('ui-land-rank').innerText=rank;
+  document.getElementById('ui-land-rank').className='text-xl font-black '+(rank==='S'||rank==='A'?'text-emerald-300':rank==='B'?'text-sky-300':rank==='C'?'text-yellow-300':'text-red-300');
+  const safetyEl=document.getElementById('ui-safety'); if(safetyEl){ safetyEl.innerText=state.safety+'%'; safetyEl.className='text-xl font-black '+(state.safety>=75?'text-emerald-300':state.safety>=50?'text-yellow-300':'text-red-300'); }
+  const setRisk=(id,v)=>{ const el=document.getElementById(id); if(el) el.innerText=v+'%'; };
+  setRisk('ui-fire-risk',state.fireRisk); setRisk('ui-crime-risk',state.crimeRisk); setRisk('ui-accident-risk',state.accidentRisk); setRisk('ui-blackout-risk',state.blackoutRisk);
+  const log=document.getElementById('ui-event-log'); if(log) log.innerHTML=(state.eventLog&&state.eventLog.length)?state.eventLog.map(e=>'Day '+e.day+' '+String(e.hour||0).padStart(2,'0')+':00　'+e.text).join('<br>'):'まだ大きな事件はありません';
+  const achCount=Object.keys(state.achievements||{}).length; const achEl=document.getElementById('ui-ach-count'); if(achEl) achEl.innerText=achCount+'/'+ACHIEVEMENTS.length;
+  const achList=document.getElementById('ui-achievements'); if(achList) achList.innerHTML=ACHIEVEMENTS.filter(a=>state.achievements&&state.achievements[a.id]).slice(-4).map(a=>'<span class="achievement-chip">'+a.name+'</span>').join('');
   document.getElementById('demand-r').style.height=state.demandR+'%';
   document.getElementById('demand-c').style.height=state.demandC+'%';
   document.getElementById('demand-i').style.height=state.demandI+'%';
@@ -1102,12 +1503,12 @@ function serializeGrid(){
 function saveGame(show=true){
   try{
     const data={
-      version:2,
+      version:5,
       money:state.money, day:state.day, hour:state.hour, speed:state.speed,
       demandR:state.demandR, demandC:state.demandC, demandI:state.demandI,
       incomeLastDay:state.incomeLastDay, upkeepLastDay:state.upkeepLastDay,
-      highQuality:state.highQuality, forceNight:state.forceNight,
-      population:state.population, jobs:state.jobs, happiness:state.happiness,
+      highQuality:state.highQuality, forceNight:state.forceNight, showLandValue:state.showLandValue, avgLandValue:state.avgLandValue,
+      population:state.population, jobs:state.jobs, happiness:state.happiness, safety:state.safety, fireRisk:state.fireRisk, crimeRisk:state.crimeRisk, accidentRisk:state.accidentRisk, blackoutRisk:state.blackoutRisk, incidentsResolved:state.incidentsResolved, eventLog:state.eventLog, achievements:state.achievements,
       grid:serializeGrid(), savedAt:Date.now()
     };
     localStorage.setItem(SAVE_KEY,JSON.stringify(data));
@@ -1117,20 +1518,26 @@ function saveGame(show=true){
 function loadGame(){
   try{
     const raw=localStorage.getItem(SAVE_KEY); if(!raw) return false;
-    const data=JSON.parse(raw); if(!data.grid || data.grid.length!==ROWS) return false;
+    const data=JSON.parse(raw); if(!data.grid || !Array.isArray(data.grid)) return false;
+    const oldRows=data.grid.length;
+    const oldCols=Array.isArray(data.grid[0]) ? data.grid[0].length : 0;
     state.money=data.money??state.money; state.day=data.day??1; state.hour=data.hour??6;
     state.speed=data.speed??1; state.demandR=data.demandR??state.demandR; state.demandC=data.demandC??state.demandC; state.demandI=data.demandI??state.demandI;
     state.incomeLastDay=data.incomeLastDay??0; state.upkeepLastDay=data.upkeepLastDay??0;
-    state.highQuality=data.highQuality??state.highQuality; state.forceNight=data.forceNight??false;
+    state.highQuality=data.highQuality??state.highQuality; state.forceNight=data.forceNight??false; state.showLandValue=data.showLandValue??false; state.avgLandValue=data.avgLandValue??50;
     state.population=data.population??0; state.jobs=data.jobs??0; state.happiness=data.happiness??82;
-    state.grid=[];
-    for(let y=0;y<ROWS;y++){
-      const row=[];
-      for(let x=0;x<COLS;x++){
-        const d=data.grid[y][x];
-        const c=newCell(d[0]); c.level=d[1]||0; c.seed=d[2]||hash01(x,y,31); c.age=d[3]||0; c.lastScore=d[4]||0; row.push(c);
+    state.safety=data.safety??92; state.fireRisk=data.fireRisk??8; state.crimeRisk=data.crimeRisk??6; state.accidentRisk=data.accidentRisk??7; state.blackoutRisk=data.blackoutRisk??4; state.incidentsResolved=data.incidentsResolved??0; state.eventLog=Array.isArray(data.eventLog)?data.eventLog:[]; state.achievements=data.achievements||{};
+    // 旧96x96などの保存データは、巨大マップの中央へ自動移行する
+    initGrid();
+    const offX=Math.floor((COLS-oldCols)/2);
+    const offY=Math.floor((ROWS-oldRows)/2);
+    for(let y=0;y<oldRows;y++){
+      for(let x=0;x<oldCols;x++){
+        const d=data.grid[y] && data.grid[y][x];
+        const nx=x+offX, ny=y+offY;
+        if(!d || !inside(nx,ny)) continue;
+        const c=newCell(d[0]); c.level=d[1]||0; c.seed=d[2]||hash01(nx,ny,31); c.age=d[3]||0; c.lastScore=d[4]||0; state.grid[ny][nx]=c;
       }
-      state.grid.push(row);
     }
     return true;
   }catch(e){ return false; }
@@ -1138,6 +1545,8 @@ function loadGame(){
 function syncSavedSettingsUI(){
   document.getElementById('toggle-night').classList.toggle('active',state.forceNight);
   document.getElementById('toggle-quality').classList.toggle('active',state.highQuality);
+  document.getElementById('toggle-land').classList.toggle('active',state.showLandValue);
+  updateLandValueHeatmap();
   renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,state.highQuality?1.75:1.05));
   renderer.shadowMap.enabled=state.highQuality;
   document.querySelectorAll('.speed-btn').forEach(b=>b.classList.toggle('active',parseInt(b.dataset.speed,10)===state.speed));
@@ -1145,9 +1554,9 @@ function syncSavedSettingsUI(){
 window.addEventListener('beforeunload',()=>saveGame(false));
 document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='hidden') saveGame(false); });
 function resetGame(){
-  randSeed=913257; state.money=52000; state.population=0; state.jobs=0; state.day=1; state.hour=6; state.speed=1; state.demandR=65; state.demandC=25; state.demandI=25;
-  vehicles.splice(0).forEach(v=>dynamicGroup.remove(v.mesh)); pedestrians.splice(0).forEach(p=>dynamicGroup.remove(p.mesh)); trains.splice(0).forEach(t=>dynamicGroup.remove(t.group)); smokeParticles.splice(0).forEach(p=>dynamicGroup.remove(p.mesh));
-  initGrid(); buildAllMeshes(); updateStatsImmediate(); updateUI(); updateLighting(); saveGame(false);
+  randSeed=913257; state.money=52000; state.population=0; state.jobs=0; state.day=1; state.hour=6; state.speed=1; state.demandR=65; state.demandC=25; state.demandI=25; state.avgLandValue=50; state.safety=92; state.fireRisk=8; state.crimeRisk=6; state.accidentRisk=7; state.blackoutRisk=4; state.incidentsResolved=0; state.eventLog=[]; state.achievements={}; state.showLandValue=false;
+  vehicles.splice(0).forEach(v=>dynamicGroup.remove(v.mesh)); pedestrians.splice(0).forEach(p=>dynamicGroup.remove(p.mesh)); trains.splice(0).forEach(t=>dynamicGroup.remove(t.group)); smokeParticles.splice(0).forEach(p=>dynamicGroup.remove(p.mesh)); incidents.splice(0).forEach(i=>{if(i.marker) dynamicGroup.remove(i.marker);});
+  initGrid(); buildAllMeshes(); const bootStats=updateStatsImmediate(); updateSafetyMetrics(bootStats); updateUI(); updateLighting(); updateLandValueHeatmap(); saveGame(false);
 }
 
 // =============================
@@ -1170,6 +1579,7 @@ function animate(){
     if(state.tickCounter>820){ state.tickCounter=0; simulateDay(); updateLighting(); }
     updateTraffic(delta*worldSpeed);
     updateSmoke(delta*worldSpeed);
+    updateIncidents(delta*worldSpeed);
     if(smokeEmitters.length && rand()<.12*worldSpeed){ const e=smokeEmitters[Math.floor(rand()*smokeEmitters.length)]; spawnSmoke(e.x+.25,e.y,e.z+.25); }
     for(let i=buildingAnimations.length-1;i>=0;i--){
       const a=buildingAnimations[i]; a.t+=delta*a.speed*worldSpeed; const s=clamp(a.t,0,1); a.obj.scale.y=.02 + (1-.02)*(1-Math.pow(1-s,3));
@@ -1180,16 +1590,18 @@ function animate(){
   const t=performance.now()*0.001;
   matWater.opacity = .78 + Math.sin(t)*.04;
   matWaterDeep.opacity = .74 + Math.sin(t*.9+.5)*.035;
-  controls.update(); renderer.render(scene,camera);
+  controls.update();
+  buildVisibleMeshes(false);
+  renderer.render(scene,camera);
 }
 
 // 起動
 if(!loadGame()) initGrid();
 buildAllMeshes();
 syncSavedSettingsUI();
-updateStatsImmediate(); updateUI(); updateLighting();
+const bootStats=updateStatsImmediate(); updateSafetyMetrics(bootStats); updateUI(); updateLighting(); updateLandValueHeatmap();
 setTimeout(()=>cover.classList.add('hide'),600);
-toast('完全版の街づくりを開始しました');
+toast('6倍巨大マップ・軽量描画版を開始しました');
 animate();
 })();
 </script>
