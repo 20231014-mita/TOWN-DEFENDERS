@@ -22,15 +22,15 @@ html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#030712;col
 .speed-btn.active,.mini-btn.active{background:#2563eb;color:#fff;box-shadow:0 8px 24px rgba(37,99,235,.35)}
 .demand-bar{transition:height .45s ease}.no-scrollbar::-webkit-scrollbar{display:none}.no-scrollbar{scrollbar-width:none}
 #toast{position:fixed;left:50%;bottom:120px;transform:translateX(-50%) translateY(20px);opacity:0;transition:.25s ease;z-index:50;pointer-events:none;max-width:min(92vw,620px)}#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-#loading-cover{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 30%,#1e3a8a,#020617 68%);transition:opacity .5s ease;pointer-events:none}#loading-cover.hide{opacity:0}
+#loading-cover{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 30%,#1e3a8a,#020617 68%);transition:opacity .5s ease;pointer-events:none}#loading-cover.hide{opacity:0;visibility:hidden}
 .loader{width:42px;height:42px;border:3px solid rgba(255,255,255,.2);border-top-color:white;border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
 .log-line{font-size:10px;line-height:1.35;color:#cbd5e1;border-top:1px solid rgba(255,255,255,.08);padding-top:6px;margin-top:6px}.pill{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:11px;font-weight:900;background:rgba(15,23,42,.72);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:6px 8px}
 .toolbar{touch-action:pan-x;overscroll-behavior:contain}.right-panel{overscroll-behavior:contain}.toolbar button{white-space:nowrap}
-@media(max-width:780px){.hud-wrap{left:8px!important;right:8px!important;top:8px!important;gap:8px!important;align-items:flex-start!important}.hud-main{padding:10px!important;gap:12px!important;flex-wrap:wrap!important}.hud-main .stat-block{min-width:74px}.hud-main .stat-num{font-size:17px!important}.right-panel{top:98px!important;right:8px!important;width:202px!important;padding:10px!important;max-height:calc(100vh - 210px);overflow:auto}.demand-panel{left:8px!important;bottom:104px!important;padding:10px!important}.toolbar{left:8px!important;right:8px!important;bottom:8px!important;transform:none!important;overflow-x:auto;justify-content:flex-start!important;border-radius:18px!important}.tool-btn{min-width:58px!important;width:58px!important;height:58px!important}.tool-btn span{font-size:9px!important}}
+@media(max-width:780px){.hud-wrap{left:8px!important;right:8px!important;top:8px!important;gap:8px!important;align-items:flex-start!important}.hud-main{padding:10px!important;gap:12px!important;flex-wrap:wrap!important}.hud-main .stat-block{min-width:74px}.hud-main .stat-num{font-size:17px!important}.right-panel{top:98px!important;right:8px!important;width:202px!important;padding:10px!important;max-height:calc(100vh - 210px);overflow:auto}.demand-panel{left:8px!important;bottom:104px!important;padding:10px!important}.toolbar{left:8px!important;right:8px!important;bottom:8px!important;transform:none!important;overflow-x:auto;overflow-y:hidden;justify-content:flex-start!important;border-radius:18px!important;-webkit-overflow-scrolling:touch;touch-action:pan-x}.tool-btn{min-width:58px!important;width:58px!important;height:58px!important}.tool-btn span{font-size:9px!important}}
 </style>
 </head>
 <body oncontextmenu="return false;">
-<div id="loading-cover"><div class="text-center"><div class="loader mx-auto mb-4"></div><div class="font-black tracking-widest text-sm text-slate-200">MICRO SKYLINES CONSTRUCTION QUALITY</div><div class="text-xs text-slate-400 mt-2">gradual construction / high quality buildings / stable save</div></div></div>
+<div id="loading-cover"><div class="text-center"><div class="loader mx-auto mb-4"></div><div class="font-black tracking-widest text-sm text-slate-200">MICRO SKYLINES AIRPORT STABLE COMPLETE</div><div class="text-xs text-slate-400 mt-2">smooth trains / airport / stable mobile boot</div></div></div>
 <div id="canvas-container"></div>
 
 <div class="hud-wrap fixed top-4 left-4 right-4 z-20 flex justify-between gap-4 pointer-events-none">
@@ -116,9 +116,38 @@ html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#030712;col
 if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
 const cover = document.getElementById('loading-cover');
 const container = document.getElementById('canvas-container');
-if (!window.THREE || !THREE.OrbitControls) {
+// 起動中にエラーが起きても、ローディング画面で止まらないようにする保険
+const BOOT_IS_MOBILE = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || Math.min(window.innerWidth, window.innerHeight) < 820;
+const safeHideCover = () => { try { if (cover) cover.classList.add('hide'); } catch(e){} };
+setTimeout(safeHideCover, BOOT_IS_MOBILE ? 700 : 950);
+window.addEventListener('error', (ev) => {
+  console.error('Micro Skylines boot error:', ev.message, ev.error);
+  safeHideCover();
+  const t = document.getElementById('toast');
+  if (t) { t.textContent = '起動エラーを検知しました。ページを再読み込みしてください。'; t.classList.add('show'); }
+});
+window.addEventListener('unhandledrejection', (ev) => {
+  console.error('Micro Skylines promise error:', ev.reason);
+  safeHideCover();
+});
+if (!window.THREE) {
   cover.innerHTML = '<div class="glass-panel p-6 text-center"><div class="font-black text-xl mb-2">読み込みに失敗しました</div><div class="text-sm text-slate-300">Three.js を読み込めませんでした。ネット接続を確認してください。</div></div>';
   return;
+}
+// OrbitControls のCDNだけ失敗してもゲームを起動できる簡易カメラ操作
+if (!THREE.OrbitControls) {
+  THREE.OrbitControls = class {
+    constructor(camera, dom){
+      this.object=camera; this.domElement=dom; this.target=new THREE.Vector3(); this.enabled=true;
+      this.enableDamping=true; this.dampingFactor=.06; this.minDistance=7; this.maxDistance=260; this.maxPolarAngle=Math.PI/2-.035; this.rotateSpeed=.7; this.panSpeed=.85;
+      this._drag=false; this._last={x:0,y:0};
+      dom.addEventListener('pointerdown', e=>{ if(!this.enabled) return; this._drag=true; this._last={x:e.clientX,y:e.clientY}; dom.setPointerCapture?.(e.pointerId); });
+      dom.addEventListener('pointermove', e=>{ if(!this.enabled||!this._drag) return; const dx=e.clientX-this._last.x, dy=e.clientY-this._last.y; this._last={x:e.clientX,y:e.clientY}; const off=this.object.position.clone().sub(this.target); const sph=new THREE.Spherical().setFromVector3(off); sph.theta-=dx*.006*this.rotateSpeed; sph.phi=clamp(sph.phi+dy*.006*this.rotateSpeed,.15,this.maxPolarAngle); off.setFromSpherical(sph); this.object.position.copy(this.target).add(off); this.object.lookAt(this.target); });
+      window.addEventListener('pointerup',()=>{this._drag=false;});
+      dom.addEventListener('wheel', e=>{ if(!this.enabled) return; e.preventDefault(); const off=this.object.position.clone().sub(this.target); const m=e.deltaY>0?1.09:.92; off.multiplyScalar(m); const len=clamp(off.length(),this.minDistance,this.maxDistance); off.setLength(len); this.object.position.copy(this.target).add(off); this.object.lookAt(this.target); }, {passive:false});
+    }
+    update(){ this.object.lookAt(this.target); }
+  };
 }
 
 const COLS = 180, ROWS = 180;
@@ -153,12 +182,12 @@ function newCell(type=TYPES.EMPTY){return {type,level:0,age:0,meshObj:null,seed:
 function isMultiRootCell(c,x,y){return isMultiFacility(c.type)&&c.masterX===x&&c.masterY===y;}
 function isMultiSubCell(c,x,y){return isMultiFacility(c.type)&&!(c.masterX===x&&c.masterY===y);}
 
-const state = {grid:[],money:65000,population:0,jobs:0,happiness:82,traffic:0,day:1,hour:7,tickCounter:0,speed:1,selectedTool:'pointer',isDraggingTool:false,demandR:65,demandC:30,demandI:25,demandT:18,incomeLastDay:0,upkeepLastDay:0,powerUse:0,powerCap:0,railCount:0,stationCount:0,avgLandValue:50,safety:92,fireRisk:8,crimeRisk:6,accidentRisk:7,blackoutRisk:4,tourists:0,touristIncomeLastDay:0,tourismScore:0,hotelCapacity:0,accessScore:0,attractionCount:0,topAttraction:'',busRouteActive:false,busRouteStops:0,busRouteLength:0,lastBusNetworkKey:'',congestionLevel:0,worstIntersection:'なし',busPriorityActive:true,busPrioritySavedSeconds:0,eventLog:[],citizenNeed:'街は安定しています',flightCount:0,airportCount:0,highQuality:true,forceNight:false,workLight:true,lastAppliedKey:'',autoSaveCounter:0};
+const state = {grid:[],money:65000,population:0,jobs:0,happiness:82,traffic:0,day:1,hour:7,tickCounter:0,speed:1,selectedTool:'pointer',isDraggingTool:false,demandR:65,demandC:30,demandI:25,demandT:18,incomeLastDay:0,upkeepLastDay:0,powerUse:0,powerCap:0,railCount:0,stationCount:0,avgLandValue:50,safety:92,fireRisk:8,crimeRisk:6,accidentRisk:7,blackoutRisk:4,tourists:0,touristIncomeLastDay:0,tourismScore:0,hotelCapacity:0,accessScore:0,attractionCount:0,topAttraction:'',busRouteActive:false,busRouteStops:0,busRouteLength:0,lastBusNetworkKey:'',congestionLevel:0,worstIntersection:'なし',busPriorityActive:true,busPrioritySavedSeconds:0,eventLog:[],citizenNeed:'街は安定しています',flightCount:0,airportCount:0,highQuality:!BOOT_IS_MOBILE,forceNight:false,workLight:true,lastAppliedKey:'',autoSaveCounter:0};
 function cellAt(x,y){return inside(x,y)?state.grid[y][x]:null;}
 
 const scene = new THREE.Scene(); scene.background = new THREE.Color(0x8fc8ee); scene.fog = new THREE.FogExp2(0x8fc8ee,.009);
 const camera = new THREE.PerspectiveCamera(48,window.innerWidth/window.innerHeight,.1,800); camera.position.set(CENTER_X+24,46,CENTER_Z+58);
-const renderer = new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance',alpha:false}); renderer.setSize(window.innerWidth,window.innerHeight); renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.55)); renderer.outputEncoding = THREE.sRGBEncoding; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.1; renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap; container.appendChild(renderer.domElement);
+const renderer = new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance',alpha:false}); renderer.setSize(window.innerWidth,window.innerHeight); renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, BOOT_IS_MOBILE ? 1.0 : 1.45)); renderer.outputEncoding = THREE.sRGBEncoding; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.1; renderer.shadowMap.enabled = !BOOT_IS_MOBILE; renderer.shadowMap.type = THREE.PCFSoftShadowMap; container.appendChild(renderer.domElement);
 const controls = new THREE.OrbitControls(camera,renderer.domElement); controls.target.set(CENTER_X,0,CENTER_Z); controls.enableDamping=true; controls.dampingFactor=.06; controls.minDistance=7; controls.maxDistance=260; controls.maxPolarAngle=Math.PI/2-.035; controls.rotateSpeed=.7; controls.panSpeed=.85;
 const hemiLight = new THREE.HemisphereLight(0xdbeafe,0x293c18,.85); scene.add(hemiLight); const sun = new THREE.DirectionalLight(0xfff1d2,2.25); sun.position.set(COLS*.8,78,ROWS*.24); sun.castShadow=true; sun.shadow.mapSize.set(1536,1536); sun.shadow.camera.near=.5; sun.shadow.camera.far=170; sun.shadow.camera.left=-58; sun.shadow.camera.right=58; sun.shadow.camera.top=58; sun.shadow.camera.bottom=-58; sun.shadow.bias=-.0007; scene.add(sun); const moon = new THREE.DirectionalLight(0xb7d0ff,0); moon.position.set(-38,55,-24); scene.add(moon); const workLight = new THREE.DirectionalLight(0xf4fbff,.4); workLight.position.set(CENTER_X-30,70,CENTER_Z+40); scene.add(workLight);
 
@@ -360,7 +389,7 @@ function createMulti(g,x,y,type,c){
 function createMeshForCell(x,y,c,animate=false){removeCellMesh(c);removeSmokeEmitterAt(x,y);if(isMultiSubCell(c,x,y))return;if(!visibleCellKeys.has(cellKey(x,y))||c.type===TYPES.EMPTY)return;const g=new THREE.Group();g.position.set(x,0,y);g.userData.gridX=x;g.userData.gridY=y;if(c.type===TYPES.WATER)createWater(g,x,y);else if(c.type===TYPES.TREE)createTree(g,x,y,.85+hash01(x,y,7)*.45);else if(c.type===TYPES.ROAD)createRoad(g,x,y);else if(c.type===TYPES.RAIL)createRail(g,x,y);else if(c.type===TYPES.CROSSING)createCrossing(g,x,y);else if(c.type===TYPES.BUSSTOP)createBusStop(g,x,y);else if(c.type===TYPES.PARK)createPark(g,x,y);else if(isZone(c.type))createBuilding(g,x,y,c);else if(c.type===TYPES.STATION)createStation(g,x,y);else if(c.type===TYPES.SCHOOL)createSimpleFacility(g,'SCHOOL',0x8b5cf6,makeMat(0xb45309,.76,0),c,c.type);else if(c.type===TYPES.HOSPITAL)createSimpleFacility(g,'HOSPITAL',0xf43f5e,matWhite,c,c.type);else if(c.type===TYPES.POWER){createSimpleFacility(g,'POWER',0xfacc15,makeMat(0x3f3f46,.52,.55),c,c.type);if(constructionProgress(c,c.type)>.82)addSmokeEmitter(x,y,1.6);}else if(c.type===TYPES.FIRE)createSimpleFacility(g,'FIRE',0xef4444,matFireRed,c,c.type);else if(c.type===TYPES.POLICE)createSimpleFacility(g,'POLICE',0x3b82f6,matWhite,c,c.type);else if(c.type===TYPES.FACTORY){createSimpleFacility(g,'FACTORY',0x71717a,makeMat(0x52525b,.62,.44),c,c.type);if(constructionProgress(c,c.type)>.82)addSmokeEmitter(x,y,1.2);}else if(c.type===TYPES.LIBRARY)createSimpleFacility(g,'LIBRARY',0x6366f1,makeMat(0x9a3412,.78,0),c,c.type);else if(isMultiFacility(c.type))createMulti(g,x,y,c.type,c);meshGroup.add(g);c.meshObj=g;if(animate){g.scale.y=.02;buildingAnimations.push({obj:g,t:0,speed:1.8+hash01(x,y,13)});}}
 function updateCellAndNeighbors(x,y){[[x,y],[x-1,y],[x+1,y],[x,y-1],[x,y+1]].forEach(([px,py])=>{if(inside(px,py)){const c=state.grid[py][px];if(c.type!==TYPES.EMPTY)createMeshForCell(px,py,c,false);}});}
 function clearRenderedMeshes(){for(const key of renderedCellKeys){const [x,y]=key.split(',').map(Number);const c=cellAt(x,y);if(c){c.meshObj=null;c.glowObj=null;}}meshGroup.clear();streetLights.length=0;smokeEmitters.length=0;parkActors.length=0;crossingObjects.length=0;signalObjects.length=0;renderedCellKeys.clear();visibleCellKeys.clear();buildingAnimations.length=0;}
-function buildVisibleMeshes(force=false){const cx=clamp(Math.round(controls.target.x),0,COLS-1),cy=clamp(Math.round(controls.target.z),0,ROWS-1),threshold=state.highQuality?6:9;if(!force&&Math.abs(cx-lastRenderCX)<threshold&&Math.abs(cy-lastRenderCY)<threshold)return;lastRenderCX=cx;lastRenderCY=cy;clearRenderedMeshes();const r=state.highQuality?46:34;for(let y=Math.max(0,cy-r);y<=Math.min(ROWS-1,cy+r);y++)for(let x=Math.max(0,cx-r);x<=Math.min(COLS-1,cx+r);x++)visibleCellKeys.add(cellKey(x,y));for(let y=Math.max(0,cy-r);y<=Math.min(ROWS-1,cy+r);y++)for(let x=Math.max(0,cx-r);x<=Math.min(COLS-1,cx+r);x++){const c=state.grid[y][x];if(c.type!==TYPES.EMPTY){renderedCellKeys.add(cellKey(x,y));createMeshForCell(x,y,c,false);}}updateLighting();}
+function buildVisibleMeshes(force=false){const cx=clamp(Math.round(controls.target.x),0,COLS-1),cy=clamp(Math.round(controls.target.z),0,ROWS-1),threshold=state.highQuality?6:9;if(!force&&Math.abs(cx-lastRenderCX)<threshold&&Math.abs(cy-lastRenderCY)<threshold)return;lastRenderCX=cx;lastRenderCY=cy;clearRenderedMeshes();const r=state.highQuality?(BOOT_IS_MOBILE?28:38):(BOOT_IS_MOBILE?18:26);for(let y=Math.max(0,cy-r);y<=Math.min(ROWS-1,cy+r);y++)for(let x=Math.max(0,cx-r);x<=Math.min(COLS-1,cx+r);x++)visibleCellKeys.add(cellKey(x,y));for(let y=Math.max(0,cy-r);y<=Math.min(ROWS-1,cy+r);y++)for(let x=Math.max(0,cx-r);x<=Math.min(COLS-1,cx+r);x++){const c=state.grid[y][x];if(c.type!==TYPES.EMPTY){renderedCellKeys.add(cellKey(x,y));createMeshForCell(x,y,c,false);}}updateLighting();}
 function getGridIntersect(event){const rect=renderer.domElement.getBoundingClientRect();let cx=event.clientX,cy=event.clientY;if(event.touches&&event.touches[0]){cx=event.touches[0].clientX;cy=event.touches[0].clientY;}mouse.x=((cx-rect.left)/rect.width)*2-1;mouse.y=-((cy-rect.top)/rect.height)*2+1;raycaster.setFromCamera(mouse,camera);const hit=raycaster.intersectObject(ground,false)[0];return hit?{x:Math.round(hit.point.x),y:Math.round(hit.point.z),clientX:cx,clientY:cy}:null;}
 function canPlaceOn(c,type){if(!c||c.type===TYPES.WATER||isMultiFacility(c.type))return false;if(type===TYPES.ROAD&&c.type===TYPES.RAIL)return true;if(type===TYPES.RAIL&&c.type===TYPES.ROAD)return true;if(type===TYPES.ROAD||type===TYPES.RAIL||type===TYPES.PARK)return c.type===TYPES.EMPTY||c.type===TYPES.TREE;if(type===TYPES.STATION)return c.type===TYPES.RAIL||c.type===TYPES.EMPTY||c.type===TYPES.TREE;if(type===TYPES.BUSSTOP)return c.type===TYPES.ROAD||c.type===TYPES.EMPTY||c.type===TYPES.TREE;return c.type===TYPES.EMPTY||c.type===TYPES.TREE;}
 function canPlaceMulti(sx,sy,def){for(let yy=sy;yy<sy+def.h;yy++)for(let xx=sx;xx<sx+def.w;xx++){if(!inside(xx,yy))return false;const c=cellAt(xx,yy);if(!c||!(c.type===TYPES.EMPTY||c.type===TYPES.TREE))return false;}return true;}
@@ -498,7 +527,24 @@ const toolbar=document.getElementById('toolbar');toolbar.addEventListener('wheel
 window.addEventListener('beforeunload',()=>saveGame(false));document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')saveGame(false);});
 const clock=new THREE.Clock();function simSpeedFactor(){if(state.speed===0)return 0;if(state.speed===1)return .55;if(state.speed===3)return 3;return state.speed;}
 function animate(){requestAnimationFrame(animate);const delta=Math.min(.05,clock.getDelta()),worldSpeed=simSpeedFactor();if(worldSpeed>0){state.tickCounter+=delta*1000*worldSpeed;if(state.tickCounter>820){state.tickCounter=0;simulateDay();updateLighting();}updateTraffic(delta*worldSpeed);for(let i=buildingAnimations.length-1;i>=0;i--){const a=buildingAnimations[i];a.t+=delta*a.speed*worldSpeed;const s=clamp(a.t,0,1);a.obj.scale.y=.02+(1-.02)*(1-Math.pow(1-s,3));if(s>=1){a.obj.scale.y=1;buildingAnimations.splice(i,1);}}}updateParkActors(delta);updateCrossings();updateTrafficSignals();matWater.opacity=.78+Math.sin(performance.now()*.001)*.04;controls.update();buildVisibleMeshes(false);renderer.render(scene,camera);}
-if(!loadGame())initGrid();buildVisibleMeshes(true);updateStatsImmediate();updateUI();updateLighting();document.getElementById('toggle-night').classList.toggle('active',state.forceNight);document.getElementById('toggle-quality').classList.toggle('active',state.highQuality);document.getElementById('toggle-worklight').classList.toggle('active',state.workLight);document.querySelectorAll('.speed-btn').forEach(b=>b.classList.toggle('active',parseInt(b.dataset.speed,10)===state.speed));setTimeout(()=>cover.classList.add('hide'),600);toast('修正版を開始しました。5両編成は駅中央で3秒停車します。');animate();
+try{
+  if(!loadGame())initGrid();
+  updateStatsImmediate();updateUI();updateLighting();
+  document.getElementById('toggle-night').classList.toggle('active',state.forceNight);
+  document.getElementById('toggle-quality').classList.toggle('active',state.highQuality);
+  document.getElementById('toggle-worklight').classList.toggle('active',state.workLight);
+  document.querySelectorAll('.speed-btn').forEach(b=>b.classList.toggle('active',parseInt(b.dataset.speed,10)===state.speed));
+  // 最初の重い描画を1フレーム遅らせて、Safari/iPadでローディングが固まるのを防ぐ
+  requestAnimationFrame(()=>{
+    try{ buildVisibleMeshes(true); updateStatsImmediate(); updateUI(); updateLighting(); safeHideCover(); toast('完全安定版を開始しました。空港・電車・保存を修正済みです。'); }
+    catch(e){ console.error('initial render failed',e); safeHideCover(); toast('初期描画を軽量モードで再試行します'); state.highQuality=false; try{ buildVisibleMeshes(true); }catch(err){console.error(err);} }
+  });
+  animate();
+}catch(e){
+  console.error('boot failed',e);
+  safeHideCover();
+  const t=document.getElementById('toast'); if(t){t.textContent='起動エラーを修正用に検知しました。再読み込みしてください。'; t.classList.add('show');}
+}
 })();
 </script>
 </body>
