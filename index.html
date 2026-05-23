@@ -23,11 +23,23 @@ button{font:inherit;color:inherit;border:0;cursor:pointer;touch-action:manipulat
 .side{position:fixed;right:14px;top:92px;width:316px;z-index:18;padding:14px;max-height:calc(100vh - 176px);overflow:auto;pointer-events:auto;scrollbar-width:thin}.side h2{font-size:18px;margin:0 0 10px;font-weight:950}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.card{padding:10px}.card b{display:block;font-size:18px;line-height:1.05}.card span{font-size:11px;color:var(--muted);font-weight:850}.need{margin-top:9px;padding:11px}.needMain{font-weight:950;font-size:14px}.needList{font-size:11px;line-height:1.5;color:#cbd5e1;margin-top:7px}.barWrap{height:54px;display:flex;align-items:end;gap:6px;margin-top:8px}.bar{flex:1;background:rgba(15,23,42,.7);border-radius:7px 7px 3px 3px;border:1px solid rgba(255,255,255,.09);height:100%;display:flex;align-items:end;overflow:hidden}.bar i{display:block;width:100%;height:20%;transition:height .45s ease}.log{font-size:10px;line-height:1.45;color:#cbd5e1;margin-top:8px;border-top:1px solid rgba(255,255,255,.08);padding-top:7px}
 .toolbar{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:24;display:flex;gap:8px;padding:9px;max-width:96vw;overflow-x:auto;pointer-events:auto;scrollbar-width:none}.toolbar::-webkit-scrollbar{display:none}.tool{min-width:66px;height:64px;border-radius:16px;background:rgba(15,23,42,.86);border:1px solid rgba(255,255,255,.09);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10px;font-weight:950;color:#cbd5e1;transition:.18s ease;white-space:nowrap}.tool .ico{font-size:21px;line-height:1}.tool.active{background:rgba(37,99,235,.36);border-color:#60a5fa;color:white;transform:translateY(-5px);box-shadow:0 13px 32px rgba(37,99,235,.38)}.divider{min-width:1px;background:rgba(255,255,255,.12);margin:7px 2px}
 .miniRow{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.mini{padding:9px 7px;border-radius:11px;background:rgba(15,23,42,.86);border:1px solid rgba(255,255,255,.1);font-size:11px;font-weight:950;color:#cbd5e1}.mini.active{background:#2563eb;color:white}.mini.danger{color:#fecaca}.toast{position:fixed;left:50%;bottom:98px;transform:translateX(-50%) translateY(18px);z-index:40;opacity:0;transition:.22s ease;max-width:min(92vw,560px);padding:12px 16px;text-align:center;font-size:13px;font-weight:900;pointer-events:none}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.tip{position:fixed;z-index:35;display:none;width:230px;padding:11px;pointer-events:none}.tipTitle{font-size:13px;font-weight:950;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:7px;margin-bottom:7px}.tipText{font-size:11px;line-height:1.45;color:#cbd5e1;white-space:pre-line}.loading{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 30%,#1d4ed8,#020617 68%);transition:.45s ease}.loading.hide{opacity:0;visibility:hidden;pointer-events:none}.loader{width:44px;height:44px;border:3px solid rgba(255,255,255,.25);border-top-color:white;border-radius:50%;animation:spin .75s linear infinite;margin:auto}@keyframes spin{to{transform:rotate(360deg)}}
+.tip{position:fixed;z-index:35;display:none;width:230px;padding:11px;pointer-events:none}.tipTitle{font-size:13px;font-weight:950;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:7px;margin-bottom:7px}.tipText{font-size:11px;line-height:1.45;color:#cbd5e1;white-space:pre-line}
+.settingsPanel{position:fixed;left:14px;top:118px;z-index:42;width:270px;max-width:calc(100vw - 28px);padding:12px;display:none;pointer-events:auto}.settingsPanel.open{display:block}.setRow{display:grid;grid-template-columns:1fr 112px;gap:8px;align-items:center;margin:8px 0}.setRow label{font-size:11px;font-weight:950;color:#cbd5e1}.setRow select,.setRow input{width:100%;accent-color:#38bdf8}.detailPanel{position:fixed;left:14px;bottom:92px;z-index:43;width:285px;max-width:calc(100vw - 28px);padding:12px;display:none;pointer-events:auto}.detailPanel.open{display:block}.detailGrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}.detailItem{background:rgba(15,23,42,.72);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:7px}.detailItem span{display:block;font-size:10px;color:#94a3b8;font-weight:900}.detailItem b{font-size:15px;color:#fff}@media(max-width:650px){.settingsPanel{top:92px}.detailPanel{bottom:78px;width:250px}}
+.tutorialPanel{position:fixed;left:14px;top:118px;z-index:44;width:310px;max-width:calc(100vw - 28px);padding:12px;display:none;pointer-events:auto}.tutorialPanel.open{display:block}.missionList{display:grid;gap:7px;margin-top:8px}.missionItem{display:grid;grid-template-columns:28px 1fr;gap:8px;align-items:center;background:rgba(15,23,42,.74);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:8px}.missionItem.done{background:rgba(34,197,94,.16);border-color:rgba(34,197,94,.38)}.missionCheck{width:24px;height:24px;border-radius:999px;display:grid;place-items:center;background:rgba(255,255,255,.10);font-weight:1000}.missionItem.done .missionCheck{background:#22c55e;color:#052e16}.missionText b{display:block;font-size:12px;color:#fff}.missionText span{display:block;font-size:10px;color:#cbd5e1;margin-top:2px}.missionProgress{height:7px;background:rgba(255,255,255,.10);border-radius:999px;overflow:hidden;margin-top:4px}.missionProgress i{display:block;height:100%;background:linear-gradient(90deg,#38bdf8,#22c55e);width:0%}.saveCodePanel{position:fixed;left:14px;top:118px;z-index:45;width:330px;max-width:calc(100vw - 28px);padding:12px;display:none;pointer-events:auto}.saveCodePanel.open{display:block}.saveCodeArea{width:100%;min-height:92px;resize:vertical;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(2,6,23,.86);color:#e5e7eb;padding:9px;font-size:11px;line-height:1.45;outline:none}.saveBtns{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:8px}.saveStatus{font-size:10px;color:#cbd5e1;margin-top:7px;line-height:1.5}.saveGood{color:#86efac}.saveWarn{color:#fde68a}.featurePanel{position:fixed;left:14px;top:118px;z-index:46;width:340px;max-width:calc(100vw - 28px);padding:12px;display:none;pointer-events:auto}.featurePanel.open{display:block}.featureList{display:grid;gap:7px;margin-top:8px}.featureItem{background:rgba(15,23,42,.74);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:8px;font-size:11px;color:#cbd5e1;line-height:1.45}.featureItem b{display:block;color:#fff;font-size:12px;margin-bottom:2px}.featureItem.done{background:rgba(34,197,94,.15);border-color:rgba(34,197,94,.35)}.featureItem.warn{background:rgba(250,204,21,.13);border-color:rgba(250,204,21,.34)}.districtForm{display:grid;grid-template-columns:1fr 76px;gap:7px;margin-top:8px}.districtForm input{border-radius:10px;border:1px solid rgba(255,255,255,.14);background:rgba(2,6,23,.82);color:#e5e7eb;padding:8px;font-size:12px;outline:none}
+@media(max-width:650px){.tutorialPanel,.saveCodePanel,.featurePanel{top:90px;width:292px}}
+
+
+.loading{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 30%,#1d4ed8,#020617 68%);transition:.45s ease}.loading.hide{opacity:0;visibility:hidden;pointer-events:none}.loader{width:44px;height:44px;border:3px solid rgba(255,255,255,.25);border-top-color:white;border-radius:50%;animation:spin .75s linear infinite;margin:auto}@keyframes spin{to{transform:rotate(360deg)}}
 .sideHead{display:flex;align-items:center;justify-content:space-between;gap:8px}.iconBtn{width:34px;height:34px;border-radius:11px;background:rgba(15,23,42,.86);border:1px solid rgba(255,255,255,.1);font-size:16px;font-weight:950;display:grid;place-items:center}.iconBtn:hover{background:rgba(30,41,59,.95)}.side.collapsed{width:58px;padding:10px;overflow:hidden}.side.collapsed > *:not(.sideHead){display:none}.side.collapsed .sideHead{justify-content:center}.side.collapsed .sideHead > div:first-child{display:none}.side.collapsed .iconBtn{margin:0 auto}
 .quickPanel{position:fixed;left:14px;bottom:92px;z-index:22;width:310px;padding:12px;pointer-events:auto}.quickTop{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}.quickTitle{font-size:12px;font-weight:950;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}.toolPill{display:inline-flex;align-items:center;gap:8px;background:rgba(15,23,42,.86);border:1px solid rgba(255,255,255,.09);border-radius:999px;padding:8px 12px;font-size:12px;font-weight:950}.toolPill i{font-style:normal;font-size:15px}.quickCost{font-size:18px;font-weight:950}.quickCost.bad{color:#ef4444}.quickDesc{font-size:12px;line-height:1.5;color:#e2e8f0}.quickHint{margin-top:8px;padding:8px 10px;border-radius:12px;background:rgba(2,6,23,.52);border:1px solid rgba(255,255,255,.08);font-size:11px;line-height:1.45;color:#cbd5e1}.quickActions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}.quickMini{padding:8px 10px;border-radius:12px;background:rgba(15,23,42,.86);border:1px solid rgba(255,255,255,.09);font-size:11px;font-weight:900;color:#cbd5e1;text-align:center}
 @media(max-width:900px){.topStats{gap:8px;padding:10px}.stat{min-width:62px}.num{font-size:17px}.sep{display:none}.side{right:8px;top:132px;width:235px;max-height:calc(100vh - 230px);padding:9px}.side h2{font-size:15px}.card{padding:8px}.card b{font-size:15px}.toolbar{left:8px;right:8px;transform:none;justify-content:flex-start}.tool{min-width:58px;width:58px;height:58px;font-size:9px}.hud{left:8px;right:8px;top:8px;align-items:flex-start}.timeBox{padding:9px}.speed button{width:32px;height:30px}.needList{font-size:10px}.quickPanel{left:8px;bottom:82px;width:248px;padding:10px}}
 @media(max-width:650px){.side{top:158px;width:210px}.topStats{max-width:calc(100vw - 16px)}.timeBox{position:absolute;right:0;top:74px}.toolbar{bottom:8px}.toast{bottom:84px}.quickPanel{width:220px;bottom:76px}.quickDesc{font-size:11px}.quickActions{grid-template-columns:1fr}}
+
+/* V19 beginner-friendly UI */
+.helpPanel{position:fixed;left:14px;top:118px;z-index:44;width:330px;max-width:calc(100vw - 28px);padding:14px;display:none;pointer-events:auto}.helpPanel.open{display:block}.guideSteps{display:grid;gap:8px;margin-top:10px}.guideStep{display:grid;grid-template-columns:34px 1fr;gap:8px;align-items:center;background:rgba(15,23,42,.72);border:1px solid rgba(255,255,255,.09);border-radius:13px;padding:8px}.guideStep b{display:grid;place-items:center;width:30px;height:30px;border-radius:10px;background:#2563eb;font-size:15px}.guideStep span{font-size:12px;line-height:1.45;color:#e2e8f0;font-weight:850}.nextAction{margin-top:9px;padding:10px 11px;border-radius:13px;background:linear-gradient(135deg,rgba(37,99,235,.42),rgba(34,197,94,.20));border:1px solid rgba(125,211,252,.25);font-size:12px;line-height:1.45;color:#f8fafc;font-weight:900}.actionTitle{font-size:10px;letter-spacing:.12em;color:#bfdbfe;text-transform:uppercase;margin-bottom:4px}.toolCat{min-width:70px;display:flex;align-items:center;justify-content:center;color:#93c5fd;font-size:10px;font-weight:950;letter-spacing:.08em;padding:0 4px;text-align:center}.stat.good b{color:#22c55e}.stat.warn b{color:#facc15}.stat.bad b{color:#ef4444}.card.good{border-color:rgba(34,197,94,.32)}.card.warn{border-color:rgba(250,204,21,.35)}.card.bad{border-color:rgba(239,68,68,.34)}.mini.primary{background:linear-gradient(135deg,#2563eb,#0891b2);color:white}.mini.help{background:rgba(14,165,233,.22);border-color:rgba(125,211,252,.28);color:#e0f2fe}.toolbarHint{position:fixed;left:50%;bottom:88px;transform:translateX(-50%);z-index:23;padding:7px 12px;border-radius:999px;background:rgba(2,6,23,.70);border:1px solid rgba(255,255,255,.10);font-size:11px;font-weight:900;color:#e2e8f0;pointer-events:none;max-width:92vw;text-align:center}.tool{position:relative}.tool::after{content:'';position:absolute;inset:auto 12px 6px 12px;height:3px;border-radius:999px;background:transparent}.tool.active::after{background:#7dd3fc}.simpleBadge{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:4px 8px;background:rgba(15,23,42,.7);border:1px solid rgba(255,255,255,.09);font-size:10px;font-weight:950;color:#cbd5e1}.quickTop .simpleBadge{margin-top:6px}.detailPanel{font-size:12px}.detailTextStrong{font-weight:950;color:#fff}.setValue{font-size:10px;color:#bfdbfe;font-weight:950;text-align:right;margin-top:2px}.setRow{grid-template-columns:1fr 126px}.setRow label small{display:block;font-size:9px;color:#94a3b8;font-weight:800;margin-top:2px;line-height:1.25}.side .card{position:relative;overflow:hidden}.side .card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:rgba(148,163,184,.45)}.side .card.good::before{background:#22c55e}.side .card.warn::before{background:#facc15}.side .card.bad::before{background:#ef4444}
+@media(max-width:900px){.helpPanel{left:8px;top:100px;width:290px}.toolbarHint{bottom:74px;font-size:10px}.toolCat{min-width:52px;font-size:9px}.setRow{grid-template-columns:1fr}.setValue{text-align:left}.settingsPanel{width:290px}}
+@media(max-width:650px){.helpPanel{top:92px;width:260px}.toolbarHint{display:none}.toolCat{display:none}.topStats .stat:nth-of-type(n+4){display:none}.quickPanel{display:none}.side{max-height:calc(100vh - 245px)}}
+
 </style>
 </head>
 <body oncontextmenu="return false">
@@ -63,7 +75,7 @@ button{font:inherit;color:inherit;border:0;cursor:pointer;touch-action:manipulat
   <div class="small need">
     <div class="label">市民の要望</div>
     <div id="uiNeedMain" class="needMain">街は安定しています</div>
-    <div id="uiNeedList" class="needList">需要を見ながら建設してください。</div>
+    <div id="uiNeedList" class="needList">需要を見ながら建設してください。</div><div class="nextAction"><div class="actionTitle">次におすすめ</div><div id="uiNextAction">道路を作って住宅を増やしましょう。</div></div>
   </div>
   <div class="small need">
     <div class="label">需要</div>
@@ -87,7 +99,12 @@ button{font:inherit;color:inherit;border:0;cursor:pointer;touch-action:manipulat
   </div>
   <div class="small need">
     <div class="label">表示・保存</div>
-    <div class="miniRow" style="margin-top:8px"><button id="nightBtn" class="mini">夜景</button><button id="qualityBtn" class="mini active">高画質</button><button id="saveBtn" class="mini">保存</button></div>
+    <div class="miniRow" style="margin-top:8px;grid-template-columns:repeat(4,1fr)"><button id="nightBtn" class="mini">夜景</button><button id="qualityBtn" class="mini active">画質</button><button id="settingsBtn" class="mini">設定</button><button id="helpBtn" class="mini help">遊び方</button></div>
+    <div class="miniRow" style="margin-top:8px;grid-template-columns:repeat(2,1fr)"><button id="tutorialBtn" class="mini primary">ミッション</button><button id="saveCodeBtn" class="mini">セーブコード</button></div>
+    <div class="miniRow" style="margin-top:8px;grid-template-columns:repeat(2,1fr)"><button id="achievementsBtn" class="mini primary">実績</button><button id="cityInfoBtn" class="mini">街の声/事件</button></div>
+    <button id="districtBtn" class="mini" style="width:100%;margin-top:8px">地区名・エリア管理</button>
+    <button id="developmentBtn" class="mini primary" style="width:100%;margin-top:8px">市長・観光・企業・評価</button>
+    <button id="saveBtn" class="mini primary" style="width:100%;margin-top:8px">保存</button>
     <button id="resetBtn" class="mini danger" style="width:100%;margin-top:8px">街をリセット</button>
   </div>
 </aside>
@@ -96,7 +113,7 @@ button{font:inherit;color:inherit;border:0;cursor:pointer;touch-action:manipulat
   <div class="quickTop">
     <div>
       <div class="quickTitle">建設ガイド</div>
-      <div id="toolPill" class="toolPill"><i id="toolIcon">📷</i><span id="toolName">カメラ</span></div>
+      <div id="toolPill" class="toolPill"><i id="toolIcon">📷</i><span id="toolName">カメラ</span></div><div id="toolCategoryBadge" class="simpleBadge">見る・調べる</div>
     </div>
     <div style="text-align:right">
       <div class="label">コスト</div>
@@ -112,40 +129,128 @@ button{font:inherit;color:inherit;border:0;cursor:pointer;touch-action:manipulat
 </section>
 
 <div id="toolbar" class="panel toolbar">
-  <button class="tool active" data-tool="camera"><span class="ico">📷</span>カメラ</button><div class="divider"></div>
+  <button class="tool active" data-tool="camera"><span class="ico">📷</span>カメラ</button><div class="toolCat">道路<br>交通</div>
   <button class="tool" data-tool="road"><span class="ico">🛣️</span>道路</button>
   <button class="tool" data-tool="rail"><span class="ico">🛤️</span>線路</button>
   <button class="tool" data-tool="station"><span class="ico">🚉</span>駅</button>
-  <button class="tool" data-tool="busstop"><span class="ico">🚏</span>バス停</button><div class="divider"></div>
+  <button class="tool" data-tool="busstop"><span class="ico">🚏</span>バス停</button><div class="toolCat">街<br>建物</div>
   <button class="tool" data-tool="res"><span class="ico">🟩</span>住宅</button>
   <button class="tool" data-tool="com"><span class="ico">🟦</span>商業</button>
   <button class="tool" data-tool="ind"><span class="ico">🟨</span>産業</button>
-  <button class="tool" data-tool="park"><span class="ico">🌳</span>公園</button><div class="divider"></div>
+  <button class="tool" data-tool="park"><span class="ico">🌳</span>公園</button>
+  <button class="tool" data-tool="cityhall"><span class="ico">🏛️</span>市役所</button>
+  <button class="tool" data-tool="landmark"><span class="ico">🗼</span>名所</button><div class="toolCat">公共<br>施設</div>
   <button class="tool" data-tool="school"><span class="ico">🏫</span>学校</button>
   <button class="tool" data-tool="hospital"><span class="ico">🏥</span>病院</button>
   <button class="tool" data-tool="police"><span class="ico">👮</span>警察</button>
   <button class="tool" data-tool="fire"><span class="ico">🚒</span>消防</button>
   <button class="tool" data-tool="power"><span class="ico">⚡</span>電力</button>
   <button class="tool" data-tool="hotel"><span class="ico">🏨</span>ホテル</button>
-  <button class="tool" data-tool="airport"><span class="ico">✈️</span>空港</button><div class="divider"></div>
+  <button class="tool" data-tool="airport"><span class="ico">✈️</span>空港</button><div class="toolCat">編集</div>
   <button class="tool" data-tool="bulldoze"><span class="ico">🚜</span>撤去</button>
 </div>
+<div id="toolbarHint" class="toolbarHint">カメラで街を見る / 下のボタンで建設 / 右の「市民の要望」を見て進めよう</div>
 
 <div id="toast" class="panel toast"></div>
+
+
+<div id="helpPanel" class="panel helpPanel">
+  <div class="sideHead"><div><div class="label">BEGINNER GUIDE</div><h2>かんたん遊び方</h2></div><button id="closeHelp" class="iconBtn">×</button></div>
+  <div class="guideSteps">
+    <div class="guideStep"><b>1</b><span>まず道路を作ります。建物は道路につながると発展します。</span></div>
+    <div class="guideStep"><b>2</b><span>住宅・商業・産業をバランスよく置きます。</span></div>
+    <div class="guideStep"><b>3</b><span>市民の要望に合わせて、公園・学校・病院などを追加します。</span></div>
+    <div class="guideStep"><b>4</b><span>渋滞が増えたら、駅・バス停・道路分散で交通を改善します。</span></div>
+  </div>
+  <div class="nextAction"><div class="actionTitle">操作</div>カメラ: ドラッグで回転 / Shift+ドラッグで移動 / ホイールでズーム。建設ツールはドラッグで連続配置できます。</div>
+</div>
+
+<div id="settingsPanel" class="panel settingsPanel">
+  <div class="sideHead"><div><div class="label">PERFORMANCE</div><h2>設定</h2></div><button id="closeSettings" class="iconBtn">×</button></div>
+  <div class="setRow"><label>画質<small>重い時は軽量にする</small></label><div><select id="setQuality"><option value="low">軽量</option><option value="mid">標準</option><option value="high">高画質</option></select></div></div>
+  <div class="setRow"><label>交通量<small>街のにぎわいと重さ</small></label><div><select id="setTraffic"><option value="low">少ない</option><option value="normal">普通</option><option value="high">多い</option></select></div></div>
+  <div class="setRow"><label>車の数<small>多いほどリアル/重い</small></label><div><input id="setCars" type="range" min="40" max="140" step="10"><div id="setCarsValue" class="setValue">100%</div></div></div>
+  <div class="setRow"><label>人の数<small>歩行者の量</small></label><div><input id="setPeople" type="range" min="40" max="140" step="10"><div id="setPeopleValue" class="setValue">100%</div></div></div>
+  <div class="setRow"><label>影<small>スマホではOFF推奨</small></label><div><select id="setShadow"><option value="on">ON</option><option value="off">OFF</option></select></div></div>
+  <div class="setRow"><label>夜景ライト<small>夜の見た目を強化</small></label><div><select id="setNightLight"><option value="on">ON</option><option value="off">OFF</option></select></div></div>
+  <button id="applySettings" class="mini" style="width:100%;margin-top:8px">設定を反映</button>
+</div>
+<div id="detailPanel" class="panel detailPanel">
+  <div class="sideHead"><div><div class="label">BUILDING DETAIL</div><h2 id="detailTitle">建物情報</h2></div><button id="closeDetail" class="iconBtn">×</button></div>
+  <div id="detailText" class="needList" style="margin-top:7px">建物をタップすると表示します。</div>
+  <div class="detailGrid">
+    <div class="detailItem"><span>人口効果</span><b id="detailPop">0</b></div>
+    <div class="detailItem"><span>仕事効果</span><b id="detailJobs">0</b></div>
+    <div class="detailItem"><span>地価</span><b id="detailLand">0</b></div>
+    <div class="detailItem"><span>満足度影響</span><b id="detailHappy">0</b></div>
+  </div>
+</div>
+
+
+<div id="tutorialPanel" class="panel tutorialPanel">
+  <div class="sideHead"><div><div class="label">TUTORIAL MISSIONS</div><h2>チュートリアルミッション</h2></div><button id="closeTutorial" class="iconBtn">×</button></div>
+  <div class="nextAction"><div class="actionTitle">次にやること</div><span id="tutorialNext">道路を3マス作ろう。</span></div>
+  <div id="missionList" class="missionList"></div>
+  <button id="resetTutorial" class="mini" style="width:100%;margin-top:8px">ミッションだけリセット</button>
+</div>
+
+<div id="saveCodePanel" class="panel saveCodePanel">
+  <div class="sideHead"><div><div class="label">SAVE CODE</div><h2>セーブコード</h2></div><button id="closeSaveCode" class="iconBtn">×</button></div>
+  <textarea id="saveCodeText" class="saveCodeArea" placeholder="ここにセーブコードが表示されます / 読み込む時はここに貼り付け"></textarea>
+  <div class="saveBtns">
+    <button id="exportSaveCode" class="mini primary">コード作成</button>
+    <button id="copySaveCode" class="mini">コピー</button>
+    <button id="importSaveCode" class="mini primary">読み込み</button>
+    <button id="backupSaveNow" class="mini">強制保存</button>
+  </div>
+  <div id="saveCodeStatus" class="saveStatus">通常保存＋バックアップ保存で、ブラウザ内に残りやすくしています。</div>
+</div>
+
+<div id="achievementsPanel" class="panel featurePanel">
+  <div class="sideHead"><div><div class="label">ACHIEVEMENTS</div><h2>実績・称号</h2></div><button id="closeAchievements" class="iconBtn">×</button></div>
+  <div id="achievementSummary" class="nextAction"><div class="actionTitle">現在の称号</div>街を発展させて称号を集めよう。</div>
+  <div id="achievementList" class="featureList"></div>
+</div>
+
+<div id="cityInfoPanel" class="panel featurePanel">
+  <div class="sideHead"><div><div class="label">CITIZENS / EVENTS</div><h2>市民の声・事件</h2></div><button id="closeCityInfo" class="iconBtn">×</button></div>
+  <div class="nextAction"><div class="actionTitle">市民コメント</div><span id="citizenMain">街の状態を見ています。</span></div>
+  <div id="citizenList" class="featureList"></div>
+  <div class="nextAction"><div class="actionTitle">災害・トラブル</div><span id="eventMain">現在は大きなトラブルなし。</span></div>
+  <div id="eventList" class="featureList"></div>
+</div>
+
+<div id="districtPanel" class="panel featurePanel">
+  <div class="sideHead"><div><div class="label">DISTRICTS</div><h2>地区名・エリア管理</h2></div><button id="closeDistrict" class="iconBtn">×</button></div>
+  <div class="nextAction"><div class="actionTitle">使い方</div>カメラモードで場所をタップしてから、地区名を追加します。例：中央区、駅前エリア、工業地区。</div>
+  <div class="districtForm"><input id="districtNameInput" placeholder="地区名を入力"><button id="addDistrictBtn" class="mini primary">追加</button></div>
+  <div id="districtList" class="featureList"></div>
+</div>
+
 <div id="tip" class="panel tip"><div id="tipTitle" class="tipTitle">セル</div><div id="tipText" class="tipText">説明</div></div>
+
+
+<div id="developmentPanel" class="panel featurePanel">
+  <div class="sideHead"><div><div class="label">CITY DEVELOPMENT</div><h2>市長・観光・企業・住民</h2></div><button id="closeDevelopment" class="iconBtn">×</button></div>
+  <div id="mayorSummary" class="nextAction"><div class="actionTitle">市長レベル</div>市役所を建てるとレベルアップ要素が見られます。</div>
+  <div id="rankSummary" class="nextAction"><div class="actionTitle">街評価</div>街を発展させてランクを上げましょう。</div>
+  <div class="featureList" id="developmentList"></div>
+</div>
 
 <script>
 (() => {
 'use strict';
 const GAME_TITLE = 'Micro City Reborn Complete';
 const SAVE_KEY = 'micro_city_reborn_complete_v1';
+const SAVE_BACKUP_KEY = SAVE_KEY + '_backup';
+const SAVE_CODE_PREFIX = 'MCR20:';
 const GRID = 72;
 const HALF = GRID / 2;
 const IS_MOBILE = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || Math.min(innerWidth, innerHeight) < 760;
-const T = Object.freeze({EMPTY:0,WATER:1,TREE:2,ROAD:3,RAIL:4,STATION:5,BUSSTOP:6,RES:7,COM:8,IND:9,PARK:10,SCHOOL:11,HOSPITAL:12,POLICE:13,FIRE:14,POWER:15,HOTEL:16,AIRPORT:17});
-const NAME = ['空き地','水辺','森林','道路','線路','駅','バス停','住宅区画','商業区画','産業区画','公園','学校','病院','警察署','消防署','発電所','ホテル','国際空港'];
-const COST = {road:10,rail:45,station:350,busstop:90,res:25,com:35,ind:35,park:75,school:500,hospital:650,police:620,fire:650,power:900,hotel:1200,airport:4800,bulldoze:5};
-const TOOL_TO_TYPE = {road:T.ROAD,rail:T.RAIL,station:T.STATION,busstop:T.BUSSTOP,res:T.RES,com:T.COM,ind:T.IND,park:T.PARK,school:T.SCHOOL,hospital:T.HOSPITAL,police:T.POLICE,fire:T.FIRE,power:T.POWER,hotel:T.HOTEL};
+const T = Object.freeze({EMPTY:0,WATER:1,TREE:2,ROAD:3,RAIL:4,STATION:5,BUSSTOP:6,RES:7,COM:8,IND:9,PARK:10,SCHOOL:11,HOSPITAL:12,POLICE:13,FIRE:14,POWER:15,HOTEL:16,AIRPORT:17,CITYHALL:18,LANDMARK:19});
+const NAME = ['空き地','水辺','森林','道路','線路','駅','バス停','住宅区画','商業区画','産業区画','公園','学校','病院','警察署','消防署','発電所','ホテル','国際空港','市役所','観光名所'];
+const COST = {road:10,rail:45,station:350,busstop:90,res:25,com:35,ind:35,park:75,school:500,hospital:650,police:620,fire:650,power:900,hotel:1200,airport:4800,cityhall:2500,landmark:1800,bulldoze:5};
+const TOOL_TO_TYPE = {road:T.ROAD,rail:T.RAIL,station:T.STATION,busstop:T.BUSSTOP,res:T.RES,com:T.COM,ind:T.IND,park:T.PARK,school:T.SCHOOL,hospital:T.HOSPITAL,police:T.POLICE,fire:T.FIRE,power:T.POWER,hotel:T.HOTEL,cityhall:T.CITYHALL,landmark:T.LANDMARK};
 const MULTI = {airport:{type:T.AIRPORT,w:8,h:5,cost:COST.airport,name:'国際空港'}};
 const TOOL_INFO = {
   camera:{icon:'📷',name:'カメラ',cost:'-',desc:'ドラッグで視点回転、Shift+ドラッグまたは右ドラッグで移動、ホイールでズームできます。',hint:'街を見る時の基本モードです。セル情報はこのモードで表示されます。'},
@@ -164,6 +269,8 @@ const TOOL_INFO = {
   power:{icon:'⚡',name:'電力',cost:COST.power,desc:'街全体に必要な電力を供給します。',hint:'電力不足になる前に建てると安定します。'},
   hotel:{icon:'🏨',name:'ホテル',cost:COST.hotel,desc:'観光客の宿泊力を上げます。',hint:'駅や空港の近くが向いています。'},
   airport:{icon:'✈️',name:'空港',cost:COST.airport,desc:'8×5マスの大型施設です。2つ以上で航空便が飛びます。',hint:'広い空き地に建ててください。'},
+  cityhall:{icon:'🏛️',name:'市役所',cost:COST.cityhall,desc:'市長レベルや街全体の管理機能を解放する中核施設です。',hint:'中心部や駅前に置くと街の成長目標が分かりやすくなります。'},
+  landmark:{icon:'🗼',name:'観光名所',cost:COST.landmark,desc:'観光客を増やす名所です。展望台・水族館・スタジアム風に表示されます。',hint:'駅・ホテル・空港の近くに置くと観光都市を作りやすいです。'},
   bulldoze:{icon:'🚜',name:'撤去',cost:COST.bulldoze,desc:'建物や道路を取り除きます。',hint:'やり直したい時に使います。'}
 };
 function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
@@ -174,24 +281,29 @@ function worldX(x){return x-HALF+.5;} function worldZ(y){return y-HALF+.5;} func
 let seed=1234567; function rnd(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;} function hash(x,y,s=0){const n=Math.sin(x*127.1+y*311.7+s*17.13)*43758.5453;return n-Math.floor(n);}
 function fmtMoney(v){return '$'+Math.round(v).toLocaleString();}
 function cell(type=T.EMPTY){return {type,level:0,age:0,seed:rnd(),mesh:null,rootX:null,rootY:null,land:50};}
-const state = {grid:[],money:52000,day:1,hour:7,speed:1,tool:'camera',pop:0,jobs:0,happy:82,traffic:0,income:0,powerUse:0,powerCap:0,stations:0,rail:0,airports:0,flights:0,land:50,safety:100,tourists:0,access:0,hotel:0,tourScore:0,congestion:0,demand:{r:65,c:30,i:25,t:18},quality:!IS_MOBILE,night:false,logs:['街づくりを開始しました。'],dragging:false,lastPaint:'',nextAutosave:0};
+const state = {grid:[],money:52000,day:1,hour:7,speed:1,tool:'camera',pop:0,jobs:0,happy:82,traffic:0,income:0,powerUse:0,powerCap:0,stations:0,rail:0,airports:0,flights:0,land:50,safety:100,tourists:0,access:0,hotel:0,tourScore:0,congestion:0,demand:{r:65,c:30,i:25,t:18},quality:!IS_MOBILE,night:false,settings:{quality:IS_MOBILE?'mid':'high',traffic:'normal',cars:100,people:100,shadow:!IS_MOBILE,nightLight:true},tutorial:{completed:[],claimed:[]},logs:['街づくりを開始しました。'],dragging:false,lastPaint:'',nextAutosave:0,achievements:{completed:[],claimed:[],title:'新人市長'},troubles:{active:[],lastCheck:0},districts:[],citizens:[],lastDetailCell:null,cityhall:0,landmarks:0,mayorLevel:1,companies:[],residents:{students:0,workers:0,tourists:0,seniors:0,children:0},cityRank:'田舎町',emergency:{accidents:0,ambulance:0}};
 
 const el = id => document.getElementById(id);
 function set(id,v){const e=el(id); if(e) e.textContent=v;}
 function toast(msg){const t=el('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toast.timer); toast.timer=setTimeout(()=>t.classList.remove('show'),1700);}
 function log(msg){state.logs.unshift(msg); state.logs.length=4;}
+function toolCategory(tool){
+  if(tool==='camera')return '見る・調べる';
+  if(['road','rail','station','busstop','airport'].includes(tool))return '道路・交通';
+  if(['res','com','ind','park','hotel'].includes(tool))return '街づくり';
+  if(['school','hospital','police','fire','power'].includes(tool))return '公共施設';
+  if(tool==='bulldoze')return '編集';
+  return '建設';
+}
 function updateQuickPanel(){
   const info=TOOL_INFO[state.tool]||TOOL_INFO.camera;
-  set('toolIcon',info.icon); set('toolName',info.name);
-  const costEl=el('toolCost');
-  if(costEl){
-    if(info.cost==='-') costEl.textContent='-';
-    else costEl.textContent=fmtMoney(info.cost);
-    costEl.classList.toggle('bad', info.cost!=='-' && state.money<info.cost);
+  set('toolIcon',info.icon);set('toolName',info.name);set('toolDesc',info.desc);set('toolHint',info.hint);set('quickMoney',fmtMoney(state.money));
+  const cost=info.cost==='-'?'-':fmtMoney(info.cost);set('toolCost',cost);el('toolCost').classList.toggle('bad',typeof info.cost==='number'&&state.money<info.cost);
+  set('quickNeed',needs()[0]||'安定');
+  if(el('toolCategoryBadge')) set('toolCategoryBadge',toolCategory(state.tool));
+  if(el('toolbarHint')){
+    el('toolbarHint').textContent = state.tool==='camera' ? 'カメラ中: タップで建物詳細 / ドラッグで視点移動' : info.name+'を配置中: マップをタップ、またはドラッグで連続配置';
   }
-  set('toolDesc',info.desc); set('toolHint','ヒント: '+info.hint);
-  set('quickMoney',fmtMoney(state.money));
-  set('quickNeed',(needs()[0]||'安定').replace('・',''));
 }
 
 if(!window.THREE){el('loading').innerHTML='<div class="panel" style="padding:24px;text-align:center"><b>Three.jsの読み込みに失敗しました</b><br><span style="color:#cbd5e1;font-size:13px">ネット接続を確認して再読み込みしてください。</span></div>';return;}
@@ -203,11 +315,11 @@ scene.fog = new THREE.FogExp2(0x93c5fd,0.018);
 const camera = new THREE.PerspectiveCamera(48,innerWidth/innerHeight,.1,360);
 const renderer = new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});
 renderer.setSize(innerWidth,innerHeight);
-renderer.setPixelRatio(Math.min(devicePixelRatio||1,state.quality?1.45:1));
+renderer.setPixelRatio(Math.min(devicePixelRatio||1,state.quality?1.25:.9));
 renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.07;
-renderer.shadowMap.enabled = state.quality;
+renderer.shadowMap.enabled = !!state.settings.shadow;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 container.appendChild(renderer.domElement);
 
@@ -277,6 +389,10 @@ const DETAIL = {
   concreteDark: mat(0x9ca3af,.85,.04), whitePanel: mat(0xf1f5f9,.45,.08), door: mat(0x111827,.35,.55),
   plaza: mat(0xbec7d1,.88,.03), grass: mat(0x2f7d3f,.95,0), roofGrey: mat(0x52525b,.72,.15),
   awningBlue: mat(0x2563eb,.42,.18,0x0b2f73,.1), awningGreen: mat(0x16a34a,.5,.08,0x14532d,.08),
+  convRed: mat(0xdc2626,.34,.12,0x7f1d1d,.14), convBlue: mat(0x2563eb,.34,.12,0x1d4ed8,.14), convGreen: mat(0x16a34a,.38,.08,0x166534,.12), signOrange: mat(0xf97316,.32,.1,0x7c2d12,.18),
+  signBlue: mat(0x1d4ed8,.28,.16,0x1e3a8a,.15), signRed: mat(0xdc2626,.28,.14,0x7f1d1d,.16), signalDark: mat(0x111827,.32,.48), signalPole: mat(0x4b5563,.34,.56),
+  machineRed: mat(0xdc2626,.28,.16,0x7f1d1d,.12), machineWhite: mat(0xf8fafc,.35,.06), guardGrey: mat(0xe5e7eb,.55,.08), wireDark: mat(0x1f2937,.55,.12), poleWood: mat(0x7c5a3a,.82,.06),
+  bikeBlue: mat(0x2563eb,.34,.18,0x1e3a8a,.12), bikeRed: mat(0xdc2626,.32,.16,0x7f1d1d,.12), bikeSilver: mat(0xcbd5e1,.34,.12), laneRed: mat(0x8b1e2d,.52,.08,0x450a0a,.12),
   copper: mat(0xb45309,.6,.15), smoke: mat(0x64748b,.65,.18), asphalt2: mat(0x303744,.88,.08), black: M.black
 };
 const RES_FACADES=[DETAIL.brickA,DETAIL.whitePanel,mat(0xe8ddd1,.72,.04),mat(0xc8d0d8,.72,.05)];
@@ -315,11 +431,427 @@ function addPlatformLights(g,len,xSide){
 }
 function addBench(g,x,z,rot=0){
   const b=new THREE.Group();
-  b.add(box(.24,.03,.06,DETAIL.brickDark,0,.16,0,true,true));
-  b.add(box(.24,.03,.06,DETAIL.brickDark,0,.25,-.03,true,true));
-  for(const sx of[-.09,.09]){b.add(cyl(.01,.16,DETAIL.steelDark,sx,.08,.02));b.add(cyl(.01,.16,DETAIL.steelDark,sx,.08,-.02));}
+  b.add(box(.26,.026,.07,DETAIL.brickDark,0,.16,0,true,true));
+  for(const dz of[-.018,0,.018]) b.add(box(.22,.012,.012,DETAIL.whitePanel,0,.176,dz,true,false));
+  b.add(box(.24,.028,.07,DETAIL.brickDark,0,.26,-.035,true,true));
+  for(const dz of[-.018,0,.018]) b.add(box(.20,.012,.012,DETAIL.whitePanel,0,.272,-.034+dz*.55,true,false));
+  for(const sx of[-.10,.10]){
+    b.add(cyl(.01,.16,DETAIL.steelDark,sx,.08,.022));
+    b.add(cyl(.01,.16,DETAIL.steelDark,sx,.08,-.022));
+    b.add(cyl(.01,.18,DETAIL.steelDark,sx,.22,-.038));
+    b.add(box(.012,.05,.05,DETAIL.steelDark,sx,.21,.005,true,false));
+  }
+  b.add(box(.19,.012,.012,DETAIL.steelDark,0,.225,-.034,true,false));
   b.position.set(x,0,z); b.rotation.y=rot; g.add(b);
 }
+
+function addCrosswalk(g,dir='ns',variant=0){
+  const stripeMat=DETAIL.whitePanel;
+  if(dir==='ns'){
+    if(variant===1){
+      for(let x=-.24;x<=.24;x+=.10) g.add(box(.06,.012,.17,stripeMat,x,.091,0,false,false));
+    }else if(variant===2){
+      g.add(box(.018,.012,.54,stripeMat,-.26,.091,0,false,false));
+      g.add(box(.018,.012,.54,stripeMat,.26,.091,0,false,false));
+      for(let x=-.18;x<=.18;x+=.09) g.add(box(.04,.012,.13,stripeMat,x,.091,0,false,false));
+    }else{
+      for(let x=-.24;x<=.24;x+=.08) g.add(box(.045,.012,.16,stripeMat,x,.091,0,false,false));
+    }
+  }else{
+    if(variant===1){
+      for(let z=-.24;z<=.24;z+=.10) g.add(box(.17,.012,.06,stripeMat,0,.091,z,false,false));
+    }else if(variant===2){
+      g.add(box(.54,.012,.018,stripeMat,0,.091,-.26,false,false));
+      g.add(box(.54,.012,.018,stripeMat,0,.091,.26,false,false));
+      for(let z=-.18;z<=.18;z+=.09) g.add(box(.13,.012,.04,stripeMat,0,.091,z,false,false));
+    }else{
+      for(let z=-.24;z<=.24;z+=.08) g.add(box(.16,.012,.045,stripeMat,0,.091,z,false,false));
+    }
+  }
+}
+function addBillboard(g,text,x,y,z,rot=0,scale=.50,color='#fff7ed',panelMat=DETAIL.black){
+  const p=new THREE.Group();
+  p.add(box(.44,.20,.04,panelMat,0,0,0,true,false));
+  p.add(box(.40,.16,.012,DETAIL.whitePanel,0,0,.022,true,false));
+  const sp=labelSprite(text,color,scale); sp.position.set(0,.005,.028); p.add(sp);
+  p.position.set(x,y,z); p.rotation.y=rot; g.add(p); return p;
+}
+
+function addRoadSign(g,text,x,z,opt={}){
+  const poleH = opt.poleH ?? .52, rot = opt.rot ?? 0, y = opt.y ?? poleH + .16;
+  const plateW = opt.w ?? .23, plateH = opt.h ?? .23;
+  const panelMat = opt.panelMat || DETAIL.signBlue;
+  const plate = new THREE.Group();
+  plate.add(box(plateW,plateH,.03,panelMat,0,0,0,true,false));
+  plate.add(box(plateW*.88,plateH*.88,.012,DETAIL.whitePanel,0,0,.021,true,false));
+  const sp = labelSprite(text,opt.textColor || '#0f172a',opt.scale || .28); sp.position.set(0,0,.03); plate.add(sp);
+  plate.position.set(x,y,z); plate.rotation.y = rot; g.add(plate);
+  g.add(cyl(.012,poleH,DETAIL.signalPole,x,poleH/2,z));
+}
+function addTrafficSignal(g,x,z,rot=0){
+  const sig = new THREE.Group();
+  sig.position.set(x,0,z); sig.rotation.y = rot;
+  sig.add(cyl(.014,.78,DETAIL.signalPole,0,.39,0));
+  sig.add(box(.18,.03,.03,DETAIL.signalPole,.09,.72,0,true,false));
+  sig.add(box(.10,.24,.06,DETAIL.signalDark,.16,.62,0,true,false));
+  sig.add(sphere(.018,M.red,.16,.70,.033));
+  sig.add(sphere(.018,M.yellow,.16,.62,.033));
+  sig.add(sphere(.018,M.green,.16,.54,.033));
+  sig.add(box(.12,.18,.05,DETAIL.signalDark,.02,.42,.005,true,false));
+  sig.add(box(.12,.18,.05,DETAIL.signalDark,.12,.42,-.005,true,false));
+  sig.add(sphere(.013,M.red,.02,.47,.031));
+  sig.add(box(.012,.05,.012,M.red,.02,.43,.031,true,false));
+  sig.add(box(.032,.01,.012,M.red,.02,.40,.031,true,false));
+  sig.add(sphere(.013,M.green,.12,.38,.031));
+  sig.add(box(.012,.05,.012,M.green,.12,.34,.031,true,false));
+  sig.add(box(.028,.01,.012,M.green,.12,.31,.031,true,false));
+  sig.add(box(.09,.05,0.045,DETAIL.black,.07,.26,.0,true,false));
+  const cnt = labelSprite(String(7+Math.floor(((x+z+10)*10)%4)),'#fde68a',.18); cnt.position.set(.07,.26,.028); sig.add(cnt);
+  sig.add(box(.14,.04,.05,DETAIL.signBlue,.09,.18,-.01,true,false));
+  const sp = labelSprite('押','#dbeafe',.18); sp.position.set(.09,.18,.03); sig.add(sp);
+  g.add(sig);
+}
+
+function addStopLine(g,x,z,rot=0,w=.32){
+  const s = new THREE.Group();
+  s.position.set(x,0,z); s.rotation.y = rot;
+  s.add(box(w,.012,.022,DETAIL.whitePanel,0,.092,0,false,false));
+  g.add(s);
+}
+function addLaneArrowMark(g,text,x,z,rot=0,scale=.20,color='#f8fafc'){
+  const sp = labelSprite(text,color,scale);
+  sp.position.set(x,.095,z);
+  sp.rotation.y = rot;
+  g.add(sp);
+}
+function addTurnLaneGuides(g){
+  g.add(box(.018,.012,.24,DETAIL.whitePanel,-.16,.091,.10,false,false));
+  g.add(box(.018,.012,.24,DETAIL.whitePanel,.16,.091,-.10,false,false));
+  g.add(box(.24,.012,.018,DETAIL.whitePanel,.10,.091,.16,false,false));
+  g.add(box(.24,.012,.018,DETAIL.whitePanel,-.10,.091,-.16,false,false));
+}
+
+function addCenterMedian(g,x,z,len=.22,rot=0){
+  const mg = new THREE.Group();
+  mg.position.set(x,0,z); mg.rotation.y = rot;
+  mg.add(box(.06,.03,len,DETAIL.concreteDark,0,.095,0,false,true));
+  mg.add(box(.045,.008,len*.88,M.yellow,0,.115,0,false,false));
+  for(const zz of[-len*.28,0,len*.28]) mg.add(box(.016,.016,.016,DETAIL.whitePanel,0,.125,zz,false,false));
+  g.add(mg);
+}
+function addRightTurnPocket(g,axis='h',toward=1){
+  const pg = new THREE.Group();
+  if(axis==='h'){
+    const sx = toward>0 ? .19 : -.19;
+    for(let i=0;i<3;i++) pg.add(box(.07,.012,.016,DETAIL.whitePanel,sx - toward*i*.07,.091,-.11 + i*.055,false,false));
+    addLaneArrowMark(pg,toward>0?'↱':'↰',sx,.095,0,.19);
+    addLaneArrowMark(pg,toward>0?'↑':'↑',sx - toward*.12,.01,0,.16);
+  }else{
+    const sz = toward>0 ? .19 : -.19;
+    for(let i=0;i<3;i++) pg.add(box(.016,.012,.07,DETAIL.whitePanel,-.11 + i*.055,.091,sz - toward*i*.07,false,false));
+    addLaneArrowMark(pg,toward>0?'↲':'↳',-.01,sz,0,.19);
+    addLaneArrowMark(pg,'→',.11,sz - toward*.12,0,.16);
+  }
+  g.add(pg);
+}
+
+function addRoadTextMark(g,text,x,z,scale=.18,color='#f8fafc'){
+  const sp = labelSprite(text,color,scale);
+  sp.position.set(x,.096,z);
+  g.add(sp);
+}
+function addBusLaneDecor(g,axis='v'){
+  if(axis==='v'){
+    g.add(box(.014,.010,1.0,DETAIL.whitePanel,-.27,.089,0,false,false));
+    g.add(box(.014,.010,1.0,DETAIL.whitePanel,-.15,.089,0,false,false));
+    addRoadTextMark(g,'BUS',-.21,-.20,.17,'#fde68a');
+    addRoadTextMark(g,'専用',-.21,.20,.15,'#fde68a');
+    addRoadTextMark(g,'バス',-.21,0,.14,'#fde68a');
+  }else{
+    g.add(box(1.0,.010,.014,DETAIL.whitePanel,0,.089,.15,false,false));
+    g.add(box(1.0,.010,.014,DETAIL.whitePanel,0,.089,.27,false,false));
+    addRoadTextMark(g,'BUS',-.20,.21,.17,'#fde68a');
+    addRoadTextMark(g,'専用',.20,.21,.15,'#fde68a');
+    addRoadTextMark(g,'バス',0,.21,.14,'#fde68a');
+  }
+}
+function addRoadWear(g,x,y){
+  const wearCount = 1 + Math.floor(hash(x,y,181)*3);
+  for(let i=0;i<wearCount;i++){
+    const px = -.26 + hash(x,y,182+i)*.52;
+    const pz = -.26 + hash(x,y,186+i)*.52;
+    const pw = .08 + hash(x,y,190+i)*.16;
+    const pd = .04 + hash(x,y,194+i)*.14;
+    const patch = box(pw,.006,pd,hash(x,y,198+i)>.5?DETAIL.asphalt2:DETAIL.black,0,.084,0,false,false);
+    patch.position.set(px,.084,pz);
+    patch.rotation.y = hash(x,y,202+i)*Math.PI;
+    g.add(patch);
+  }
+  if(hash(x,y,210)>.42){
+    const crack = box(.18,.004,.008,DETAIL.black,-.04+.12*hash(x,y,211),.087,-.10+.20*hash(x,y,212),false,false);
+    crack.rotation.y = hash(x,y,213)*Math.PI;
+    g.add(crack);
+  }
+  if(hash(x,y,214)>.62){
+    const crack2 = box(.10,.004,.006,DETAIL.black,.10-.18*hash(x,y,215),.087,.08-.16*hash(x,y,216),false,false);
+    crack2.rotation.y = hash(x,y,217)*Math.PI;
+    g.add(crack2);
+  }
+}
+
+function addTimetableBoard(g,x,z,rot=0,wide=false){
+  const tg = new THREE.Group();
+  tg.position.set(x,0,z); tg.rotation.y = rot;
+  tg.add(cyl(.014,.44,DETAIL.steelDark,0,.22,0));
+  tg.add(box(wide?.26:.18,wide?.24:.18,.03,DETAIL.whitePanel,0,.41,0,true,false));
+  tg.add(box(wide?.22:.14,wide?.16:.11,.02,DETAIL.glassCyan,0,.42,.018,true,false));
+  tg.add(box(wide?.20:.12,.02,.02,M.red,0,.48,.02,true,false));
+  for(let i=0;i<(wide?3:2);i++) tg.add(box(wide?.17:.10,.012,.012,DETAIL.concreteDark,0,.44-i*.045,.022,true,false));
+  return tg;
+}
+function parkedVehicleMesh(kind='car'){
+  const g = new THREE.Group();
+  if(kind==='taxi'){
+    const v = Math.floor(rnd()*4);
+    if(v===0){
+      const body=mat(0xf8fafc,.24,.48), stripe=mat(0x16a34a,.28,.22,0x14532d,.08);
+      g.add(box(.24,.12,.44,body,0,.09,0,true,true));
+      g.add(box(.18,.08,.20,M.glass,0,.18,-.03,true,true));
+      g.add(box(.24,.025,.04,stripe,0,.11,.06,true,false));
+      g.add(box(.08,.03,.04,M.yellow,0,.23,-.02,true,false));
+    }else if(v===1){
+      const body=mat(0x111827,.22,.58), stripe=mat(0xf8fafc,.24,.22,0xffffff,.04);
+      g.add(box(.24,.12,.45,body,0,.09,0,true,true));
+      g.add(box(.18,.08,.20,M.glass,0,.18,-.03,true,true));
+      g.add(box(.24,.018,.04,stripe,0,.09,.08,true,false));
+      g.add(box(.09,.03,.04,mat(0xfacc15,.22,.18,0xfacc15,.18),0,.23,-.03,true,false));
+    }else if(v===2){
+      const body=mat(0xf5f5f4,.24,.42), belt=mat(0xf97316,.26,.16,0x7c2d12,.06);
+      g.add(box(.23,.12,.43,body,0,.09,0,true,true));
+      g.add(box(.17,.08,.19,M.glass,0,.18,-.03,true,true));
+      g.add(box(.07,.025,.30,belt,.09,.11,.02,true,false));
+      g.add(box(.07,.025,.30,belt,-.09,.11,.02,true,false));
+      g.add(box(.08,.03,.04,M.yellow,0,.23,-.02,true,false));
+    }else{
+      const body=mat(0x0f766e,.24,.46), roof=mat(0xe5e7eb,.24,.22);
+      g.add(box(.24,.12,.44,body,0,.09,0,true,true));
+      g.add(box(.16,.06,.18,roof,0,.20,-.03,true,true));
+      g.add(box(.18,.08,.20,M.glass,0,.17,-.03,true,true));
+      g.add(box(.08,.03,.04,M.yellow,0,.23,-.02,true,false));
+    }
+  }else{
+    const palette=[0xf8fafc,0x9ca3af,0x111827,0xdc2626,0x2563eb,0xf59e0b];
+    const body=mat(palette[Math.floor(rnd()*palette.length)],.24,.50);
+    g.add(box(.22,.12,.42,body,0,.08,0,true,true));
+    g.add(box(.16,.08,.18,M.glass,0,.17,-.04,true,true));
+  }
+  for(const sx of[-.12,.12])for(const zz of[-.16,.16]){const w=new THREE.Mesh(geoCyl,M.black);w.scale.set(.045,.026,.045);w.rotation.z=Math.PI/2;w.position.set(sx,.035,zz);g.add(w);} 
+  g.add(box(.10,.018,.02,M.yellow,0,.09,.22,true,false));
+  g.add(box(.10,.018,.02,M.red,0,.09,-.22,true,false));
+  return g;
+}
+function addParkedVehicle(g,x,z,rot=0,kind='car'){
+  const vg=parkedVehicleMesh(kind); vg.position.set(x,.02,z); vg.rotation.y=rot; g.add(vg); return vg;
+}
+function addTaxiStand(g,x,z,rot=0,count=2){
+  const tg = new THREE.Group();
+  tg.position.set(x,0,z); tg.rotation.y = rot;
+  tg.add(box(.62,.012,.05,M.yellow,0,.09,.18,false,false));
+  tg.add(box(.62,.012,.05,M.yellow,0,.09,-.18,false,false));
+  const signPole=cyl(.016,.62,DETAIL.steelDark,-.34,.31,0); tg.add(signPole);
+  tg.add(box(.14,.16,.04,DETAIL.signBlue,-.34,.58,0,true,false));
+  const sp=labelSprite('TAXI','#e0f2fe',.20); sp.position.set(-.34,.58,.025); tg.add(sp);
+  for(let i=0;i<count;i++){
+    const zz = (i-(count-1)/2)*.34;
+    const taxi=parkedVehicleMesh('taxi'); taxi.position.set(.02,.02,zz); taxi.rotation.y=Math.PI/2; tg.add(taxi);
+  }
+  g.add(tg);
+}
+
+
+function addVendingMachine(g,x,z,rot=0,bodyMat=DETAIL.machineRed){
+  const vg = new THREE.Group();
+  vg.position.set(x,0,z); vg.rotation.y = rot;
+  vg.add(box(.18,.34,.16,bodyMat,0,.17,0,true,true));
+  vg.add(box(.13,.18,.014,DETAIL.whitePanel,0,.23,.082,true,false));
+  vg.add(box(.10,.05,.012,DETAIL.glassBlue,0,.11,.083,true,false));
+  vg.add(box(.04,.03,.012,DETAIL.signalDark,.05,.07,.084,true,false));
+  for(let i=0;i<4;i++) vg.add(box(.11,.012,.012,DETAIL.concreteDark,0,.29-i*.04,.084,true,false));
+  vg.add(box(.12,.02,.03,DETAIL.black,0,.02,.06,true,false));
+  g.add(vg);
+}
+function addGuardrail(g,x,z,len=.56,rot=0){
+  const rg = new THREE.Group();
+  rg.position.set(x,0,z); rg.rotation.y = rot;
+  rg.add(box(len,.018,.018,DETAIL.guardGrey,0,.20,0,true,false));
+  rg.add(box(len,.018,.018,DETAIL.guardGrey,0,.30,0,true,false));
+  for(const sx of[-len*.34,0,len*.34]) rg.add(cyl(.010,.20,DETAIL.steelDark,sx,.10,0));
+  g.add(rg);
+}
+function addUtilityPole(g,x,z,rot=0){
+  const pg = new THREE.Group();
+  pg.position.set(x,0,z); pg.rotation.y = rot;
+  pg.add(cyl(.018,.78,DETAIL.poleWood,0,.39,0));
+  pg.add(box(.28,.02,.03,DETAIL.steelDark,0,.68,0,true,false));
+  pg.add(box(.22,.016,.02,DETAIL.steelDark,0,.58,0,true,false));
+  for(const sx of[-.12,.12]){ pg.add(sphere(.016,DETAIL.concreteDark,sx,.68,0)); pg.add(sphere(.014,DETAIL.concreteDark,sx*.85,.58,0)); }
+  pg.add(box(.34,.006,.006,DETAIL.wireDark,0,.69,-.10,true,false));
+  pg.add(box(.34,.006,.006,DETAIL.wireDark,0,.69,.10,true,false));
+  pg.add(box(.28,.006,.006,DETAIL.wireDark,0,.59,-.07,true,false));
+  pg.add(box(.28,.006,.006,DETAIL.wireDark,0,.59,.07,true,false));
+  g.add(pg);
+}
+
+
+function addBike(g,x,z,rot=0,colorMat=DETAIL.bikeBlue,variant=0){
+  const bg = new THREE.Group();
+  bg.position.set(x,0,z); bg.rotation.y = rot;
+  const w1 = new THREE.Mesh(geoTorus, DETAIL.black); w1.scale.set(.085,.085,.085); w1.rotation.y = Math.PI/2; w1.position.set(-.10,.09,0); w1.castShadow=true; bg.add(w1);
+  const w2 = new THREE.Mesh(geoTorus, DETAIL.black); w2.scale.set(.085,.085,.085); w2.rotation.y = Math.PI/2; w2.position.set(.10,.09,0); w2.castShadow=true; bg.add(w2);
+  bg.add(box(.16,.012,.012,colorMat,0,.14,0,true,false));
+  bg.add(box(.10,.012,.012,colorMat,-.03,.12,.03,true,false));
+  bg.add(box(.10,.012,.012,colorMat,.03,.12,.03,true,false));
+  bg.add(box(.05,.012,.012,DETAIL.bikeSilver,.12,.18,.02,true,false));
+  bg.add(box(.05,.012,.012,DETAIL.bikeSilver,-.12,.18,.01,true,false));
+  bg.add(box(.03,.02,.03,DETAIL.black,-.03,.19,.01,true,false));
+  if(variant===1){
+    bg.add(box(.05,.04,.04,DETAIL.guardGrey,.12,.16,.08,true,false));
+    bg.add(box(.05,.03,.004,DETAIL.steelDark,.12,.16,.10,true,false));
+  }else if(variant===2){
+    bg.add(box(.02,.06,.02,DETAIL.steelDark,-.13,.21,.01,true,false));
+    bg.add(box(.05,.02,.05,DETAIL.machineRed,-.13,.25,.01,true,false));
+  }else if(variant===3){
+    bg.add(box(.12,.008,.012,DETAIL.steelDark,.02,.11,-.04,true,false));
+  }
+  g.add(bg);
+}
+function addBikeParking(g,x,z,rot=0,count=3){
+  const pg = new THREE.Group();
+  pg.position.set(x,0,z); pg.rotation.y = rot;
+  pg.add(box(.46,.02,.26,DETAIL.plaza,0,.01,0,false,true));
+  pg.add(box(.42,.03,.24,DETAIL.whitePanel,0,.34,0,true,true));
+  pg.add(box(.48,.03,.28,DETAIL.roofGrey,0,.37,0,true,true));
+  for(const sx of[-.16,0,.16]) pg.add(cyl(.010,.32,DETAIL.steelDark,sx,.16,-.07));
+  for(let i=0;i<count;i++){
+    const ox = -.14 + i*.14;
+    pg.add(cyl(.009,.11,DETAIL.steelDark,ox,.055,.06));
+    pg.add(cyl(.009,.11,DETAIL.steelDark,ox+.04,.055,.06));
+    addBike(pg,ox,.02,Math.PI/2,i%2?DETAIL.bikeRed:DETAIL.bikeBlue,i%4);
+  }
+  g.add(pg);
+}
+function addPedestrianBridge(g,rot=0){
+  const pg = new THREE.Group();
+  pg.rotation.y = rot;
+  pg.add(box(.24,.05,.86,DETAIL.plaza,0,.72,0,true,true));
+  pg.add(box(.03,.10,.86,DETAIL.guardGrey,-.12,.80,0,true,false));
+  pg.add(box(.03,.10,.86,DETAIL.guardGrey,.12,.80,0,true,false));
+  for(const z of[-.34,-.12,.12,.34]){
+    pg.add(cyl(.012,.22,DETAIL.steelDark,-.10,.61,z));
+    pg.add(cyl(.012,.22,DETAIL.steelDark,.10,.61,z));
+  }
+  pg.add(box(.14,.04,.26,DETAIL.plaza,-.24,.50,-.30,true,true));
+  pg.add(box(.14,.04,.26,DETAIL.plaza,-.24,.38,-.44,true,true));
+  pg.add(box(.14,.04,.26,DETAIL.plaza,.24,.50,.30,true,true));
+  pg.add(box(.14,.04,.26,DETAIL.plaza,.24,.38,.44,true,true));
+  g.add(pg);
+}
+
+
+function addManhole(g,x,z,r=.055){
+  const mh = new THREE.Mesh(geoCyl, DETAIL.concreteDark);
+  mh.scale.set(r,.006,r); mh.position.set(x,.082,z); mh.castShadow=false; mh.receiveShadow=true; g.add(mh);
+  const ring = new THREE.Mesh(geoTorus, DETAIL.steelDark);
+  ring.scale.set(r*.95,r*.95,r*.95); ring.rotation.x=Math.PI/2; ring.position.set(x,.088,z); ring.castShadow=false; g.add(ring);
+}
+
+
+function addStoreInterior(g,seed=0){
+  // ガラス越しに見えるコンビニ店内：棚、レジ、冷蔵ケース、商品列
+  const shelfMat = DETAIL.steelDark;
+  const foodA = DETAIL.convRed, foodB = DETAIL.convGreen, foodC = DETAIL.awningBlue;
+  for(const z of[-.10,.06,.22]){
+    g.add(box(.44,.045,.035,shelfMat,-.12,.19,z,true,true));
+    for(let i=0;i<5;i++){
+      const matPick = i%3===0?foodA:i%3===1?foodB:foodC;
+      g.add(box(.055,.045,.025,matPick,-.30+i*.085,.235,z,true,false));
+    }
+  }
+  g.add(box(.25,.10,.10,DETAIL.brickDark,.10,.12,-.21,true,true));
+  g.add(box(.13,.06,.018,DETAIL.glassCyan,.10,.19,-.265,true,false));
+  g.add(box(.18,.22,.035,DETAIL.whitePanel,-.39,.23,-.02,true,false));
+  g.add(box(.14,.16,.022,DETAIL.glassBlue,-.39,.24,-.035,true,false));
+  for(let i=0;i<4;i++)g.add(box(.11,.01,.012,DETAIL.concreteDark,-.39,.29-i*.035,-.02,true,false));
+  g.add(box(.10,.05,.055,DETAIL.machineRed,.20,.09,.22,true,true));
+  const floorPoster=labelSprite('SALE','#fef3c7',.12); floorPoster.position.set(.08,.31,-.32); g.add(floorPoster);
+}
+function addStationRotary(g){
+  // 駅前ロータリー：丸い車道、中央島、バス・タクシー乗降場
+  const rotary = new THREE.Mesh(geoTorus, M.road);
+  rotary.scale.set(.95,.95,.95); rotary.rotation.x=Math.PI/2; rotary.position.set(1.55,.07,.92); rotary.castShadow=false; rotary.receiveShadow=true; g.add(rotary);
+  const inner = new THREE.Mesh(geoCyl, DETAIL.grass);
+  inner.scale.set(.34,.025,.34); inner.position.set(1.55,.085,.92); inner.castShadow=false; inner.receiveShadow=true; g.add(inner);
+  inner.add(sphere(.12,DETAIL.treeLeaf,0,.18,0));
+  g.add(box(.12,.012,.64,M.roadLine,1.55,.095,.92,false,false));
+  g.add(box(.64,.012,.12,M.roadLine,1.55,.096,.92,false,false));
+  // 駅舎前の乗降レーン
+  g.add(box(.92,.035,.34,DETAIL.plaza,1.02,.10,.18,false,true));
+  g.add(box(.88,.012,.035,M.yellow,1.02,.123,.03,false,false));
+  g.add(box(.88,.012,.035,M.yellow,1.02,.123,.33,false,false));
+  const busSign=labelSprite('BUS STOP','#fde68a',.20); busSign.position.set(1.02,.135,.18); g.add(busSign);
+  const taxiSign=labelSprite('TAXI','#dbeafe',.22); taxiSign.position.set(1.98,.135,1.45); g.add(taxiSign);
+  addTaxiStand(g,2.08,1.18,Math.PI/2,2);
+  // バス待機車両風
+  const bus=parkedVehicleMesh('car'); bus.scale.set(1.25,1.05,1.65); bus.position.set(.94,.03,.18); bus.rotation.y=Math.PI/2; g.add(bus);
+  bus.add(box(.24,.018,.035,DETAIL.awningBlue,0,.17,.22,true,false));
+  addTimetableBoard(g,.55,.34,0,true);
+  addGuardrail(g,1.10,-.04,.62,0);
+  addGuardrail(g,1.84,1.86,.58,0);
+}
+
+function addConvenienceStore(g,seed=0){
+  const h=.52, frontGlass=DETAIL.glassCyan, sideGlass=DETAIL.glassBlue;
+  g.add(box(.98,.022,.98,DETAIL.plaza,0,.012,0,false,true));
+  g.add(box(.84,h,.64,DETAIL.whitePanel,-.10,h/2,-.02,true,true));
+  g.add(box(.90,.05,.70,DETAIL.roofGrey,-.10,h+.03,-.02,true,true));
+  g.add(box(.82,.08,.05,DETAIL.convBlue,-.10,.51,-.34,true,false));
+  g.add(box(.82,.05,.05,DETAIL.convGreen,-.10,.58,-.34,true,false));
+  g.add(box(.82,.05,.05,DETAIL.convRed,-.10,.64,-.34,true,false));
+  g.add(box(.76,.10,.04,DETAIL.whitePanel,-.10,.73,-.35,true,false));
+  g.add(box(.74,.06,.02,DETAIL.glassCyan,-.10,.73,-.325,true,false));
+  for(const sx of[-.38,-.18,.03,.21]) g.add(box(.14,.24,.03,frontGlass,sx,.21,-.35,true,false));
+  g.add(box(.18,.26,.03,DETAIL.door,-.08,.20,-.35,true,false));
+  g.add(box(.52,.16,.02,frontGlass,-.15,.21,-.34,true,false));
+  g.add(box(.02,.20,.20,sideGlass,.23,.24,-.08,true,false));
+  addStoreInterior(g,seed);
+  addEntrySteps(g,.26,-.08,-.22);
+  g.add(box(.30,.02,.70,DETAIL.asphalt2,.34,.02,0,false,true));
+  for(const zz of[-.18,0,.18]){
+    g.add(box(.22,.008,.02,M.roadLine,.34,.04,zz-.10,false,false));
+    g.add(box(.22,.008,.02,M.roadLine,.34,.04,zz+.10,false,false));
+    g.add(box(.02,.008,.18,M.roadLine,.24,.04,zz,false,false));
+    g.add(box(.02,.008,.18,M.roadLine,.44,.04,zz,false,false));
+    g.add(box(.06,.02,.02,DETAIL.concreteDark,.44,.03,zz+.07,false,true));
+  }
+  g.add(box(.10,.02,.62,DETAIL.plaza,-.32,.02,.08,false,true));
+  g.add(box(.14,.03,.05,DETAIL.brickDark,-.36,.15,.24,true,true));
+  g.add(box(.14,.03,.05,DETAIL.brickDark,-.36,.22,.21,true,true));
+  const mainText = seed>.5 ? 'コンビニ' : '24H';
+  addBillboard(g, mainText, -.10,.93,-.34,0,.42,'#0f172a',DETAIL.whitePanel);
+  addBillboard(g, 'OPEN', .18,.78,-.34,0,.22,'#dcfce7',DETAIL.awningGreen);
+  addBillboard(g, 'ATM', -.36,.66,-.08,Math.PI/2,.20,'#dbeafe',DETAIL.awningBlue);
+  addBillboard(g, seed>.5 ? 'PARK' : 'SALE', .24,.48,-.34,0,.16,'#fef3c7',DETAIL.signOrange);
+  addBillboard(g, 'レジ', -.02,.39,-.34,0,.13,'#0f172a',DETAIL.whitePanel);
+  g.add(box(.06,.26,.04,DETAIL.awningBlue,.31,.48,-.18,true,false));
+  g.add(box(.04,.22,.03,DETAIL.whitePanel,.31,.48,-.14,true,false));
+  addRoadSign(g,'P',.46,.30,{panelMat:DETAIL.signBlue,textColor:'#dbeafe',scale:.24,w:.18,h:.18,poleH:.44});
+  addVendingMachine(g,-.34,.18,0,seed>.5?DETAIL.machineRed:DETAIL.machineWhite);
+  addGuardrail(g,.16,.37,.30,0);
+  addBikeParking(g,-.34,-.02,0,2);
+  const poster1=labelSprite('新商品','#fef3c7',.14); poster1.position.set(-.26,.27,-.315); g.add(poster1);
+  const poster2=labelSprite('ATM','#dbeafe',.12); poster2.position.set(.18,.26,-.315); g.add(poster2);
+}
+
 function renderRoad(g,x,y){
   const n=neighbors(x,y,isRoad), vertical=n.some(p=>p.y!==y), horizontal=n.some(p=>p.x!==x);
   g.add(box(1,.04,1,M.walk,0,.02,0,false,true));
@@ -328,19 +860,73 @@ function renderRoad(g,x,y){
   if(vertical&&!horizontal){
     g.add(box(.03,.012,.58,M.roadLine,0,.09,0,false,false));
     for(const sx of[-.22,.22])g.add(box(.04,.012,.18,M.roadLine,sx,.09,-.34,false,false));
+    g.add(box(.10,.008,1.0,DETAIL.laneRed,-.21,.082,0,false,false));
+    addBusLaneDecor(g,'v');
   }else if(horizontal&&!vertical){
     g.add(box(.58,.012,.03,M.roadLine,0,.09,0,false,false));
     for(const sz of[-.22,.22])g.add(box(.18,.012,.04,M.roadLine,-.34,.09,sz,false,false));
+    g.add(box(1.0,.008,.10,DETAIL.laneRed,0,.082,.21,false,false));
+    addBusLaneDecor(g,'h');
   }else{
     g.add(box(.03,.012,.28,M.roadLine,0,.09,-.34,false,false));
     g.add(box(.28,.012,.03,M.roadLine,.34,.09,0,false,false));
     for(const a of[-.36,.36]){g.add(box(.04,.012,.16,M.roadLine,a,.09,-.36,false,false));g.add(box(.16,.012,.04,M.roadLine,-.36,.09,a,false,false));}
   }
   for(const sx of[-.39,.39])g.add(box(.04,.02,1.0,DETAIL.concreteDark,sx,.065,0,false,true));
-  if(n.length>=3){
-    for(const p of [[-.37,-.37],[.37,.37]]){
-      g.add(cyl(.02,.62,DETAIL.steelDark,p[0],.33,p[1]));
-      g.add(box(.14,.10,.05,M.red,p[0],.67,p[1],true,false));
+  if(horizontal&&!vertical&&hash(x,y,111)>.62) addManhole(g,.12,0,.052);
+  if(vertical&&!horizontal&&hash(x,y,112)>.62) addManhole(g,0,-.12,.052);
+  if((horizontal&&vertical)&&hash(x,y,113)>.48) addManhole(g,.18,.18,.045);
+  addRoadWear(g,x,y);
+  const isIntersection = n.length>=3 || (vertical&&horizontal);
+  if(isIntersection){
+    const cwVarA=Math.floor(hash(x,y,121)*3), cwVarB=Math.floor(hash(x,y,122)*3), cwVarC=Math.floor(hash(x,y,123)*3), cwVarD=Math.floor(hash(x,y,124)*3);
+    const cw1=new THREE.Group(); cw1.position.set(0,0,.34); addCrosswalk(cw1,'ew',cwVarA); g.add(cw1);
+    const cw2=new THREE.Group(); cw2.position.set(0,0,-.34); addCrosswalk(cw2,'ew',cwVarB); g.add(cw2);
+    const cw3=new THREE.Group(); cw3.position.set(.34,0,0); addCrosswalk(cw3,'ns',cwVarC); g.add(cw3);
+    const cw4=new THREE.Group(); cw4.position.set(-.34,0,0); addCrosswalk(cw4,'ns',cwVarD); g.add(cw4);
+    addStopLine(g,0,.24,0,.34); addStopLine(g,0,-.24,0,.34); addStopLine(g,.24,0,Math.PI/2,.34); addStopLine(g,-.24,0,Math.PI/2,.34);
+    addCenterMedian(g,0,.16,.16,0); addCenterMedian(g,0,-.16,.16,0); addCenterMedian(g,.16,0,.16,Math.PI/2); addCenterMedian(g,-.16,0,.16,Math.PI/2);
+    addTurnLaneGuides(g);
+    addRightTurnPocket(g,'h',1); addRightTurnPocket(g,'h',-1); addRightTurnPocket(g,'v',1); addRightTurnPocket(g,'v',-1);
+    addLaneArrowMark(g,'↑',.12,.11,0,.18); addLaneArrowMark(g,'↰',-.12,.11,0,.20);
+    addLaneArrowMark(g,'↓',-.12,-.11,0,.18); addLaneArrowMark(g,'↱',.12,-.11,0,.20);
+    addLaneArrowMark(g,'→',.11,-.12,0,.18); addLaneArrowMark(g,'↲',.11,.12,0,.20);
+    addLaneArrowMark(g,'←',-.11,.12,0,.18); addLaneArrowMark(g,'↳',-.11,-.12,0,.20);
+    addTrafficSignal(g,-.42,-.42,0);
+    addTrafficSignal(g,.42,.42,Math.PI);
+    addRoadSign(g,'40',-.48,.38,{panelMat:DETAIL.signRed,textColor:'#0f172a',scale:.22,w:.18,h:.18,poleH:.48});
+    addRoadSign(g,'↗',.48,-.38,{panelMat:DETAIL.signBlue,textColor:'#dbeafe',scale:.24,w:.18,h:.18,poleH:.48});
+  }else{
+    const hv = horizontal && !vertical, vv = vertical && !horizontal;
+    if(hv){
+      if(hash(x,y,91)>.56) addUtilityPole(g,-.44,-.33,0);
+      if(hash(x,y,93)>.64) addGuardrail(g,.02,.41,.72,0);
+      if(hash(x,y,94)>.84) addRoadSign(g,'40',-.44,.34,{panelMat:DETAIL.signRed,textColor:'#0f172a',scale:.22,w:.18,h:.18,poleH:.44,rot:0});
+      if(hash(x,y,98)>.93) addPedestrianBridge(g,Math.PI/2);
+      const leftJ = inside(x-1,y)&&adj(x-1,y,isRoad)>=3, rightJ = inside(x+1,y)&&adj(x+1,y,isRoad)>=3;
+      if(leftJ||rightJ){
+        addCenterMedian(g,0,0,.32,Math.PI/2);
+        addLaneArrowMark(g,'←',-.16,0,0,.18); addLaneArrowMark(g,'→',.16,0,0,.18);
+        if(leftJ){ addRightTurnPocket(g,'h',-1); addRoadTextMark(g,'止まれ',-.28,0,.14); addRoadTextMark(g,'右折専用',-.06,-.12,.13); }
+        if(rightJ){ addRightTurnPocket(g,'h',1); addRoadTextMark(g,'止まれ',.28,0,.14); addRoadTextMark(g,'右折専用',.06,.12,.13); }
+      } else if(getCell(x,y).type===T.ROAD && hash(x,y,301)>.74){
+        addParkedVehicle(g,.28,hash(x,y,302)>.5?.28:-.28,Math.PI/2,hash(x,y,303)>.82?'taxi':'car');
+      }
+    }
+    if(vv){
+      if(hash(x,y,95)>.56) addUtilityPole(g,.33,-.44,Math.PI/2);
+      if(hash(x,y,96)>.64) addGuardrail(g,-.41,.02,.72,Math.PI/2);
+      if(hash(x,y,97)>.84) addRoadSign(g,'徐行',.34,-.44,{panelMat:DETAIL.signBlue,textColor:'#dbeafe',scale:.18,w:.22,h:.18,poleH:.44,rot:Math.PI/2});
+      if(hash(x,y,99)>.93) addPedestrianBridge(g,0);
+      const upJ = inside(x,y-1)&&adj(x,y-1,isRoad)>=3, downJ = inside(x,y+1)&&adj(x,y+1,isRoad)>=3;
+      if(upJ||downJ){
+        addCenterMedian(g,0,0,.32,0);
+        addLaneArrowMark(g,'↑',0,-.16,0,.18); addLaneArrowMark(g,'↓',0,.16,0,.18);
+        if(upJ){ addRightTurnPocket(g,'v',-1); addRoadTextMark(g,'止まれ',0,-.28,.14); addRoadTextMark(g,'右折専用',.12,-.06,.13); }
+        if(downJ){ addRightTurnPocket(g,'v',1); addRoadTextMark(g,'止まれ',0,.28,.14); addRoadTextMark(g,'右折専用',-.12,.06,.13); }
+      } else if(getCell(x,y).type===T.ROAD && hash(x,y,304)>.74){
+        addParkedVehicle(g,hash(x,y,305)>.5?.28:-.28,.28,0,hash(x,y,306)>.82?'taxi':'car');
+      }
     }
   }
 }
@@ -373,26 +959,48 @@ function renderStation(g,x,y){
   g.add(box(.22,.22,.05,DETAIL.awningBlue,.88,.60,-1.92,true,false));
   g.add(box(.28,.26,.03,DETAIL.glassCyan,.88,.25,-1.91,true,false));
   addEntrySteps(g,.34,.88,-1.33);
-  addBench(g,.16,-1.65,Math.PI/2); addBench(g,.16,1.65,Math.PI/2);
+  addBench(g,.16,-1.65,Math.PI/2); addBench(g,.16,1.65,Math.PI/2); addBench(g,.42,-1.65,Math.PI/2);
+  addVendingMachine(g,.86,-.62,Math.PI/2,DETAIL.machineWhite);
+  addVendingMachine(g,.86,.10,Math.PI/2,DETAIL.machineRed);
+  addGuardrail(g,-.16,2.08,.80,0);
+  addBikeParking(g,.95,1.30,Math.PI/2,3);
+  const tt1=addTimetableBoard(g,1.02,-.95,Math.PI/2,true); g.add(tt1);
+  const tt2=addTimetableBoard(g,1.02,.72,Math.PI/2,false); g.add(tt2);
+  addTaxiStand(g,1.55,-.12,0,2);
+  addStationRotary(g);
   const sp=labelSprite('STATION','#67e8f9',.78); sp.position.set(.88,1.18,-2.20); g.add(sp);
 }
 function renderBusStop(g,x,y){
   renderRoad(g,x,y);
-  g.add(box(.56,.05,.28,DETAIL.plaza,.22,.12,-.31,true,true));
-  g.add(box(.50,.04,.64,DETAIL.whitePanel,.22,.58,-.25,true,true));
-  g.add(box(.58,.05,.70,DETAIL.roofGrey,.22,.62,-.25,true,true));
-  g.add(box(.03,.38,.03,DETAIL.steelDark,-.02,.31,-.50));
-  g.add(box(.03,.38,.03,DETAIL.steelDark,.46,.31,-.50));
-  g.add(box(.03,.38,.03,DETAIL.steelDark,-.02,.31,.00));
-  g.add(box(.03,.38,.03,DETAIL.steelDark,.46,.31,.00));
-  g.add(box(.46,.32,.02,DETAIL.glassCyan,.22,.37,-.51,true,false));
-  g.add(box(.02,.32,.22,DETAIL.glassCyan,-.03,.37,-.24,true,false));
-  g.add(box(.22,.03,.06,DETAIL.brickDark,.20,.23,-.05,true,true));
-  g.add(box(.02,.20,.20,DETAIL.steelDark,.49,.28,-.22,true,true));
-  g.add(box(.12,.34,.04,DETAIL.awningBlue,.52,.42,-.30,true,false));
-  g.add(cyl(.018,.66,DETAIL.steelDark,.54,.34,-.30));
-  g.add(box(.22,.03,.08,M.yellow,.10,.13,.15,false,false));
-  const sp=labelSprite('BUS','#bbf7d0',.55); sp.position.set(.25,.86,-.56); g.add(sp);
+  g.add(box(.62,.05,.34,DETAIL.plaza,.22,.12,-.31,true,true));
+  g.add(box(.58,.04,.72,DETAIL.whitePanel,.22,.58,-.25,true,true));
+  g.add(box(.66,.06,.78,DETAIL.roofGrey,.22,.64,-.25,true,true));
+  g.add(box(.46,.02,.70,DETAIL.awningBlue,.22,.67,-.25,true,true));
+  g.add(box(.70,.02,.08,DETAIL.whitePanel,.22,.71,-.25,true,false));
+  g.add(box(.03,.42,.03,DETAIL.steelDark,-.02,.33,-.50));
+  g.add(box(.03,.42,.03,DETAIL.steelDark,.46,.33,-.50));
+  g.add(box(.03,.42,.03,DETAIL.steelDark,-.02,.33,.00));
+  g.add(box(.03,.42,.03,DETAIL.steelDark,.46,.33,.00));
+  g.add(box(.46,.34,.02,DETAIL.glassCyan,.22,.39,-.51,true,false));
+  g.add(box(.02,.34,.24,DETAIL.glassCyan,-.03,.39,-.24,true,false));
+  g.add(box(.02,.34,.24,DETAIL.glassCyan,.47,.39,-.24,true,false));
+  g.add(box(.26,.03,.07,DETAIL.brickDark,.18,.23,-.05,true,true));
+  g.add(box(.06,.24,.24,DETAIL.whitePanel,.51,.29,-.22,true,true));
+  const tt=addTimetableBoard(g,.53,-.22,Math.PI/2,true); g.add(tt);
+  const routeMap=addTimetableBoard(g,.53,-.02,Math.PI/2,false); g.add(routeMap);
+  g.add(box(.14,.38,.05,DETAIL.awningBlue,.54,.44,-.30,true,false));
+  g.add(cyl(.018,.70,DETAIL.steelDark,.56,.35,-.30));
+  g.add(box(.24,.03,.08,M.yellow,.08,.13,.15,false,false));
+  addBench(g,.16,.04,0);
+  addBench(g,.28,.04,0);
+  g.add(box(.22,.012,.012,DETAIL.steelDark,.22,.20,.005,true,false));
+  addVendingMachine(g,.36,.18,Math.PI/2,DETAIL.machineWhite);
+  addGuardrail(g,.18,.39,.34,0);
+  addUtilityPole(g,-.28,.34,0);
+  addBikeParking(g,-.18,.18,0,2);
+  addTaxiStand(g,-.26,.27,Math.PI/2,1);
+  const sp=labelSprite('BUS','#bbf7d0',.55); sp.position.set(.25,.90,-.56); g.add(sp);
+  const routeNo=labelSprite('のりば 1','#dbeafe',.22); routeNo.position.set(.23,.74,-.25); g.add(routeNo);
 }
 function renderZone(g,x,y,c){
   const base = c.type===T.RES ? new THREE.MeshBasicMaterial({color:0x22c55e,transparent:true,opacity:.14}) : c.type===T.COM ? new THREE.MeshBasicMaterial({color:0x38bdf8,transparent:true,opacity:.14}) : new THREE.MeshBasicMaterial({color:0xfacc15,transparent:true,opacity:.14});
@@ -432,14 +1040,24 @@ function renderZone(g,x,y,c){
   }else if(c.type===T.COM){
     const facade=COM_FACADES[Math.floor(c.seed*COM_FACADES.length)%COM_FACADES.length];
     const w=.74,d=.72,h=([0,.95,1.45,2.05,2.82,3.58][lv]||3.58)*growth;
-    g.add(box(w,h,d,facade,0,h/2,0,true,true));
-    g.add(box(w*.95,.16,d*.95,DETAIL.black,0,h+.08,0,true,true));
-    g.add(box(w*.78,.28,.04,DETAIL.glassCyan,0,.22,-d*.53,true,false));
-    addCanopy(g,w*.78,.14,DETAIL.awningBlue,0,.40,-d*.58);
-    addWindows(g,w,h,d,Math.min(8,lv+2),3,true,DETAIL.glassBlue); addWindows(g,w,h,d,Math.min(7,lv+1),3,false,DETAIL.glassBlue);
-    for(const sx of[-w*.44,w*.44])g.add(box(.025,h+.02,.04,DETAIL.steel,sx,(h+.02)/2,-d*.52,true,false));
-    if(lv>=3)g.add(box(w*.45,h*.32,d*.42,DETAIL.glassCyan,.14,h*.82,-.05,true,true));
-    addRoofUnits(g,w,h,d,3);
+    if(lv<=2 && (c.seed>.42 || lv===1)){
+      addConvenienceStore(g,c.seed);
+      if(c.seed>.72) addBillboard(g,'P',.34,.34,.28,0,.32,'#dbeafe',DETAIL.awningBlue);
+    }else{
+      g.add(box(w,h,d,facade,0,h/2,0,true,true));
+      g.add(box(w*.95,.16,d*.95,DETAIL.black,0,h+.08,0,true,true));
+      g.add(box(w*.78,.28,.04,DETAIL.glassCyan,0,.22,-d*.53,true,false));
+      addCanopy(g,w*.78,.14,DETAIL.awningBlue,0,.40,-d*.58);
+      addWindows(g,w,h,d,Math.min(8,lv+2),3,true,DETAIL.glassBlue); addWindows(g,w,h,d,Math.min(7,lv+1),3,false,DETAIL.glassBlue);
+      for(const sx of[-w*.44,w*.44])g.add(box(.025,h+.02,.04,DETAIL.steel,sx,(h+.02)/2,-d*.52,true,false));
+      if(lv>=3)g.add(box(w*.45,h*.32,d*.42,DETAIL.glassCyan,.14,h*.82,-.05,true,true));
+      addRoofUnits(g,w,h,d,3);
+      const signText = lv>=4 ? (c.seed>.5?'OFFICE':'TOWER') : (c.seed>.5?'SHOP':'MALL');
+      addBillboard(g,signText,0,h+.42,-.10,0,.40,lv>=4?'#bfdbfe':'#fde68a',lv>=4?DETAIL.awningBlue:DETAIL.signOrange);
+      addBillboard(g, lv>=4 ? 'LOBBY' : 'OPEN', -.36,.64,-.34,0,.20,'#fef3c7',DETAIL.signOrange);
+      addBillboard(g, lv>=4 ? 'PARK' : 'CAFE', .40,.78,-.34,0,.28,'#dcfce7',DETAIL.awningGreen);
+      if(lv>=3) addBillboard(g,'24H',-.40,.92,-.16,Math.PI/2,.18,'#dbeafe',DETAIL.awningBlue);
+    }
   }else{
     const facade=IND_FACADES[Math.floor(c.seed*IND_FACADES.length)%IND_FACADES.length];
     const w=.84,d=.76,h=([0,.75,.98,1.25,1.55][lv]||1.55)*growth;
@@ -554,7 +1172,44 @@ function renderAirport(g,x,y,c){
   }
   const sp=labelSprite('AIRPORT','#c7d2fe',1.05); sp.position.set(ox,1.98,oz-2.60); g.add(sp);
 }
-function renderCell(x,y,animate=false){const c=getCell(x,y); if(!c)return; clearMesh(c); if(c.type===T.EMPTY||isMultiSub(c,x,y))return; const g=new THREE.Group(); g.position.set(worldX(x),0,worldZ(y)); g.userData.cell={x,y}; try{switch(c.type){case T.WATER:g.add(box(1.02,.08,1.02,M.water,0,.02,0,false,true));break;case T.TREE:addTree(g,x,y,.72+hash(x,y,2)*.35);break;case T.ROAD:renderRoad(g,x,y);break;case T.RAIL:renderRail(g,x,y);break;case T.STATION:renderStation(g,x,y);break;case T.BUSSTOP:renderBusStop(g,x,y);break;case T.RES:case T.COM:case T.IND:renderZone(g,x,y,c);break;case T.PARK:renderPark(g,x,y);break;case T.SCHOOL:renderService(g,x,y,c,'SCHOOL',mat(0xb45309,.75,.05),0x8b5cf6);break;case T.HOSPITAL:renderService(g,x,y,c,'HOSPITAL',M.white,0xf43f5e);break;case T.POLICE:renderService(g,x,y,c,'POLICE',M.white,0x3b82f6);break;case T.FIRE:renderService(g,x,y,c,'FIRE',M.red,0xef4444);break;case T.POWER:renderService(g,x,y,c,'POWER',mat(0x3f3f46,.55,.5),0xfacc15);break;case T.HOTEL:renderHotel(g,x,y,c);break;case T.AIRPORT:renderAirport(g,x,y,c);break;default:g.add(box(.7,.3,.7,M.concrete));}}
+
+function renderCityHall(g,x,y,c){
+  g.add(box(.96,.04,.96,DETAIL.plaza,0,.02,0,false,true));
+  g.add(box(.78,.50,.58,DETAIL.whitePanel,0,.27,0,true,true));
+  g.add(box(.86,.08,.66,DETAIL.roofGrey,0,.56,0,true,true));
+  for(const sx of[-.30,-.15,0,.15,.30])g.add(cyl(.018,.44,DETAIL.steelDark,sx,.25,-.33));
+  g.add(box(.70,.08,.06,DETAIL.awningBlue,0,.51,-.36,true,false));
+  g.add(box(.20,.28,.035,DETAIL.door,0,.18,-.31,true,false));
+  for(const sx of[-.28,.28])for(const yy of[.25,.39])g.add(box(.12,.08,.025,DETAIL.glassCyan,sx,yy,-.31,true,false));
+  const tower=box(.24,.35,.24,DETAIL.whitePanel,0,.78,0,true,true);g.add(tower);
+  g.add(box(.30,.06,.30,DETAIL.roofGrey,0,.98,0,true,true));
+  const sp=labelSprite('CITY HALL','#dbeafe',.36);sp.position.set(0,1.18,-.34);g.add(sp);
+}
+function renderLandmark(g,x,y,c){
+  g.add(box(.92,.04,.92,DETAIL.plaza,0,.02,0,false,true));
+  const pick=Math.floor(c.seed*6)%6;
+  if(pick===0){
+    g.add(cyl(.10,.78,DETAIL.steelDark,0,.42,0));g.add(sphere(.22,DETAIL.glassCyan,0,.86,0));
+    const sp=labelSprite('展望台','#fef3c7',.30);sp.position.set(0,1.18,-.30);g.add(sp);
+  }else if(pick===1){
+    g.add(box(.68,.38,.46,DETAIL.glassBlue,0,.23,0,true,true));g.add(box(.74,.06,.52,DETAIL.roofGrey,0,.46,0,true,true));
+    const water=sphere(.18,M.water,0,.12,-.28);water.scale.y=.25;g.add(water);const sp=labelSprite('水族館','#bae6fd',.30);sp.position.set(0,.75,-.32);g.add(sp);
+  }else if(pick===2){
+    const ring=new THREE.Mesh(geoTorus,DETAIL.steel);ring.scale.set(.38,.38,.38);ring.rotation.x=Math.PI/2;ring.position.set(0,.10,0);g.add(ring);g.add(box(.62,.06,.32,DETAIL.grass,0,.07,0,false,true));
+    const sp=labelSprite('STADIUM','#dcfce7',.28);sp.position.set(0,.55,-.34);g.add(sp);
+  }else if(pick===3){
+    g.add(box(.72,.40,.58,DETAIL.glassCyan,0,.24,0,true,true));g.add(box(.80,.08,.66,DETAIL.signOrange,0,.48,0,true,true));
+    addBillboard(g,'MALL',0,.70,-.34,0,.34,'#fef3c7',DETAIL.signOrange);
+  }else if(pick===4){
+    for(let i=0;i<5;i++){const t=cyl(.025,.38+hash(x,y,i)*.25,[DETAIL.awningBlue,DETAIL.signRed,DETAIL.awningGreen,DETAIL.signOrange,DETAIL.glassCyan][i],-.32+i*.16,.20,0);g.add(t);} 
+    const sp=labelSprite('花火会場','#fbcfe8',.26);sp.position.set(0,.72,-.34);g.add(sp);
+  }else{
+    g.add(box(.82,.08,.82,DETAIL.grass,0,.08,0,false,true));g.add(cyl(.08,.50,DETAIL.stone,0,.32,0));g.add(sphere(.16,DETAIL.glassCyan,0,.60,0));
+    const sp=labelSprite('名所','#fef3c7',.30);sp.position.set(0,.88,-.34);g.add(sp);
+  }
+}
+
+function renderCell(x,y,animate=false){const c=getCell(x,y); if(!c)return; clearMesh(c); if(c.type===T.EMPTY||isMultiSub(c,x,y))return; const g=new THREE.Group(); g.position.set(worldX(x),0,worldZ(y)); g.userData.cell={x,y}; try{switch(c.type){case T.WATER:g.add(box(1.02,.08,1.02,M.water,0,.02,0,false,true));break;case T.TREE:addTree(g,x,y,.72+hash(x,y,2)*.35);break;case T.ROAD:renderRoad(g,x,y);break;case T.RAIL:renderRail(g,x,y);break;case T.STATION:renderStation(g,x,y);break;case T.BUSSTOP:renderBusStop(g,x,y);break;case T.RES:case T.COM:case T.IND:renderZone(g,x,y,c);break;case T.PARK:renderPark(g,x,y);break;case T.SCHOOL:renderService(g,x,y,c,'SCHOOL',mat(0xb45309,.75,.05),0x8b5cf6);break;case T.HOSPITAL:renderService(g,x,y,c,'HOSPITAL',M.white,0xf43f5e);break;case T.POLICE:renderService(g,x,y,c,'POLICE',M.white,0x3b82f6);break;case T.FIRE:renderService(g,x,y,c,'FIRE',M.red,0xef4444);break;case T.POWER:renderService(g,x,y,c,'POWER',mat(0x3f3f46,.55,.5),0xfacc15);break;case T.CITYHALL:renderCityHall(g,x,y,c);break;case T.LANDMARK:renderLandmark(g,x,y,c);break;case T.HOTEL:renderHotel(g,x,y,c);break;case T.AIRPORT:renderAirport(g,x,y,c);break;default:g.add(box(.7,.3,.7,M.concrete));}}
 catch(e){console.warn('render fallback',x,y,c.type,e);g.clear();g.add(box(.78,.48,.78,M.concrete,0,.24,0,true,true));}
 staticGroup.add(g);c.mesh=g;if(animate){g.scale.y=.04;animations.push({obj:g,t:0});}}
 function renderAll(){staticGroup.clear();for(let y=0;y<GRID;y++)for(let x=0;x<GRID;x++){const c=getCell(x,y);c.mesh=null;if(c.type!==T.EMPTY)renderCell(x,y,false);}updateLight();}
@@ -563,40 +1218,169 @@ function rerenderAround(x,y){for(let yy=y-1;yy<=y+1;yy++)for(let xx=x-1;xx<=x+1;
 function canPlace(x,y,type){const c=getCell(x,y); if(!c||c.type===T.WATER||c.type===T.AIRPORT)return false; if(type===T.ROAD||type===T.RAIL||type===T.PARK)return c.type===T.EMPTY||c.type===T.TREE; if(type===T.STATION)return c.type===T.RAIL||c.type===T.EMPTY||c.type===T.TREE; if(type===T.BUSSTOP)return c.type===T.ROAD||c.type===T.EMPTY||c.type===T.TREE; return c.type===T.EMPTY||c.type===T.TREE;}
 function canPlaceMulti(x,y,def){for(let yy=y;yy<y+def.h;yy++)for(let xx=x;xx<x+def.w;xx++){const c=getCell(xx,yy); if(!c||!(c.type===T.EMPTY||c.type===T.TREE))return false;}return true;}
 function removeMultiAt(x,y){const c=getCell(x,y); if(!c||c.type!==T.AIRPORT)return false; const rx=c.rootX,ry=c.rootY;for(let yy=0;yy<GRID;yy++)for(let xx=0;xx<GRID;xx++){const cc=getCell(xx,yy);if(cc.type===T.AIRPORT&&cc.rootX===rx&&cc.rootY===ry){clearMesh(cc);state.grid[yy][xx]=cell(T.EMPTY);}}return true;}
-function placeMulti(x,y,tool){const def=MULTI[tool]; const sx=x-Math.floor(def.w/2),sy=y-Math.floor(def.h/2); if(state.money<def.cost){toast('資金が足りません');return;} if(!canPlaceMulti(sx,sy,def)){toast(def.name+'は '+def.w+'×'+def.h+' マスの空き地が必要です');return;} state.money-=def.cost; for(let yy=sy;yy<sy+def.h;yy++)for(let xx=sx;xx<sx+def.w;xx++){const c=getCell(xx,yy);clearMesh(c);c.type=def.type;c.level=1;c.age=0;c.rootX=sx;c.rootY=sy;c.seed=hash(xx,yy,91);} renderCell(sx,sy,true); for(let yy=sy-1;yy<sy+def.h+1;yy++)for(let xx=sx-1;xx<sx+def.w+1;xx++)if(inMap(xx,yy))rerenderAround(xx,yy); updateStats();updateUI();save(false);toast(def.name+'を建設しました');}
-function paint(x,y){if(!inMap(x,y))return;const once=key(x,y)+'/'+state.tool;if(once===state.lastPaint)return;state.lastPaint=once;if(state.tool==='camera')return;if(MULTI[state.tool]){placeMulti(x,y,state.tool);return;}const c=getCell(x,y);if(state.tool==='bulldoze'){if(c.type===T.EMPTY||c.type===T.WATER)return;if(state.money<COST.bulldoze){toast('資金が足りません');return;}state.money-=COST.bulldoze;if(c.type===T.AIRPORT)removeMultiAt(x,y);else{clearMesh(c);state.grid[y][x]=cell(T.EMPTY);}rerenderAround(x,y);updateStats();updateUI();save(false);return;}const type=TOOL_TO_TYPE[state.tool];const cost=COST[state.tool]||0;if(!canPlace(x,y,type))return;if(state.money<cost){toast('資金が足りません');return;}state.money-=cost;c.type=type;c.level=0;c.age=0;c.rootX=null;c.rootY=null;c.seed=hash(x,y,31);renderCell(x,y,true);rerenderAround(x,y);updateStats();updateUI();save(false);}
+function placeMulti(x,y,tool){const def=MULTI[tool]; const sx=x-Math.floor(def.w/2),sy=y-Math.floor(def.h/2); if(state.money<def.cost){toast('資金が足りません');return;} if(!canPlaceMulti(sx,sy,def)){toast(def.name+'は '+def.w+'×'+def.h+' マスの空き地が必要です');return;} state.money-=def.cost; for(let yy=sy;yy<sy+def.h;yy++)for(let xx=sx;xx<sx+def.w;xx++){const c=getCell(xx,yy);clearMesh(c);c.type=def.type;c.level=1;c.age=0;c.rootX=sx;c.rootY=sy;c.seed=hash(xx,yy,91);} renderCell(sx,sy,true); for(let yy=sy-1;yy<sy+def.h+1;yy++)for(let xx=sx-1;xx<sx+def.w+1;xx++)if(inMap(xx,yy))rerenderAround(xx,yy); updateStats();updateTutorialMissions(true);updateUI();save(false);toast(def.name+'を建設しました');}
+function paint(x,y){if(!inMap(x,y))return;const once=key(x,y)+'/'+state.tool;if(once===state.lastPaint)return;state.lastPaint=once;if(state.tool==='camera')return;if(MULTI[state.tool]){placeMulti(x,y,state.tool);return;}const c=getCell(x,y);if(state.tool==='bulldoze'){if(c.type===T.EMPTY||c.type===T.WATER)return;if(state.money<COST.bulldoze){toast('資金が足りません');return;}state.money-=COST.bulldoze;if(c.type===T.AIRPORT)removeMultiAt(x,y);else{clearMesh(c);state.grid[y][x]=cell(T.EMPTY);}rerenderAround(x,y);updateStats();updateTutorialMissions(true);updateAchievements(true);updateUI();save(false);return;}const type=TOOL_TO_TYPE[state.tool];const cost=COST[state.tool]||0;if(!canPlace(x,y,type))return;if(state.money<cost){toast('資金が足りません');return;}state.money-=cost;c.type=type;c.level=0;c.age=0;c.rootX=null;c.rootY=null;c.seed=hash(x,y,31);renderCell(x,y,true);rerenderAround(x,y);updateStats();updateTutorialMissions(true);updateAchievements(true);updateUI();save(false);}
 
 const animations=[],vehicles=[],people=[],trains=[],planes=[];
+
+const PERF={maxVehicles:42,maxPeople:34,maxTrains:2,maxPlanes:3,maxAnimations:40,uiTimer:0,frameErrors:0};
+function perfLimits(){
+  const mobileBoost=IS_MOBILE?0.72:1;
+  const qMap={low:.62,mid:.82,high:1};
+  const tMap={low:.62,normal:1,high:1.35};
+  const q=qMap[state.settings.quality||'mid']||.82;
+  const t=tMap[state.settings.traffic||'normal']||1;
+  const carScale=(state.settings.cars||100)/100;
+  const peopleScale=(state.settings.people||100)/100;
+  PERF.maxVehicles=Math.max(14,Math.floor(58*mobileBoost*q*t*carScale));
+  PERF.maxPeople=Math.max(10,Math.floor(46*mobileBoost*q*t*peopleScale));
+  PERF.maxTrains=(state.settings.quality==='high'&&!IS_MOBILE)?3:2;
+  PERF.maxPlanes=(state.settings.quality==='high'&&!IS_MOBILE)?4:2;
+}
+function trimDynamic(arr,max){
+  while(arr.length>max){const o=arr.shift();if(!o)break;dynamicGroup.remove(o.mesh||o.group);}
+}
+function maintainPerformance(){
+  perfLimits();
+  trimDynamic(vehicles,PERF.maxVehicles);
+  trimDynamic(people,PERF.maxPeople);
+  trimDynamic(trains,PERF.maxTrains);
+  trimDynamic(planes,PERF.maxPlanes);
+  trimDynamic(animations,PERF.maxAnimations);
+}
+
 function carMesh(kind='car'){const g=new THREE.Group();const cm=[0xef4444,0x2563eb,0xf8fafc,0x111827,0xf59e0b,0x10b981,0x8b5cf6][Math.floor(rnd()*7)];const body=mat(cm,.25,.55);if(kind==='bus'){g.add(box(.32,.24,.82,M.white,0,.16,0,true,true));g.add(box(.33,.08,.82,M.blue,0,.08,0,true,true));g.add(box(.24,.10,.025,M.glass,0,.25,.42,true,false));for(let z=-.25;z<=.22;z+=.18)g.add(box(.02,.09,.11,M.glass,.17,.23,z,true,false));}else{g.add(box(.22,.12,.42,body,0,.08,0,true,true));g.add(box(.16,.08,.18,M.glass,0,.17,-.04,true,true));}for(const sx of[-.12,.12])for(const zz of[-.16,.16]){const w=new THREE.Mesh(geoCyl,M.black);w.scale.set(.045,.026,.045);w.rotation.z=Math.PI/2;w.position.set(sx,.035,zz);g.add(w);}return g;}
-function personMesh(color=0x38bdf8){const g=new THREE.Group();const shirt=mat(color,.7,.02),skin=mat(0xd6b28b,.7,0),pants=mat(0x1f2937,.75,.04);g.add(box(.11,.22,.07,shirt,0,.28,0,true,true));g.add(sphere(.075,skin,0,.43,0));const l1=box(.035,.18,.035,pants,-.035,.12,0,true,true),l2=box(.035,.18,.035,pants,.035,.12,0,true,true);g.add(l1,l2);g.userData.legs=[l1,l2];g.userData.phase=rnd()*Math.PI*2;return g;}
+function personMesh(color=0x38bdf8){const g=new THREE.Group();const shirt=mat(color,.7,.02),skin=mat(0xd6b28b,.7,0),pants=mat(0x1f2937,.75,.04);g.add(box(.11,.22,.07,shirt,0,.28,0,true,true));g.add(sphere(.075,skin,0,.43,0));const l1=box(.035,.18,.035,pants,-.035,.12,0,true,true),l2=box(.035,.18,.035,pants,.035,.12,0,true,true),a1=box(.028,.16,.028,shirt,-.075,.29,0,true,true),a2=box(.028,.16,.028,shirt,.075,.29,0,true,true);g.add(l1,l2,a1,a2);g.userData.legs=[l1,l2];g.userData.arms=[a1,a2];g.userData.phase=rnd()*Math.PI*2;return g;}
 function trainCar(front=false,tail=false){const g=new THREE.Group();g.add(box(.46,.25,.78,M.white,0,.20,0,true,true));g.add(box(.40,.06,.7,M.black,0,.36,0,true,true));for(const sx of[-.236,.236])for(let z=-.24;z<=.25;z+=.18)g.add(box(.014,.08,.10,M.glass,sx,.28,z,true,false));if(front||tail){const z=front?.405:-.405;g.add(box(.38,.22,.025,M.black,0,.20,z,true,false));g.add(box(.24,.075,.028,M.glass,0,.28,z,true,false));g.add(box(.12,.035,.026,front?M.yellow:M.red,0,.12,z,true,false));}return g;}
-function spawnMover(type='car'){const roads=[];for(let y=0;y<GRID;y++)for(let x=0;x<GRID;x++)if(isRoad(getCell(x,y).type))roads.push({x,y});if(!roads.length)return;const start=roads[Math.floor(rnd()*roads.length)],ns=neighbors(start.x,start.y,isRoad);if(!ns.length)return;const mesh=type==='person'?personMesh([0x38bdf8,0xf87171,0xa78bfa,0xfbbf24][Math.floor(rnd()*4)]):carMesh(type);mesh.position.set(worldX(start.x),type==='person'?.05:.08,worldZ(start.y));dynamicGroup.add(mesh);const next=ns[Math.floor(rnd()*ns.length)];const obj={mesh,type,x:start.x,y:start.y,tx:next.x,ty:next.y,px:start.x,py:start.y,t:0,speed:type==='bus'?2.6:type==='person'?.85:3.2+rnd()*1.5,life:0,stop:0,offset:type==='person'?(rnd()>.5?.38:-.38):(type==='bus'?.24:.12)};(type==='person'?people:vehicles).push(obj);}
-function spawnTrain(){const sts=[];for(let y=0;y<GRID;y++)for(let x=0;x<GRID;x++)if(getCell(x,y).type===T.STATION)sts.push({x,y});if(sts.length<1||trains.length>(state.quality?2:1))return;const s=sts[Math.floor(rnd()*sts.length)],ns=neighbors(s.x,s.y,isRail);if(!ns.length)return;const next=ns[Math.floor(rnd()*ns.length)];const group=new THREE.Group(),cars=[];for(let i=0;i<5;i++){const car=trainCar(i===0,i===4);group.add(car);cars.push(car);}dynamicGroup.add(group);trains.push({group,cars,x:s.x,y:s.y,tx:next.x,ty:next.y,px:s.x,py:s.y,speed:2.1,life:0,trail:[{x:s.x,y:s.y}],stop:3,lastStation:key(s.x,s.y)});}
+function spawnMover(type='car'){
+  perfLimits();
+  if(type==='person'&&people.length>=PERF.maxPeople)return;
+  if(type!=='person'&&vehicles.length>=PERF.maxVehicles)return;
+  const roads=[];
+  for(let y=0;y<GRID;y++)for(let x=0;x<GRID;x++)if(isRoad(getCell(x,y).type))roads.push({x,y});
+  if(!roads.length)return;
+  let pool=roads;if(type==='bus'){const bs=[];for(let y=0;y<GRID;y++)for(let x=0;x<GRID;x++)if(getCell(x,y).type===T.BUSSTOP||getCell(x,y).type===T.STATION)bs.push({x,y});if(bs.length)pool=bs;}const start=pool[Math.floor(rnd()*pool.length)],ns=neighbors(start.x,start.y,isRoad);if(!ns.length)return;
+  const mesh=type==='person'?personMesh([0x38bdf8,0xf87171,0xa78bfa,0xfbbf24][Math.floor(rnd()*4)]):carMesh(type);
+  mesh.position.set(worldX(start.x),type==='person'?.05:.08,worldZ(start.y));dynamicGroup.add(mesh);
+  const next=ns[Math.floor(rnd()*ns.length)];
+  const obj={mesh,type,x:start.x,y:start.y,tx:next.x,ty:next.y,px:start.x,py:start.y,t:0,speed:type==='bus'?2.45:type==='person'?.82:2.85+rnd()*1.25,life:0,stop:0,offset:type==='person'?(rnd()>.5?.38:-.38):(type==='bus'?.24:.12)};
+  (type==='person'?people:vehicles).push(obj);
+}
+function spawnTrain(){const sts=[];for(let y=0;y<GRID;y++)for(let x=0;x<GRID;x++)if(getCell(x,y).type===T.STATION)sts.push({x,y});perfLimits();if(sts.length<1||trains.length>=PERF.maxTrains)return;const s=sts[Math.floor(rnd()*sts.length)],ns=neighbors(s.x,s.y,isRail);if(!ns.length)return;const next=ns[Math.floor(rnd()*ns.length)];const group=new THREE.Group(),cars=[];for(let i=0;i<5;i++){const car=trainCar(i===0,i===4);group.add(car);cars.push(car);}dynamicGroup.add(group);trains.push({group,cars,x:s.x,y:s.y,tx:next.x,ty:next.y,px:s.x,py:s.y,speed:2.1,life:0,trail:[{x:s.x,y:s.y}],stop:3,lastStation:key(s.x,s.y)});}
 function airports(){const a=[];for(let y=0;y<GRID;y++)for(let x=0;x<GRID;x++){const c=getCell(x,y);if(isMultiRoot(c,x,y)&&c.age>=7)a.push({x,y,cx:x+3.5,cy:y+3.35});}return a;}
-function spawnPlane(){const a=airports();if(a.length<2||planes.length>=Math.min(4,(a.length-1)*2))return;const from=a[Math.floor(rnd()*a.length)];let to=a[Math.floor(rnd()*a.length)];if(to===from)to=a[(a.indexOf(from)+1)%a.length];const mesh=airplaneMesh(.9);dynamicGroup.add(mesh);planes.push({mesh,from,to,t:0,d:18+Math.hypot(to.cx-from.cx,to.cy-from.cy)*.12});log('空港便が出発しました。');}
+function spawnPlane(){const a=airports();perfLimits();if(a.length<2||planes.length>=Math.min(PERF.maxPlanes,(a.length-1)*2))return;const from=a[Math.floor(rnd()*a.length)];let to=a[Math.floor(rnd()*a.length)];if(to===from)to=a[(a.indexOf(from)+1)%a.length];const mesh=airplaneMesh(.9);dynamicGroup.add(mesh);planes.push({mesh,from,to,t:0,d:18+Math.hypot(to.cx-from.cx,to.cy-from.cy)*.12});log('空港便が出発しました。');}
 function chooseNext(x,y,px,py,pred){let ns=neighbors(x,y,pred);if(ns.length>1)ns=ns.filter(n=>!(n.x===px&&n.y===py));return ns[Math.floor(rnd()*ns.length)]||null;}
-function moveObj(o,dt,pred,arr){o.life+=dt;if(o.stop>0){o.stop-=dt;return;}const dx=o.tx-o.x,dy=o.ty-o.y,dist=Math.hypot(dx,dy);if(dist<.03){const cx=Math.round(o.tx),cy=Math.round(o.ty);if(o.type==='bus'&&getCell(cx,cy).type===T.BUSSTOP){o.stop=3;o.type='busStopped';setTimeout(()=>{o.type='bus';},1);}const next=chooseNext(cx,cy,o.px,o.py,pred);if(!next||o.life>190){dynamicGroup.remove(o.mesh);arr.splice(arr.indexOf(o),1);return;}o.px=cx;o.py=cy;o.x=cx;o.y=cy;o.tx=next.x;o.ty=next.y;return;}let redStop=false;const crossing=adj(Math.round(o.x),Math.round(o.y),isRoad)>=3;if(crossing&&Math.sin(performance.now()*.0015+Math.round(o.x)*.8)>0.65&&dist<.55){redStop=true;state.congestion=clamp(state.congestion+.18,0,100);}if(redStop)return;const step=Math.min(dist,o.speed*dt);o.x+=dx/dist*step;o.y+=dy/dist*step;const dir=new THREE.Vector3(dx,0,dy).normalize(),left=new THREE.Vector3(-dir.z,0,dir.x).multiplyScalar(o.offset||0);o.mesh.position.set(worldX(o.x)+left.x,o.mesh.position.y,worldZ(o.y)+left.z);if(dir.lengthSq()>.001){const q=new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,0,1),dir);o.mesh.quaternion.slerp(q,Math.min(1,dt*8));}if(o.type==='person'&&o.mesh.userData.legs){o.mesh.userData.phase+=dt*6;const s=Math.sin(o.mesh.userData.phase);o.mesh.userData.legs[0].rotation.x=s*.55;o.mesh.userData.legs[1].rotation.x=-s*.55;}}
+
+function moveObj(o,dt,pred,arr){
+  o.life+=dt;
+  if(o.stop>0){
+    o.stop-=dt;
+    if(o.type==='person'&&o.mesh.userData.legs){
+      o.mesh.userData.legs[0].rotation.x*=.7;
+      o.mesh.userData.legs[1].rotation.x*=.7;
+      if(o.mesh.userData.arms){
+        o.mesh.userData.arms[0].rotation.x*=.7;
+        o.mesh.userData.arms[1].rotation.x*=.7;
+      }
+    }
+    return;
+  }
+  const dx=o.tx-o.x,dy=o.ty-o.y,dist=Math.hypot(dx,dy);
+  if(dist<.03){
+    const cx=Math.round(o.tx),cy=Math.round(o.ty);
+    if(o.type==='bus'&&getCell(cx,cy).type===T.BUSSTOP){o.stop=3;o.type='busStopped';setTimeout(()=>{o.type='bus';},1);}
+    const next=chooseNext(cx,cy,o.px,o.py,pred);
+    if(!next||o.life>190){dynamicGroup.remove(o.mesh);arr.splice(arr.indexOf(o),1);return;}
+    o.px=cx;o.py=cy;o.x=cx;o.y=cy;o.tx=next.x;o.ty=next.y;return;
+  }
+  let redStop=false;
+  const crossing=adj(Math.round(o.x),Math.round(o.y),isRoad)>=3;
+  const signalWave=Math.sin(performance.now()*.0015+Math.round(o.x)*.8+Math.round(o.y)*.5);
+  if(crossing&&dist<.55){
+    if(o.type==='person'){
+      if(signalWave>0.18){redStop=true;o.stop=.18+rnd()*.10;}
+    }else if(signalWave>0.65){
+      redStop=true;state.congestion=clamp(state.congestion+.18,0,100);
+    }
+  }
+  if(!redStop&&o.type!=='person'&&dist>.001){
+    const nx=dx/dist, ny=dy/dist;
+    let checked=0;
+    for(const other of vehicles){
+      if(other===o)continue;
+      const ox=other.x-o.x, oy=other.y-o.y;
+      if(Math.abs(ox)>1||Math.abs(oy)>1)continue;
+      checked++; if(checked>10)break;
+      const ahead=ox*nx+oy*ny;
+      const side=Math.abs(-ny*ox+nx*oy);
+      if(ahead>.02&&ahead<.34&&side<.14){
+        if(other.stop>0||Math.hypot(other.tx-other.x,other.ty-other.y)<.06||ahead<.20){
+          redStop=true;
+          o.stop=.08+rnd()*.05;
+          state.congestion=clamp(state.congestion+.05,0,100);
+          break;
+        }
+      }
+    }
+  }
+  if(redStop)return;
+  const step=Math.min(dist,o.speed*dt);o.x+=dx/dist*step;o.y+=dy/dist*step;
+  const dir=new THREE.Vector3(dx,0,dy).normalize(),left=new THREE.Vector3(-dir.z,0,dir.x).multiplyScalar(o.offset||0);
+  o.mesh.position.set(worldX(o.x)+left.x,o.mesh.position.y,worldZ(o.y)+left.z);
+  if(dir.lengthSq()>.001){const q=new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,0,1),dir);o.mesh.quaternion.slerp(q,Math.min(1,dt*8));}
+  if(o.type==='person'&&o.mesh.userData.legs){
+    o.mesh.userData.phase+=dt*6;
+    const s=Math.sin(o.mesh.userData.phase);
+    o.mesh.userData.legs[0].rotation.x=s*.55;
+    o.mesh.userData.legs[1].rotation.x=-s*.55;
+    if(o.mesh.userData.arms){
+      o.mesh.userData.arms[0].rotation.x=-s*.35;
+      o.mesh.userData.arms[1].rotation.x=s*.35;
+    }
+  }
+}
 function sampleTrail(trail,d){let left=d;for(let i=0;i<trail.length-1;i++){const a=trail[i],b=trail[i+1],seg=Math.hypot(a.x-b.x,a.y-b.y);if(left<=seg){const t=left/seg;return{x:lerp(a.x,b.x,t),y:lerp(a.y,b.y,t),dir:new THREE.Vector3(a.x-b.x,0,a.y-b.y).normalize()};}left-=seg;}const last=trail[trail.length-1]||{x:0,y:0};return{x:last.x,y:last.y,dir:new THREE.Vector3(0,0,1)};}
 function updateTrain(tr,dt){if(tr.stop>0){tr.stop-=dt;placeTrain(tr);return;}const dx=tr.tx-tr.x,dy=tr.ty-tr.y,dist=Math.hypot(dx,dy);if(dist<.035){const cx=Math.round(tr.tx),cy=Math.round(tr.ty);tr.x=cx;tr.y=cy;tr.trail.unshift({x:tr.x,y:tr.y});if(tr.trail.length>180)tr.trail.length=180;if(getCell(cx,cy).type===T.STATION&&tr.lastStation!==key(cx,cy)){tr.stop=3;tr.lastStation=key(cx,cy);placeTrain(tr);return;}if(getCell(cx,cy).type!==T.STATION)tr.lastStation='';const next=chooseNext(cx,cy,tr.px,tr.py,isRail);if(!next||tr.life>520){dynamicGroup.remove(tr.group);trains.splice(trains.indexOf(tr),1);return;}tr.px=cx;tr.py=cy;tr.tx=next.x;tr.ty=next.y;}else{const step=Math.min(dist,tr.speed*dt);tr.x+=dx/dist*step;tr.y+=dy/dist*step;if(!tr.trail[0]||Math.hypot(tr.trail[0].x-tr.x,tr.trail[0].y-tr.y)>.04){tr.trail.unshift({x:tr.x,y:tr.y});if(tr.trail.length>180)tr.trail.length=180;}}tr.life+=dt;placeTrain(tr);}
 function placeTrain(tr){for(let i=0;i<tr.cars.length;i++){const s=sampleTrail(tr.trail,i*.78);const car=tr.cars[i];car.position.set(worldX(s.x),.12,worldZ(s.y));if(s.dir.lengthSq()>.001){const q=new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,0,1),s.dir);car.quaternion.slerp(q,.35);}}}
 function updatePlanes(dt){state.flights=planes.length;if(airports().length>=2&&rnd()<dt*.08)spawnPlane();for(let i=planes.length-1;i>=0;i--){const p=planes[i];p.t+=dt/p.d;const q=clamp(p.t,0,1),from=p.from,to=p.to;let x=lerp(from.cx,to.cx,q),y=lerp(from.cy,to.cy,q),h=.2+Math.sin(q*Math.PI)*8;if(q<.12){x=from.cx-3.4+q/.12*6.8;y=from.cy;h=.18+q*1.5;}else if(q>.88){const s=(q-.88)/.12;x=to.cx-3.4+s*6.8;y=to.cy;h=.28*(1-s)+.16;}p.mesh.position.set(worldX(x),h,worldZ(y));const dir=new THREE.Vector3(to.cx-from.cx,0,to.cy-from.cy).normalize();if(q<.12||q>.88)dir.set(1,0,0);const quat=new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,0,1),dir);p.mesh.quaternion.slerp(quat,Math.min(1,dt*4));p.mesh.rotation.x=q<.25?-.10:q>.75?.08:0;if(p.t>=1){dynamicGroup.remove(p.mesh);planes.splice(i,1);}}state.flights=planes.length;}
 
-function updateStats(){let pop=0,jobs=0,road=0,rail=0,stations=0,power=600,powerUse=0,hotel=0,attract=0,landSum=0,landN=0,police=0,fire=0,hospital=0,air=0;for(let y=0;y<GRID;y++)for(let x=0;x<GRID;x++){const c=getCell(x,y);if(c.type===T.ROAD||c.type===T.BUSSTOP){road++;}if(c.type===T.RAIL){rail++;}if(c.type===T.STATION){stations++;rail++;road++;attract+=18;}if(c.type===T.PARK)attract+=8;if(c.type===T.SCHOOL){jobs+=16;attract+=4;}if(c.type===T.HOSPITAL){jobs+=28;hospital++;}if(c.type===T.POLICE){jobs+=20;police++;}if(c.type===T.FIRE){jobs+=18;fire++;}if(c.type===T.POWER){jobs+=18;power+=1700;}if(c.type===T.HOTEL){jobs+=45;hotel+=180;attract+=10;}if(isMultiRoot(c,x,y)&&c.type===T.AIRPORT){jobs+=160;attract+=65;air++;}if(c.type===T.RES&&c.level>0)pop+=c.level*(10+c.level*3);if(c.type===T.COM&&c.level>0)jobs+=c.level*(12+c.level*4);if(c.type===T.IND&&c.level>0)jobs+=c.level*(14+c.level*5);if(c.type!==T.WATER){const exact=c.type!==T.EMPTY&&c.type!==T.TREE;if(exact||((x*13+y*7)%10===0)){const lv=landValue(x,y);c.land=lv;const w=exact?1:10;landSum+=lv*w;landN+=w;}}}
-const access=clamp(stations*13+countType(T.BUSSTOP)*5+air*18+Math.min(30,road*.28)-state.congestion*.15,0,100);const tourists=Math.round(clamp(attract*2.2+access*2.1+hotel*.45,0,hotel+attract*8+150));const traffic=clamp((vehicles.length*2.4+people.length*.8+pop*.016+jobs*.014+tourists*.014)/Math.max(1,road)*11+state.congestion*.2,0,100);powerUse=pop*1.25+jobs*.85+air*300+hotel*.4;const land=landN?Math.round(landSum/landN):50;const happy=clamp(Math.round(73+(land-50)*.12+attract*.04+hospital*5+police*4+fire*4-Math.max(0,traffic-60)*.32-(powerUse>power?22:0)),5,100);state.pop=pop;state.jobs=jobs;state.traffic=Math.round(traffic);state.powerCap=Math.round(power);state.powerUse=Math.round(powerUse);state.stations=stations;state.rail=rail;state.airports=air;state.hotel=hotel;state.access=Math.round(access);state.tourists=Math.round(state.tourists*.75+tourists*.25);state.land=land;state.happy=happy;state.safety=clamp(Math.round(100-Math.max(0,traffic-55)*.35+police*5+fire*4+hospital*3-(powerUse>power?10:0)),0,100);state.tourScore=Math.round(attract+access+hotel*.08);state.demand.r=clamp(65+jobs*.35-pop*.20+(land-50)*.2-(powerUse>power?25:0),0,100);state.demand.c=clamp(pop*.22+happy*.25+state.tourists*.04-countType(T.COM)*4,0,100);state.demand.i=clamp(pop*.16+countType(T.COM)*2-countType(T.IND)*4,0,100);state.demand.t=clamp(20+access*.5+happy*.25+air*12+hotel*.02,0,100);}
+function updateStats(){let pop=0,jobs=0,road=0,rail=0,stations=0,power=600,powerUse=0,hotel=0,attract=0,landSum=0,landN=0,police=0,fire=0,hospital=0,air=0,cityhall=0,landmarks=0;for(let y=0;y<GRID;y++)for(let x=0;x<GRID;x++){const c=getCell(x,y);if(c.type===T.ROAD||c.type===T.BUSSTOP){road++;}if(c.type===T.RAIL){rail++;}if(c.type===T.STATION){stations++;rail++;road++;attract+=18;}if(c.type===T.PARK)attract+=8;if(c.type===T.SCHOOL){jobs+=16;attract+=4;}if(c.type===T.HOSPITAL){jobs+=28;hospital++;}if(c.type===T.POLICE){jobs+=20;police++;}if(c.type===T.FIRE){jobs+=18;fire++;}if(c.type===T.POWER){jobs+=18;power+=1700;}if(c.type===T.HOTEL){jobs+=45;hotel+=180;attract+=10;}if(c.type===T.CITYHALL){jobs+=55;cityhall++;attract+=6;}if(c.type===T.LANDMARK){jobs+=35;landmarks++;attract+=45;}if(isMultiRoot(c,x,y)&&c.type===T.AIRPORT){jobs+=160;attract+=65;air++;}if(c.type===T.RES&&c.level>0)pop+=c.level*(10+c.level*3);if(c.type===T.COM&&c.level>0)jobs+=c.level*(12+c.level*4);if(c.type===T.IND&&c.level>0)jobs+=c.level*(14+c.level*5);if(c.type!==T.WATER){const exact=c.type!==T.EMPTY&&c.type!==T.TREE;if(exact||((x*13+y*7)%10===0)){const lv=landValue(x,y);c.land=lv;const w=exact?1:10;landSum+=lv*w;landN+=w;}}}
+const companyBonus=companyStats(); jobs+=companyBonus.jobs; attract+=companyBonus.attract; hotel+=companyBonus.hotel; const access=clamp(stations*13+countType(T.BUSSTOP)*5+air*18+Math.min(30,road*.28)-state.congestion*.15,0,100);const tourists=Math.round(clamp(attract*2.2+access*2.1+hotel*.45,0,hotel+attract*8+150));const traffic=clamp((vehicles.length*2.4+people.length*.8+pop*.016+jobs*.014+tourists*.014)/Math.max(1,road)*11+state.congestion*.2,0,100);powerUse=pop*1.25+jobs*.85+air*300+hotel*.4;const land=landN?Math.round(landSum/landN):50;const happy=clamp(Math.round(73+(land-50)*.12+attract*.04+hospital*5+police*4+fire*4-Math.max(0,traffic-60)*.32-(powerUse>power?22:0)),5,100);state.pop=pop;state.jobs=jobs;state.traffic=Math.round(traffic);state.powerCap=Math.round(power);state.powerUse=Math.round(powerUse);state.cityhall=cityhall;state.landmarks=landmarks;state.stations=stations;state.rail=rail;state.airports=air;state.hotel=hotel;state.access=Math.round(access);state.tourists=Math.round(state.tourists*.75+tourists*.25);state.land=land;state.happy=happy;state.safety=clamp(Math.round(100-Math.max(0,traffic-55)*.35+police*5+fire*4+hospital*3-(powerUse>power?10:0)),0,100);state.tourScore=Math.round(attract+access+hotel*.08);state.demand.r=clamp(65+jobs*.35-pop*.20+(land-50)*.2-(powerUse>power?25:0),0,100);state.demand.c=clamp(pop*.22+happy*.25+state.tourists*.04-countType(T.COM)*4,0,100);state.demand.i=clamp(pop*.16+countType(T.COM)*2-countType(T.IND)*4,0,100);state.demand.t=clamp(20+access*.5+happy*.25+air*12+hotel*.02,0,100);}
 function countType(type){let n=0;for(let y=0;y<GRID;y++)for(let x=0;x<GRID;x++){const c=getCell(x,y);if(c.type===type && (type!==T.AIRPORT||isMultiRoot(c,x,y)))n++;}return n;}
 function simulateHour(){state.hour++;if(state.hour>=24){state.hour=0;state.day++;const net=Math.floor(120+state.pop*4+state.jobs*2.4+state.tourists*2.2+state.happy*2-state.rail*1.2-state.airports*80-countType(T.POWER)*40-countType(T.HOSPITAL)*28-countType(T.POLICE)*20-countType(T.FIRE)*20);state.income=net;state.money+=net;}
 for(let y=0;y<GRID;y++)for(let x=0;x<GRID;x++){const c=getCell(x,y);if(c.type!==T.EMPTY&&c.type!==T.WATER&&c.type!==T.TREE)c.age=Math.min(30,c.age+1);if(isZone(c.type)&&adj(x,y,isRoad)>0){const d=c.type===T.RES?state.demand.r:c.type===T.COM?state.demand.c:state.demand.i;const max=c.type===T.IND?3:(landValue(x,y)>72?5:landValue(x,y)>54?4:3);if(c.level<max&&rnd()<d/420){c.level++;renderCell(x,y,true);}else if(c.level===0&&rnd()<d/200){c.level=1;renderCell(x,y,true);} } else if(c.type!==T.EMPTY&&c.type!==T.TREE&&c.type!==T.WATER&&c.age<10&&c.mesh){renderCell(x,y,false);}}
-state.congestion=Math.max(0,state.congestion-4);updateStats();const spawnBase=clamp(Math.floor((state.pop+state.jobs+state.tourists)/180),1,8);for(let i=0;i<spawnBase;i++)if(rnd()<.8)spawnMover('car');if(countType(T.BUSSTOP)>=2&&rnd()<.65)spawnMover('bus');for(let i=0;i<Math.min(8,spawnBase+1);i++)if(rnd()<.58)spawnMover('person');if(state.stations>0&&state.rail>4&&rnd()<.35)spawnTrain();if(state.airports>=2&&rnd()<.45)spawnPlane();state.nextAutosave++;if(state.nextAutosave>8){save(false);state.nextAutosave=0;}updateUI();}
+state.congestion=Math.max(0,state.congestion-4);updateStats();updateDevelopmentSystems(false);updateTutorialMissions(false);maintainPerformance();const spawnBase=clamp(Math.floor((state.pop+state.jobs+state.tourists)/220),1,6);for(let i=0;i<spawnBase&&vehicles.length<PERF.maxVehicles;i++)if(rnd()<.72)spawnMover('car');if(countType(T.BUSSTOP)>=2&&rnd()<.55&&vehicles.length<PERF.maxVehicles)spawnMover('bus');for(let i=0;i<Math.min(6,spawnBase+1)&&people.length<PERF.maxPeople;i++)if(rnd()<.50)spawnMover('person');if(state.stations>0&&state.rail>4&&rnd()<.28)spawnTrain();if(state.airports>=2&&rnd()<.35)spawnPlane();maintainPerformance();state.nextAutosave++;if(state.nextAutosave>8){save(false);state.nextAutosave=0;}updateUI();}
 function rank(v){return v>=230?'S':v>=170?'A':v>=105?'B':v>=45?'C':'D';}
 function needs(){const a=[];if(state.powerUse>state.powerCap)a.push('発電所が足りません');if(state.traffic>68)a.push('道路分散・バス停で渋滞対策が必要');if(state.demand.r>72)a.push('住宅がもっと必要です');if(state.demand.c>68)a.push('商業施設を増やしたい');if(state.demand.i>65)a.push('働く場所が必要です');if(state.demand.t>68)a.push('観光施設・ホテル・空港が人気です');if(state.safety<65)a.push('警察・消防・病院を増やすと安心です');if(state.airports===1)a.push('空港をもう1つ作ると飛行機が飛びます');if(!a.length)a.push('街は安定しています');return a.slice(0,4);}
-function updateUI(){set('uiPop',state.pop.toLocaleString());set('uiMoney',fmtMoney(state.money));const inc=el('uiIncome');inc.textContent=(state.income>=0?'+':'-')+fmtMoney(Math.abs(state.income)).replace('$','$');inc.style.color=state.income>=0?'#22c55e':'#ef4444';set('uiHappy',state.happy+'%');set('uiTourists',state.tourists.toLocaleString());set('uiDate','Day '+state.day);set('uiHour',String(state.hour).padStart(2,'0')+':00');set('uiJobs',state.jobs.toLocaleString());set('uiTraffic',state.traffic+'%');const power=el('uiPower');power.textContent=state.powerUse>state.powerCap?'不足':'OK';power.style.color=state.powerUse>state.powerCap?'#ef4444':'#22c55e';set('uiRail',state.stations+'駅');set('uiAirport',state.airports);set('uiFlights',state.flights);set('uiSafety',state.safety+'%');set('uiLand',state.land);set('uiTourRank',rank(state.tourScore));set('uiAccess',state.access+'%');set('uiHotel',state.hotel);set('uiCongestion',Math.round(state.congestion)+'%');const nd=needs();set('uiNeedMain',nd[0]);el('uiNeedList').innerHTML=nd.map(s=>'・'+s).join('<br>');el('uiLog').innerHTML=state.logs.join('<br>');el('barR').style.height=state.demand.r+'%';el('barC').style.height=state.demand.c+'%';el('barI').style.height=state.demand.i+'%';el('barT').style.height=state.demand.t+'%';updateQuickPanel();}
-function updateLight(){const night=state.night||state.hour>=19||state.hour<5; if(night){scene.background.set(0x10233f);scene.fog.color.set(0x10233f);scene.fog.density=.022;sun.intensity=.14;moon.intensity=1.1;hemi.intensity=.45;renderer.toneMappingExposure=1.0;}else{const f=clamp(Math.sin((state.hour-5)/14*Math.PI),0,1);scene.background.set(f>.35?0x93c5fd:0xf59e7b);scene.fog.color.copy(scene.background);scene.fog.density=.016;sun.intensity=1.0+f*1.65;moon.intensity=0;hemi.intensity=.62+f*.26;renderer.toneMappingExposure=1.05;} }
+
+function nextActionText(){
+  if(state.powerUse>state.powerCap)return '発電所を追加して、電力不足を解消しましょう。';
+  if(state.traffic>70)return '渋滞が多いです。道路を分散し、駅やバス停を増やしましょう。';
+  if(state.demand.r>72)return '住宅需要が高いです。道路沿いに住宅を増やしましょう。';
+  if(state.demand.c>68)return '商業需要が高いです。住宅地の近くに商業施設を置きましょう。';
+  if(state.demand.i>65)return '働く場所が必要です。住宅から少し離して産業を作りましょう。';
+  if(state.safety<65)return '安全度が低いです。警察・消防・病院を追加しましょう。';
+  if(state.airports===1)return '空港をもう1つ作ると、飛行機が飛んで観光が伸びます。';
+  if(state.stations<2&&state.rail>8)return '線路があるので、駅を増やすとアクセスが伸びます。';
+  return '街は安定しています。ホテル・公園・駅前開発でさらに発展させましょう。';
+}
+function classifyCard(id,value,type='normal'){
+  const node=el(id); if(!node)return; const card=node.closest('.card'); if(!card)return;
+  card.classList.remove('good','warn','bad');
+  if(type==='traffic'){card.classList.add(value<50?'good':value<75?'warn':'bad');}
+  else if(type==='power'){card.classList.add(value?'bad':'good');}
+  else if(type==='safety'){card.classList.add(value>=75?'good':value>=55?'warn':'bad');}
+  else if(type==='land'){card.classList.add(value>=65?'good':value>=40?'warn':'bad');}
+}
+function updateUI(){set('uiPop',state.pop.toLocaleString());set('uiMoney',fmtMoney(state.money));const inc=el('uiIncome');inc.textContent=(state.income>=0?'+':'-')+fmtMoney(Math.abs(state.income)).replace('$','$');inc.style.color=state.income>=0?'#22c55e':'#ef4444';set('uiHappy',state.happy+'%');set('uiTourists',state.tourists.toLocaleString());set('uiDate','Day '+state.day);set('uiHour',String(state.hour).padStart(2,'0')+':00');set('uiJobs',state.jobs.toLocaleString());set('uiTraffic',state.traffic+'%');const power=el('uiPower');power.textContent=state.powerUse>state.powerCap?'不足':'OK';power.style.color=state.powerUse>state.powerCap?'#ef4444':'#22c55e';set('uiRail',state.stations+'駅');set('uiAirport',state.airports);set('uiFlights',state.flights);set('uiSafety',state.safety+'%');set('uiLand',state.land);set('uiTourRank',rank(state.tourScore));set('uiAccess',state.access+'%');set('uiHotel',state.hotel);set('uiCongestion',Math.round(state.congestion)+'%');const nd=needs();set('uiNeedMain',nd[0]);el('uiNeedList').innerHTML=nd.map(s=>'・'+s).join('<br>');if(el('uiNextAction'))set('uiNextAction',nextActionText());el('uiLog').innerHTML=state.logs.join('<br>');el('barR').style.height=state.demand.r+'%';el('barC').style.height=state.demand.c+'%';el('barI').style.height=state.demand.i+'%';el('barT').style.height=state.demand.t+'%';classifyCard('uiTraffic',state.traffic,'traffic');classifyCard('uiPower',state.powerUse>state.powerCap,'power');classifyCard('uiSafety',state.safety,'safety');classifyCard('uiLand',state.land,'land');updateCitizenPanel();updateTroublePanel();updateAchievementPanel();updateDistrictPanel();updateDevelopmentPanel();updateQuickPanel();}
+function updateLight(){const night=state.night||state.hour>=19||state.hour<5; if(night){scene.background.set(0x10233f);scene.fog.color.set(0x10233f);scene.fog.density=.022;sun.intensity=.14;moon.intensity=state.settings.nightLight?1.1:.35;hemi.intensity=.45;renderer.toneMappingExposure=1.0;}else{const f=clamp(Math.sin((state.hour-5)/14*Math.PI),0,1);scene.background.set(f>.35?0x93c5fd:0xf59e7b);scene.fog.color.copy(scene.background);scene.fog.density=.016;sun.intensity=1.0+f*1.65;moon.intensity=0;hemi.intensity=.62+f*.26;renderer.toneMappingExposure=1.05;} }
 function getPointerCell(ev){const rect=renderer.domElement.getBoundingClientRect();mouse.x=((ev.clientX-rect.left)/rect.width)*2-1;mouse.y=-((ev.clientY-rect.top)/rect.height)*2+1;ray.setFromCamera(mouse,camera);const hit=ray.intersectObject(ground,false)[0];if(!hit)return null;const x=gridX(hit.point.x),y=gridY(hit.point.z);return inMap(x,y)?{x,y,cx:ev.clientX,cy:ev.clientY}:null;}
 function showTip(p){if(!p||state.tool!=='camera'){el('tip').style.display='none';return;}const c=getCell(p.x,p.y);if(!c)return;let text=NAME[c.type]+'\n地価 '+landValue(p.x,p.y);if(isZone(c.type))text+='\nレベル '+c.level+' / 道路接続 '+(adj(p.x,p.y,isRoad)>0?'あり':'なし');if(c.type===T.AIRPORT)text+='\n8×5マスの大型空港。2個以上で航空路線が開通。';if(c.type===T.STATION)text+='\n5両編成の電車が3秒停車します。';el('tipTitle').textContent=NAME[c.type];el('tipText').textContent=text;const t=el('tip');let x=p.cx+16,y=p.cy+16;if(x+240>innerWidth)x=p.cx-255;if(y+150>innerHeight)y=p.cy-160;t.style.left=x+'px';t.style.top=y+'px';t.style.display='block';}
 
-renderer.domElement.addEventListener('pointerdown',ev=>{state.lastPaint='';cam.drag=true;cam.button=ev.button;cam.lastX=ev.clientX;cam.lastY=ev.clientY;renderer.domElement.setPointerCapture?.(ev.pointerId);const p=getPointerCell(ev);if(state.tool!=='camera'&&p){state.dragging=true;paint(p.x,p.y);}});
+let pointerStart=null;
+renderer.domElement.addEventListener('pointerdown',ev=>{state.lastPaint='';cam.drag=true;cam.button=ev.button;cam.lastX=ev.clientX;cam.lastY=ev.clientY;pointerStart={x:ev.clientX,y:ev.clientY,p:getPointerCell(ev),tool:state.tool};renderer.domElement.setPointerCapture?.(ev.pointerId);const p=getPointerCell(ev);if(state.tool!=='camera'&&p){state.dragging=true;paint(p.x,p.y);}});
 renderer.domElement.addEventListener('pointermove',ev=>{const dx=ev.clientX-cam.lastX,dy=ev.clientY-cam.lastY;cam.lastX=ev.clientX;cam.lastY=ev.clientY;const p=getPointerCell(ev);if(p){cursor.position.set(worldX(p.x),.15,worldZ(p.y));cursor.visible=state.tool!=='camera';if(state.dragging&&state.tool!=='camera'&&!MULTI[state.tool])paint(p.x,p.y);showTip(p);}else{cursor.visible=false;showTip(null);}if(cam.drag&&state.tool==='camera'){if(ev.shiftKey||cam.button===2){const panSpeed=cam.dist*.0018;const right=new THREE.Vector3(Math.cos(cam.theta),0,-Math.sin(cam.theta));const forward=new THREE.Vector3(Math.sin(cam.theta),0,Math.cos(cam.theta));cam.target.add(right.multiplyScalar(-dx*panSpeed));cam.target.add(forward.multiplyScalar(dy*panSpeed));}else{cam.theta-=dx*.006;cam.phi+=dy*.006;}cam.target.x=clamp(cam.target.x,-HALF,HALF);cam.target.z=clamp(cam.target.z,-HALF,HALF);updateCamera();}});
-window.addEventListener('pointerup',()=>{cam.drag=false;state.dragging=false;state.lastPaint='';});
+window.addEventListener('pointerup',ev=>{if(pointerStart&&pointerStart.tool==='camera'&&pointerStart.p){const moved=Math.hypot(ev.clientX-pointerStart.x,ev.clientY-pointerStart.y);if(moved<8)showBuildingDetail(pointerStart.p.x,pointerStart.p.y);}pointerStart=null;cam.drag=false;state.dragging=false;state.lastPaint='';});
 function zoomCamera(mult){cam.dist*=mult;updateCamera();}
 renderer.domElement.addEventListener('wheel',ev=>{ev.preventDefault();ev.stopPropagation();zoomCamera(ev.deltaY>0?1.08:.92);},{passive:false});
 let pinchDistance=0;
@@ -607,23 +1391,406 @@ renderer.domElement.addEventListener('touchend',ev=>{if(!ev.touches||ev.touches.
 ['gesturestart','gesturechange','gestureend'].forEach(type=>document.addEventListener(type,ev=>{ev.preventDefault();},{passive:false}));
 window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
 
-function setTool(tool,button){state.tool=tool;document.querySelectorAll('.tool').forEach(b=>b.classList.remove('active'));button.classList.add('active');cursor.visible=false;const colors={bulldoze:0xef4444,road:0xf8fafc,rail:0xf97316,station:0x22d3ee,airport:0x818cf8,res:0x22c55e,com:0x38bdf8,ind:0xfacc15};cursor.material.color.setHex(colors[tool]||0xffffff);updateQuickPanel();toast(tool==='camera'?'カメラ操作モード':button.textContent.trim()+' モード');}
+
+function applySettingsToEngine(showToast=false){
+  const q=state.settings.quality||'mid';
+  state.quality=q==='high';
+  const ratio=q==='high'?1.25:(q==='mid'?1.0:.78);
+  renderer.setPixelRatio(Math.min(devicePixelRatio||1,ratio));
+  renderer.shadowMap.enabled=!!state.settings.shadow;
+  if(sun) sun.castShadow=!!state.settings.shadow;
+  document.querySelectorAll('select,input').forEach(x=>{});
+  const qBtn=el('qualityBtn'); if(qBtn) qBtn.classList.toggle('active',state.quality);
+  syncSettingsUI(); perfLimits(); maintainPerformance(); updateLight(); save(false);
+  if(showToast)toast('設定を反映しました');
+}
+function syncSettingsUI(){
+  const s=state.settings;
+  if(el('setQuality'))el('setQuality').value=s.quality||'mid';
+  if(el('setTraffic'))el('setTraffic').value=s.traffic||'normal';
+  if(el('setCars'))el('setCars').value=s.cars||100;
+  if(el('setPeople'))el('setPeople').value=s.people||100;
+  if(el('setShadow'))el('setShadow').value=s.shadow?'on':'off';
+  if(el('setNightLight'))el('setNightLight').value=s.nightLight?'on':'off';if(el('setCarsValue'))set('setCarsValue',(s.cars||100)+'%');if(el('setPeopleValue'))set('setPeopleValue',(s.people||100)+'%');
+}
+function readSettingsUI(){
+  state.settings.quality=el('setQuality').value;
+  state.settings.traffic=el('setTraffic').value;
+  state.settings.cars=parseInt(el('setCars').value,10)||100;
+  state.settings.people=parseInt(el('setPeople').value,10)||100;
+  state.settings.shadow=el('setShadow').value==='on';
+  state.settings.nightLight=el('setNightLight').value==='on';
+}
+function buildingEffect(c,x,y){
+  let pop=0,jobs=0,happy=0,detail='';
+  if(c.type===T.RES){pop=c.level*(10+c.level*3); happy=2+c.level; detail='住宅。人口を増やします。道路・公園・学校の近くで価値が上がります。';}
+  else if(c.type===T.COM){jobs=c.level*(12+c.level*4); happy=1; detail='商業施設。仕事と買い物場所を増やします。人口が多い街で重要です。';}
+  else if(c.type===T.IND){jobs=c.level*(14+c.level*5); happy=-2; detail='産業施設。仕事を大きく増やしますが、近くの地価は下がりやすいです。';}
+  else if(c.type===T.CITYHALL){jobs=55; happy=7; detail='市役所。市長レベル・政策解放・イベント管理など、街全体の管理機能を強化します。';}
+  else if(c.type===T.LANDMARK){jobs=35; happy=9; detail='観光名所。観光客を増やし、ホテル・駅・空港の価値を高めます。';}
+  else if(c.type===T.STATION){jobs=8; happy=5; detail='駅。アクセスと観光評価を上げます。ロータリーでバス・タクシー・一般車を分けやすくしています。';}
+  else if(c.type===T.BUSSTOP){jobs=2; happy=3; detail='バス停。公共交通を強化し、交通対策に役立ちます。';}
+  else if(c.type===T.PARK){happy=8; detail='公園。地価と満足度を上げます。';}
+  else if(c.type===T.HOSPITAL){jobs=28; happy=6; detail='病院。安全度と満足度を上げます。';}
+  else if(c.type===T.POLICE){jobs=20; happy=4; detail='警察署。安全度を上げます。';}
+  else if(c.type===T.FIRE){jobs=18; happy=4; detail='消防署。安全度を上げます。';}
+  else if(c.type===T.SCHOOL){jobs=16; happy=5; detail='学校。住宅地の価値と満足度を上げます。';}
+  else if(c.type===T.HOTEL){jobs=45; happy=3; detail='ホテル。観光客を増やします。';}
+  else if(c.type===T.AIRPORT){jobs=160; happy=8; detail='空港。2つ以上あると飛行機が飛び、観光とアクセスが大きく伸びます。';}
+  else detail='道路・線路・自然地形などの都市インフラです。';
+  return {pop,jobs,happy,land:landValue(x,y),detail};
+}
+function showBuildingDetail(x,y){
+  const c=getCell(x,y); if(!c)return;
+  state.lastDetailCell={x,y};
+  const e=buildingEffect(c,x,y);
+  el('detailTitle').textContent=NAME[c.type]||'セル情報';
+  el('detailText').textContent=e.detail+'\n\n場所: '+x+','+y+'　レベル: '+(c.level||0)+'　道路接続: '+(adj(x,y,isRoad)>0?'あり':'なし');
+  el('detailPop').textContent=e.pop?('+'+e.pop):'0';
+  el('detailJobs').textContent=e.jobs?('+'+e.jobs):'0';
+  el('detailLand').textContent=e.land;
+  el('detailHappy').textContent=(e.happy>0?'+':'')+e.happy;
+  el('detailPanel').classList.add('open');
+}
+
+
+
+const ACHIEVEMENTS = [
+  {id:'pop1000', title:'人口1,000人達成', name:'成長する街の市長', reward:2500, check:()=>state.pop>=1000, desc:'人口が1,000人以上になると達成。'},
+  {id:'traffic30', title:'渋滞30%以下を維持', name:'交通整理の達人', reward:1800, check:()=>state.pop>=300&&state.traffic<=30, desc:'ある程度発展した街で渋滞を30%以下にする。'},
+  {id:'station3', title:'駅を3つ作る', name:'鉄道マスター', reward:3000, check:()=>countType(T.STATION)>=3, desc:'駅を3つ以上作る。'},
+  {id:'airport2', title:'空港を2つ作る', name:'空の玄関口', reward:5000, check:()=>state.airports>=2, desc:'空港を2つ以上作る。飛行機が飛ぶ街へ。'},
+  {id:'safe90', title:'安全度90%以上', name:'安心都市', reward:2200, check:()=>state.safety>=90&&state.pop>=500, desc:'安全で住みやすい街を作る。'},
+  {id:'happy90', title:'満足度90%以上', name:'人気市長', reward:2600, check:()=>state.happy>=90&&state.pop>=500, desc:'市民の満足度を90%以上にする。'},
+  {id:'cityhall1', title:'市役所を建てる', name:'正式な市長', reward:2200, check:()=>countType(T.CITYHALL)>=1, desc:'市役所を建てて管理機能を開放する。'},
+  {id:'landmark3', title:'名所を3つ作る', name:'観光都市プロデューサー', reward:3600, check:()=>countType(T.LANDMARK)>=3, desc:'観光名所を3つ以上作る。'},
+  {id:'company3', title:'企業を3社誘致', name:'企業誘致の達人', reward:4200, check:()=>state.companies&&state.companies.length>=3, desc:'条件を満たして企業を3社誘致する。'}
+];
+function ensureFeatureState(){
+  state.achievements=Object.assign({completed:[],claimed:[],title:'新人市長'},state.achievements||{});
+  state.troubles=Object.assign({active:[],lastCheck:0},state.troubles||{});
+  if(!Array.isArray(state.districts))state.districts=[];
+  if(!Array.isArray(state.citizens))state.citizens=[];
+  if(!Array.isArray(state.companies))state.companies=[];
+  state.residents=state.residents||{students:0,workers:0,tourists:0,seniors:0,children:0};
+  state.emergency=state.emergency||{accidents:0,ambulance:0};
+  state.cityRank=state.cityRank||'田舎町';
+}
+
+function achievementDone(id){ensureFeatureState();return state.achievements.completed.includes(id);}
+function updateAchievements(showToast=false){
+  ensureFeatureState(); let changed=false;
+  for(const a of ACHIEVEMENTS){
+    if(a.check()&&!achievementDone(a.id)){
+      state.achievements.completed.push(a.id);state.achievements.claimed.push(a.id);state.money+=a.reward;state.achievements.title=a.name;changed=true;
+      log('実績達成: '+a.title+' / 称号「'+a.name+'」 報酬 +$'+a.reward);
+      if(showToast)toast('実績達成: '+a.title);
+    }
+  }
+  updateAchievementPanel();
+  if(changed)save(false);
+}
+function updateAchievementPanel(){
+  ensureFeatureState();
+  if(el('achievementSummary'))el('achievementSummary').innerHTML='<div class="actionTitle">現在の称号</div>'+escapeHTML(state.achievements.title||'新人市長')+' / 達成 '+state.achievements.completed.length+' / '+ACHIEVEMENTS.length;
+  const list=el('achievementList'); if(!list)return;
+  list.innerHTML=ACHIEVEMENTS.map(a=>{
+    const done=achievementDone(a.id);
+    return `<div class="featureItem ${done?'done':''}"><b>${done?'✓ ':''}${escapeHTML(a.title)}</b>${escapeHTML(a.desc)}<br>称号: ${escapeHTML(a.name)} / 報酬 $${a.reward}</div>`;
+  }).join('');
+}
+function makeCitizenComments(){
+  const comments=[];
+  if(state.powerUse>state.powerCap)comments.push('電力が足りないです。発電所を増やしてほしいです。');
+  if(state.traffic>65)comments.push('道路が混んでいます。バス停・駅・道路分散がほしいです。');
+  if(countType(T.PARK)<Math.max(1,Math.floor(state.pop/700)))comments.push('近くに公園がほしいです。緑があると住みやすいです。');
+  if(countType(T.BUSSTOP)<2&&state.pop>250)comments.push('バス停が遠いです。公共交通を増やしてほしいです。');
+  if(state.stations>=1)comments.push('駅前が便利！もっと商業施設があると良さそうです。');
+  if(state.safety<70)comments.push('少し不安です。警察署・消防署・病院があると安心です。');
+  if(state.happy>=85)comments.push('この街は住みやすいです！この調子で発展させたいです。');
+  if(!comments.length)comments.push('街は安定しています。次は人口や観光を伸ばしてみましょう。');
+  state.citizens=comments.slice(0,5); return state.citizens;
+}
+function updateCitizenPanel(){
+  const comments=makeCitizenComments();
+  if(el('citizenMain'))set('citizenMain',comments[0]);
+  const list=el('citizenList'); if(list)list.innerHTML=comments.map(c=>`<div class="featureItem"><b>市民</b>${escapeHTML(c)}</div>`).join('');
+}
+function createTrouble(id,title,desc,hours,effect){
+  ensureFeatureState();
+  if(state.troubles.active.some(e=>e.id===id))return false;
+  state.troubles.active.push({id,title,desc,hours,effect,started:state.day+'-'+state.hour});
+  log('トラブル発生: '+title);toast('トラブル発生: '+title);return true;
+}
+function updateTroubles(){
+  ensureFeatureState();
+  state.troubles.active=state.troubles.active.filter(e=>{const response=(e.id==='accident'&&(countType(T.POLICE)>0||countType(T.HOSPITAL)>0))?0.5:0;e.hours=(e.hours||1)-1-response;return e.hours>0;});
+  const stamp=state.day*24+state.hour;
+  if(stamp-state.troubles.lastCheck>=3){
+    state.troubles.lastCheck=stamp;
+    if(state.powerUse>state.powerCap&&Math.random()<.55)createTrouble('blackout','停電','電力不足で一部エリアが停電。発電所を増やすと防げます。',4,'power');
+    else if(state.traffic>75&&Math.random()<.45)createTrouble('accident','渋滞事故','混雑した道路で事故が発生。警察署と道路分散が役立ちます。',3,'traffic');
+    else if(countType(T.FIRE)<1&&countType(T.RES)+countType(T.COM)>10&&Math.random()<.28)createTrouble('fire','火災','消防署が少ないため火災対応が遅れています。',3,'fire');
+    else if(countType(T.BUSSTOP)>=2&&state.traffic>55&&Math.random()<.25)createTrouble('bus_delay','バス遅延','道路混雑でバスが遅れています。',2,'bus');
+    else if(state.stations>=2&&state.pop>800&&Math.random()<.22)createTrouble('station_crowd','駅の混雑','駅の利用者が増えて混雑しています。駅や交通分散が必要です。',3,'station');
+  }
+  applyTroubleEffects(); updateTroublePanel();
+}
+function applyTroubleEffects(){
+  ensureFeatureState();
+  for(const e of state.troubles.active){
+    if(e.effect==='traffic')state.congestion=clamp(state.congestion+1.4,0,100);
+    if(e.effect==='bus')state.congestion=clamp(state.congestion+.8,0,100);
+    if(e.effect==='power')state.happy=clamp(state.happy-1,0,100);
+    if(e.effect==='fire')state.safety=clamp(state.safety-1,0,100);
+    if(e.effect==='station')state.congestion=clamp(state.congestion+.6,0,100);
+  }
+}
+function updateTroublePanel(){
+  ensureFeatureState();
+  const active=state.troubles.active;
+  if(el('eventMain'))set('eventMain',active.length?active[0].title+'：'+active[0].desc:'現在は大きなトラブルなし。');
+  const list=el('eventList'); if(list)list.innerHTML=active.length?active.map(e=>`<div class="featureItem warn"><b>${escapeHTML(e.title)} / 残り${e.hours}時間</b>${escapeHTML(e.desc)}</div>`).join(''):'<div class="featureItem done"><b>安全</b>現在は大きなトラブルはありません。</div>';
+}
+function addDistrict(){
+  ensureFeatureState();
+  const input=el('districtNameInput'); const name=(input?.value||'').trim();
+  if(!name){toast('地区名を入力してください');return;}
+  let cx=state.lastDetailCell?.x, cy=state.lastDetailCell?.y;
+  if(cx==null||cy==null){cx=gridX(cam.target.x);cy=gridY(cam.target.z);}
+  state.districts.push({id:Date.now(),name,x:cx,y:cy,r:5,created:state.day});
+  if(input)input.value=''; log('地区を追加: '+name+' ('+cx+','+cy+')'); updateDistrictPanel(); save(false); toast('地区を追加しました');
+}
+function updateDistrictPanel(){
+  ensureFeatureState(); const list=el('districtList'); if(!list)return;
+  list.innerHTML=state.districts.length?state.districts.map(d=>`<div class="featureItem"><b>${escapeHTML(d.name)}</b>中心: ${d.x},${d.y} / 範囲: 半径${d.r}マス <button class="mini danger" data-del-district="${d.id}" style="float:right;padding:3px 7px">削除</button></div>`).join(''):'<div class="featureItem"><b>まだ地区がありません</b>カメラモードで場所をタップして、地区名を追加しましょう。</div>';
+  list.querySelectorAll('[data-del-district]').forEach(btn=>btn.onclick=()=>{state.districts=state.districts.filter(d=>String(d.id)!==String(btn.dataset.delDistrict));updateDistrictPanel();save(false);});
+}
+function escapeHTML(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+
+const COMPANY_DEFS = [
+  {id:'it',name:'IT企業',cond:()=>countType(T.COM)>=6&&countType(T.SCHOOL)>=1, jobs:90, attract:8, hotel:0, desc:'商業と学校がそろうと誘致。雇用が増えます。'},
+  {id:'factory',name:'工場企業',cond:()=>countType(T.IND)>=6&&countType(T.POWER)>=1, jobs:130, attract:0, hotel:0, desc:'産業と電力があると誘致。雇用が大きく増えます。'},
+  {id:'hotelco',name:'ホテル会社',cond:()=>countType(T.HOTEL)>=2&&state.landmarks>=1, jobs:70, attract:15, hotel:160, desc:'ホテルと名所があると誘致。観光・宿泊力が伸びます。'},
+  {id:'rail',name:'鉄道会社',cond:()=>countType(T.STATION)>=3&&state.rail>=18, jobs:80, attract:16, hotel:0, desc:'駅と線路が多いと誘致。アクセス評価が上がります。'},
+  {id:'airline',name:'航空会社',cond:()=>state.airports>=2, jobs:120, attract:22, hotel:120, desc:'空港が2つあると誘致。航空便と観光が伸びます。'}
+];
+function mayorLevelFromStats(){
+  const hall=state.cityhall||countType(T.CITYHALL);
+  if(hall<1)return 1;
+  if(state.pop>=2500&&state.landmarks>=3&&state.airports>=1)return 5;
+  if(state.pop>=1600&&(state.troubles?.active?.length||0)>=0&&state.safety>=70)return 4;
+  if(state.pop>=900&&countType(T.COM)>=4)return 3;
+  if(state.pop>=350||state.districts.length>=1)return 2;
+  return 1;
+}
+function cityRankFromScore(){
+  const score=state.pop*.05+state.jobs*.04+state.tourists*.06+state.landmarks*35+state.airports*80+state.happy*2+state.access*1.6-state.traffic*.8;
+  if(score>=760)return '未来都市';
+  if(score>=570)return '観光都市';
+  if(score>=410)return '大都市';
+  if(score>=260)return '中核都市';
+  if(score>=120)return '小都市';
+  return '田舎町';
+}
+function companyStats(){
+  const ids=new Set((state.companies||[]).map(c=>c.id));
+  let jobs=0,attract=0,hotel=0;
+  for(const c of COMPANY_DEFS){if(ids.has(c.id)){jobs+=c.jobs;attract+=c.attract;hotel+=c.hotel;}}
+  return {jobs,attract,hotel};
+}
+function updateResidentTypes(){
+  state.residents={
+    students:Math.round(Math.min(state.pop*.22,countType(T.SCHOOL)*420)),
+    workers:Math.round(Math.min(state.pop*.55,state.jobs*.72)),
+    tourists:Math.round(state.tourists),
+    seniors:Math.round(state.pop*.16+countType(T.HOSPITAL)*35),
+    children:Math.round(state.pop*.18+countType(T.PARK)*28)
+  };
+}
+function updateDevelopmentSystems(showToast=false){
+  if(!Array.isArray(state.companies))state.companies=[];
+  const oldRank=state.cityRank||'田舎町';
+  state.mayorLevel=mayorLevelFromStats();
+  state.cityRank=cityRankFromScore();
+  updateResidentTypes();
+  for(const c of COMPANY_DEFS){
+    if(c.cond()&&!state.companies.some(x=>x.id===c.id)){
+      state.companies.push({id:c.id,name:c.name,day:state.day});
+      state.money+=1800;
+      log('企業誘致成功: '+c.name+' / 報酬 +$1800');
+      if(showToast)toast(c.name+'を誘致しました');
+    }
+  }
+  if(oldRank!==state.cityRank){log('街評価が「'+state.cityRank+'」になりました'); if(showToast)toast('街評価: '+state.cityRank);}
+  if(state.troubles?.active?.some(e=>e.id==='accident')){state.emergency.accidents=(state.emergency.accidents||0)+1;if(countType(T.HOSPITAL)>0)state.emergency.ambulance=(state.emergency.ambulance||0)+1;}
+  updateDevelopmentPanel();
+}
+function unlockText(){
+  const lv=state.mayorLevel||1;
+  return ['Lv1 基本建設','Lv2 地区管理','Lv3 政策解放','Lv4 イベント管理','Lv5 観光キャンペーン'].map((s,i)=>`${i+1<=lv?'✓':'□'} ${s}`).join('<br>');
+}
+function updateDevelopmentPanel(){
+  if(el('mayorSummary'))el('mayorSummary').innerHTML='<div class="actionTitle">市長レベル</div>Lv.'+(state.mayorLevel||1)+' / 市役所 '+(state.cityhall||0)+'件<br>'+unlockText();
+  if(el('rankSummary'))el('rankSummary').innerHTML='<div class="actionTitle">街評価</div>'+escapeHTML(state.cityRank||'田舎町')+' / 観光名所 '+(state.landmarks||0)+'件 / 企業 '+(state.companies?.length||0)+'社';
+  const list=el('developmentList'); if(!list)return;
+  const companies=COMPANY_DEFS.map(c=>{
+    const done=(state.companies||[]).some(x=>x.id===c.id), ok=c.cond();
+    return `<div class="featureItem ${done?'done':ok?'warn':''}"><b>${done?'✓ ':ok?'誘致可能: ':''}${escapeHTML(c.name)}</b>${escapeHTML(c.desc)}<br>雇用 +${c.jobs} / 観光 +${c.attract}</div>`;
+  }).join('');
+  const r=state.residents||{};
+  const residents=`<div class="featureItem"><b>住民タイプ</b>学生 ${r.students||0} / 会社員 ${r.workers||0} / 観光客 ${r.tourists||0}<br>高齢者 ${r.seniors||0} / 子ども ${r.children||0}</div>`;
+  const emergency=`<div class="featureItem ${(state.troubles?.active||[]).some(e=>e.id==='accident')?'warn':''}"><b>交通事故・救急搬送</b>事故記録 ${state.emergency?.accidents||0} / 救急搬送 ${state.emergency?.ambulance||0}<br>警察・消防・病院があると被害と混雑を抑えやすいです。</div>`;
+  list.innerHTML=residents+emergency+companies;
+}
+
+const TUTORIAL_MISSIONS = [
+  {id:'road3', title:'道路を3マス作る', desc:'街の土台です。道路ツールで3マス以上作りましょう。', check:()=>countType(T.ROAD)+countType(T.BUSSTOP)+countType(T.STATION)>=3, progress:()=>Math.min(1,(countType(T.ROAD)+countType(T.BUSSTOP)+countType(T.STATION))/3), reward:800},
+  {id:'res5', title:'住宅を5個作る', desc:'人が住める場所を増やします。', check:()=>countType(T.RES)>=5, progress:()=>Math.min(1,countType(T.RES)/5), reward:1200},
+  {id:'com2', title:'商業を2個作る', desc:'買い物場所と仕事を作ります。', check:()=>countType(T.COM)>=2, progress:()=>Math.min(1,countType(T.COM)/2), reward:1000},
+  {id:'powerok', title:'電力を安定させる', desc:'電力表示がOKなら達成です。不足なら発電所を作りましょう。', check:()=>state.powerCap>=state.powerUse&&state.powerCap>0, progress:()=>state.powerCap>0?Math.min(1,state.powerCap/Math.max(1,state.powerUse)):0, reward:1500},
+  {id:'bus2', title:'バス停を2個作る', desc:'公共交通を増やして渋滞対策を始めます。', check:()=>countType(T.BUSSTOP)>=2, progress:()=>Math.min(1,countType(T.BUSSTOP)/2), reward:1200},
+  {id:'park1', title:'公園を1個作る', desc:'満足度と地価を上げます。', check:()=>countType(T.PARK)>=1, progress:()=>Math.min(1,countType(T.PARK)), reward:900},
+  {id:'station1', title:'駅を1つ作る', desc:'線路につながる駅でアクセスが上がります。', check:()=>countType(T.STATION)>=1, progress:()=>Math.min(1,countType(T.STATION)), reward:1600}
+];
+function tutorialDone(id){return Array.isArray(state.tutorial?.completed)&&state.tutorial.completed.includes(id);}
+function tutorialClaimed(id){return Array.isArray(state.tutorial?.claimed)&&state.tutorial.claimed.includes(id);}
+function updateTutorialMissions(showToast=false){
+  if(!state.tutorial)state.tutorial={completed:[],claimed:[]};
+  let changed=false;
+  for(const m of TUTORIAL_MISSIONS){
+    if(m.check()&&!tutorialDone(m.id)){
+      state.tutorial.completed.push(m.id); changed=true;
+      if(!tutorialClaimed(m.id)){
+        state.tutorial.claimed.push(m.id); state.money+=m.reward||0;
+        log('ミッション達成: '+m.title+'  報酬 +$'+(m.reward||0));
+        if(showToast)toast('ミッション達成: '+m.title);
+      }
+    }
+  }
+  const list=el('missionList');
+  if(list){
+    list.innerHTML=TUTORIAL_MISSIONS.map(m=>{
+      const done=tutorialDone(m.id), p=Math.round((m.progress?.()||0)*100);
+      return `<div class="missionItem ${done?'done':''}"><div class="missionCheck">${done?'✓':' '}</div><div class="missionText"><b>${m.title}</b><span>${m.desc} / 報酬 $${m.reward}</span><div class="missionProgress"><i style="width:${done?100:p}%"></i></div></div></div>`;
+    }).join('');
+  }
+  const next=TUTORIAL_MISSIONS.find(m=>!tutorialDone(m.id));
+  if(el('tutorialNext'))set('tutorialNext',next?next.title+'：'+next.desc:'全ミッション達成！自由に街を発展させましょう。');
+  if(changed){updateUI();save(false);} 
+}
+function buildSavePayload(){
+  const grid=state.grid.map(row=>row.map(c=>[c.type,c.level,c.age,Math.round(c.seed*100000)/100000,c.rootX,c.rootY]));
+  return {version:4,created:Date.now(),money:state.money,day:state.day,hour:state.hour,speed:state.speed,income:state.income,night:state.night,quality:state.quality,settings:state.settings,tutorial:state.tutorial,achievements:state.achievements,troubles:state.troubles,districts:state.districts,citizens:state.citizens,mayorLevel:state.mayorLevel,companies:state.companies,residents:state.residents,cityRank:state.cityRank,emergency:state.emergency,cityhall:state.cityhall,landmarks:state.landmarks,logs:state.logs,grid};
+}
+function applySavePayload(d){
+  if(!d||!d.grid)return false;
+  state.money=d.money??state.money;state.day=d.day??1;state.hour=d.hour??7;state.speed=d.speed??1;state.income=d.income??0;state.night=!!d.night;state.quality=d.quality??state.quality;state.settings=Object.assign(state.settings||{},d.settings||{});state.tutorial=Object.assign({completed:[],claimed:[]},d.tutorial||{});state.achievements=Object.assign({completed:[],claimed:[],title:'新人市長'},d.achievements||{});state.troubles=Object.assign({active:[],lastCheck:0},d.troubles||{});state.districts=Array.isArray(d.districts)?d.districts:[];state.citizens=Array.isArray(d.citizens)?d.citizens:[];state.mayorLevel=d.mayorLevel??1;state.companies=Array.isArray(d.companies)?d.companies:[];state.residents=d.residents||{students:0,workers:0,tourists:0,seniors:0,children:0};state.cityRank=d.cityRank||'田舎町';state.emergency=d.emergency||{accidents:0,ambulance:0};state.cityhall=d.cityhall||0;state.landmarks=d.landmarks||0;state.logs=Array.isArray(d.logs)?d.logs:state.logs;state.grid=[];
+  for(let y=0;y<GRID;y++){const row=[];for(let x=0;x<GRID;x++){const a=d.grid[y]?.[x]||[0,0,0,0,null,null];const c=cell(a[0]);c.level=a[1]||0;c.age=a[2]||0;c.seed=a[3]||hash(x,y,7);c.rootX=a[4]??null;c.rootY=a[5]??null;row.push(c);}state.grid.push(row);}return true;
+}
+function encodeSaveCode(){
+  const json=JSON.stringify(buildSavePayload());
+  const bytes=new TextEncoder().encode(json); let bin=''; bytes.forEach(b=>bin+=String.fromCharCode(b));
+  return SAVE_CODE_PREFIX+btoa(bin);
+}
+function decodeSaveCode(code){
+  code=String(code||'').trim(); if(code.startsWith(SAVE_CODE_PREFIX))code=code.slice(SAVE_CODE_PREFIX.length);
+  const bin=atob(code); const bytes=new Uint8Array([...bin].map(ch=>ch.charCodeAt(0)));
+  return JSON.parse(new TextDecoder().decode(bytes));
+}
+function openSaveCodePanel(){el('saveCodePanel').classList.add('open');set('saveCodeStatus','通常保存＋バックアップ保存で、ブラウザ内に残りやすくしています。');}
+
+function setTool(tool,button){state.tool=tool;document.querySelectorAll('.tool').forEach(b=>b.classList.remove('active'));button.classList.add('active');cursor.visible=false;const colors={bulldoze:0xef4444,road:0xf8fafc,rail:0xf97316,station:0x22d3ee,airport:0x818cf8,cityhall:0x93c5fd,landmark:0xf472b6,res:0x22c55e,com:0x38bdf8,ind:0xfacc15};cursor.material.color.setHex(colors[tool]||0xffffff);updateQuickPanel();toast(tool==='camera'?'カメラ操作モード':button.textContent.trim()+' モード');}
 document.querySelectorAll('.tool').forEach(b=>b.addEventListener('click',()=>setTool(b.dataset.tool,b)));
 document.querySelectorAll('.speed button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.speed button').forEach(x=>x.classList.remove('active'));b.classList.add('active');state.speed=parseInt(b.dataset.speed,10);save(false);}));
 el('toggleSide').addEventListener('click',()=>{el('sidePanel').classList.toggle('collapsed');});
 el('nightBtn').addEventListener('click',()=>{state.night=!state.night;el('nightBtn').classList.toggle('active',state.night);updateLight();save(false);});
-el('qualityBtn').addEventListener('click',()=>{state.quality=!state.quality;el('qualityBtn').classList.toggle('active',state.quality);renderer.setPixelRatio(Math.min(devicePixelRatio||1,state.quality?1.45:1));renderer.shadowMap.enabled=state.quality;save(false);toast(state.quality?'高画質モード':'軽量モード');});
+el('qualityBtn').addEventListener('click',()=>{state.settings.quality=state.settings.quality==='high'?'low':'high';applySettingsToEngine(true);});
+el('settingsBtn').addEventListener('click',()=>{syncSettingsUI();el('settingsPanel').classList.add('open');});
+el('helpBtn')?.addEventListener('click',()=>el('helpPanel').classList.add('open'));
+el('closeHelp')?.addEventListener('click',()=>el('helpPanel').classList.remove('open'));
+el('setCars')?.addEventListener('input',()=>set('setCarsValue',el('setCars').value+'%'));
+el('setPeople')?.addEventListener('input',()=>set('setPeopleValue',el('setPeople').value+'%'));
+
+el('closeSettings').addEventListener('click',()=>el('settingsPanel').classList.remove('open'));
+el('applySettings').addEventListener('click',()=>{readSettingsUI();applySettingsToEngine(true);});
+el('closeDetail').addEventListener('click',()=>el('detailPanel').classList.remove('open'));
+
+el('tutorialBtn')?.addEventListener('click',()=>{updateTutorialMissions(false);el('tutorialPanel').classList.add('open');});
+el('closeTutorial')?.addEventListener('click',()=>el('tutorialPanel').classList.remove('open'));
+el('resetTutorial')?.addEventListener('click',()=>{if(confirm('チュートリアルミッションだけリセットしますか？')){state.tutorial={completed:[],claimed:[]};updateTutorialMissions(false);save(true);}});
+el('saveCodeBtn')?.addEventListener('click',openSaveCodePanel);
+el('closeSaveCode')?.addEventListener('click',()=>el('saveCodePanel').classList.remove('open'));
+el('achievementsBtn')?.addEventListener('click',()=>{updateAchievements(false);updateAchievementPanel();el('achievementsPanel').classList.add('open');});
+el('closeAchievements')?.addEventListener('click',()=>el('achievementsPanel').classList.remove('open'));
+el('cityInfoBtn')?.addEventListener('click',()=>{updateCitizenPanel();updateTroublePanel();el('cityInfoPanel').classList.add('open');});
+el('closeCityInfo')?.addEventListener('click',()=>el('cityInfoPanel').classList.remove('open'));
+el('districtBtn')?.addEventListener('click',()=>{updateDistrictPanel();el('districtPanel').classList.add('open');});
+el('closeDistrict')?.addEventListener('click',()=>el('districtPanel').classList.remove('open'));
+el('developmentBtn')?.addEventListener('click',()=>{updateDevelopmentSystems(false);updateDevelopmentPanel();el('developmentPanel').classList.add('open');});
+el('closeDevelopment')?.addEventListener('click',()=>el('developmentPanel').classList.remove('open'));
+el('addDistrictBtn')?.addEventListener('click',addDistrict);
+el('exportSaveCode')?.addEventListener('click',()=>{try{save(false);el('saveCodeText').value=encodeSaveCode();set('saveCodeStatus','<span class="saveGood">セーブコードを作成しました。</span> コピーして保管できます。');}catch(e){set('saveCodeStatus','<span class="saveWarn">コード作成に失敗しました。</span>');}});
+el('copySaveCode')?.addEventListener('click',async()=>{try{const code=el('saveCodeText').value||encodeSaveCode();el('saveCodeText').value=code;await navigator.clipboard?.writeText(code);set('saveCodeStatus','<span class="saveGood">コピーしました。</span>');}catch(e){set('saveCodeStatus','コピーできない場合は、手動で全文を選択してコピーしてください。');}});
+el('importSaveCode')?.addEventListener('click',()=>{try{const d=decodeSaveCode(el('saveCodeText').value);if(!applySavePayload(d))throw new Error('bad save');applySettingsToEngine(false);updateStats();renderAll();updateTutorialMissions(false);updateUI();save(true);el('saveCodePanel').classList.remove('open');toast('セーブコードを読み込みました');}catch(e){set('saveCodeStatus','<span class="saveWarn">読み込みに失敗しました。コード全文が正しいか確認してください。</span>');}});
+el('backupSaveNow')?.addEventListener('click',()=>{save(true);set('saveCodeStatus','<span class="saveGood">ブラウザ保存とバックアップ保存を実行しました。</span>');});
+
 el('saveBtn').addEventListener('click',()=>save(true));
 el('resetBtn').addEventListener('click',()=>{if(confirm('街を最初から作り直しますか？')){localStorage.removeItem(SAVE_KEY);location.reload();}});
 el('toolbar').addEventListener('wheel',e=>{if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){el('toolbar').scrollLeft+=e.deltaY;e.preventDefault();}},{passive:false});
-function save(show){try{const grid=state.grid.map(row=>row.map(c=>[c.type,c.level,c.age,Math.round(c.seed*100000)/100000,c.rootX,c.rootY]));localStorage.setItem(SAVE_KEY,JSON.stringify({version:1,money:state.money,day:state.day,hour:state.hour,speed:state.speed,income:state.income,night:state.night,quality:state.quality,logs:state.logs,grid}));if(show)toast('保存しました');}catch(e){if(show)toast('保存できませんでした');}}
-function load(){try{const raw=localStorage.getItem(SAVE_KEY);if(!raw)return false;const d=JSON.parse(raw);if(!d||!d.grid)return false;state.money=d.money??state.money;state.day=d.day??1;state.hour=d.hour??7;state.speed=d.speed??1;state.income=d.income??0;state.night=!!d.night;state.quality=d.quality??state.quality;state.logs=Array.isArray(d.logs)?d.logs:state.logs;state.grid=[];for(let y=0;y<GRID;y++){const row=[];for(let x=0;x<GRID;x++){const a=d.grid[y]?.[x]||[0,0,0,0,null,null];const c=cell(a[0]);c.level=a[1]||0;c.age=a[2]||0;c.seed=a[3]||hash(x,y,7);c.rootX=a[4]??null;c.rootY=a[5]??null;row.push(c);}state.grid.push(row);}return true;}catch(e){console.warn(e);return false;}}
+function save(show){
+  try{
+    const payload=buildSavePayload();
+    const raw=JSON.stringify(payload);
+    localStorage.setItem(SAVE_KEY,raw);
+    localStorage.setItem(SAVE_BACKUP_KEY,raw);
+    localStorage.setItem(SAVE_KEY+'_last_ok',String(Date.now()));
+    if(show)toast('保存しました');
+    return true;
+  }catch(e){
+    console.warn(e);
+    if(show)toast('保存できませんでした。セーブコードも使ってください。');
+    return false;
+  }
+}
+function load(){
+  const keys=[SAVE_KEY,SAVE_BACKUP_KEY];
+  for(const k of keys){
+    try{const raw=localStorage.getItem(k);if(!raw)continue;const d=JSON.parse(raw);if(applySavePayload(d))return true;}catch(e){console.warn('load failed',k,e);}
+  }
+  return false;
+}
 window.addEventListener('beforeunload',()=>save(false));
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')save(false);});
 
 const clock=new THREE.Clock();let acc=0;
-function frame(){requestAnimationFrame(frame);const dt=Math.min(.05,clock.getDelta());const factor=state.speed===0?0:(state.speed===3?3.2:.75);if(factor>0){acc+=dt*factor;if(acc>1.05){acc=0;simulateHour();updateLight();}vehicles.slice().forEach(v=>moveObj(v,dt*factor,isRoad,vehicles));people.slice().forEach(p=>moveObj(p,dt*factor,isRoad,people));trains.slice().forEach(t=>updateTrain(t,dt*factor));updatePlanes(dt*factor);state.congestion=Math.max(0,state.congestion-dt*factor*.9);}for(let i=animations.length-1;i>=0;i--){const a=animations[i];a.t+=dt*2.5;const s=clamp(a.t,0,1);a.obj.scale.y=.04+.96*(1-Math.pow(1-s,3));if(s>=1){a.obj.scale.y=1;animations.splice(i,1);}}updateCamera();renderer.render(scene,camera);}
-try{if(!load())initGrid();updateStats();renderAll();updateUI();document.querySelectorAll('.speed button').forEach(b=>b.classList.toggle('active',parseInt(b.dataset.speed,10)===state.speed));el('nightBtn').classList.toggle('active',state.night);el('qualityBtn').classList.toggle('active',state.quality);updateQuickPanel();if(IS_MOBILE) el('sidePanel').classList.add('collapsed'); for(let i=0;i<12;i++)spawnMover(i%3===0?'person':'car');setTimeout(()=>{el('loading').classList.add('hide');toast('Micro City Reborn 完成版を開始しました');},450);frame();}catch(e){console.error(e);el('loading').innerHTML='<div class="panel" style="padding:24px;text-align:center"><b>起動中にエラーが出ました</b><br><span style="font-size:12px;color:#cbd5e1">コード確認用: '+String(e.message).replace(/[<>&]/g,'')+'</span></div>';}
+function frame(){
+  requestAnimationFrame(frame);
+  let dt=Math.min(.045,clock.getDelta());
+  try{
+    const factor=state.speed===0?0:(state.speed===3?2.6:.72);
+    if(factor>0){
+      acc+=dt*factor;
+      if(acc>1.05){acc=0;simulateHour();updateLight();}
+      for(let i=vehicles.length-1;i>=0;i--)moveObj(vehicles[i],dt*factor,isRoad,vehicles);
+      for(let i=people.length-1;i>=0;i--)moveObj(people[i],dt*factor,isRoad,people);
+      for(let i=trains.length-1;i>=0;i--)updateTrain(trains[i],dt*factor);
+      updatePlanes(dt*factor);
+      state.congestion=Math.max(0,state.congestion-dt*factor*.9);
+    }
+    for(let i=animations.length-1;i>=0;i--){const a=animations[i];a.t+=dt*2.5;const s=clamp(a.t,0,1);a.obj.scale.y=.04+.96*(1-Math.pow(1-s,3));if(s>=1){a.obj.scale.y=1;animations.splice(i,1);}}
+    PERF.uiTimer+=dt;
+    if(PERF.uiTimer>.65){maintainPerformance();PERF.uiTimer=0;}
+    updateCamera();renderer.render(scene,camera);
+  }catch(e){
+    PERF.frameErrors++;
+    console.warn('frame recovered',e);
+    maintainPerformance();
+    if(PERF.frameErrors>3){state.speed=0;updateUI();toast('安全のため一時停止しました。再生で続けられます');PERF.frameErrors=0;}
+  }
+}
+try{if(!load())initGrid();ensureFeatureState();applySettingsToEngine(false);perfLimits();updateStats();renderAll();maintainPerformance();updateTutorialMissions(false);updateAchievements(false);updateCitizenPanel();updateTroublePanel();updateDistrictPanel();updateUI();document.querySelectorAll('.speed button').forEach(b=>b.classList.toggle('active',parseInt(b.dataset.speed,10)===state.speed));el('nightBtn').classList.toggle('active',state.night);el('qualityBtn').classList.toggle('active',state.quality);syncSettingsUI();updateQuickPanel();if(IS_MOBILE) el('sidePanel').classList.add('collapsed'); for(let i=0;i<(IS_MOBILE?7:10);i++)spawnMover(i%3===0?'person':'car');maintainPerformance();setTimeout(()=>{el('loading').classList.add('hide');toast('Micro City Reborn 完成版を開始しました');},450);frame();}catch(e){console.error(e);el('loading').innerHTML='<div class="panel" style="padding:24px;text-align:center"><b>起動を安全停止しました</b><br><span style="font-size:12px;color:#cbd5e1">ページを再読み込みしてください</span></div>';}
 })();
 </script>
 </body>
