@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-<title>Micro Skylines - Construction Quality Complete Edition</title>
+<title>Micro Skylines - City Render Fixed Complete Edition</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -25,12 +25,14 @@ html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#030712;col
 #loading-cover{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 30%,#1e3a8a,#020617 68%);transition:opacity .5s ease;pointer-events:none}#loading-cover.hide{opacity:0;visibility:hidden}
 .loader{width:42px;height:42px;border:3px solid rgba(255,255,255,.2);border-top-color:white;border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
 .log-line{font-size:10px;line-height:1.35;color:#cbd5e1;border-top:1px solid rgba(255,255,255,.08);padding-top:6px;margin-top:6px}.pill{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:11px;font-weight:900;background:rgba(15,23,42,.72);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:6px 8px}
-.toolbar{touch-action:pan-x;overscroll-behavior:contain}.right-panel{overscroll-behavior:contain}.toolbar button{white-space:nowrap}
-@media(max-width:780px){.hud-wrap{left:8px!important;right:8px!important;top:8px!important;gap:8px!important;align-items:flex-start!important}.hud-main{padding:10px!important;gap:12px!important;flex-wrap:wrap!important}.hud-main .stat-block{min-width:74px}.hud-main .stat-num{font-size:17px!important}.right-panel{top:98px!important;right:8px!important;width:202px!important;padding:10px!important;max-height:calc(100vh - 210px);overflow:auto}.demand-panel{left:8px!important;bottom:104px!important;padding:10px!important}.toolbar{left:8px!important;right:8px!important;bottom:8px!important;transform:none!important;overflow-x:auto;overflow-y:hidden;justify-content:flex-start!important;border-radius:18px!important;-webkit-overflow-scrolling:touch;touch-action:pan-x}.tool-btn{min-width:58px!important;width:58px!important;height:58px!important}.tool-btn span{font-size:9px!important}}
+.toolbar{touch-action:pan-x;overscroll-behavior:contain}.toolbar button{white-space:nowrap}
+.right-panel{overscroll-behavior:contain;max-height:calc(100vh - 132px);overflow-y:auto;scrollbar-width:thin}.right-panel .small-panel{padding:10px!important}.right-panel .text-xl{font-size:1.05rem!important;line-height:1.15!important}#citizen-needs-panel{max-height:150px;overflow:auto}
+@media(max-width:980px){.right-panel{top:92px!important;right:8px!important;width:238px!important;padding:9px!important;max-height:calc(100vh - 188px)!important}.right-panel .grid{gap:6px!important}.right-panel .small-panel{padding:8px!important}.right-panel .pill{font-size:10px!important;padding:5px 6px!important}#citizen-needs-panel{left:8px!important;bottom:188px!important;width:226px!important;padding:9px!important;max-height:112px!important}.demand-panel{left:8px!important;bottom:82px!important;padding:9px!important;transform:scale(.88);transform-origin:left bottom}}
+@media(max-width:780px){.hud-wrap{left:8px!important;right:8px!important;top:8px!important;gap:8px!important;align-items:flex-start!important}.hud-main{padding:10px!important;gap:12px!important;flex-wrap:wrap!important;max-width:calc(100vw - 16px)!important}.hud-main .stat-block{min-width:74px}.hud-main .stat-num{font-size:17px!important}.right-panel{top:150px!important;right:8px!important;width:212px!important;padding:8px!important;max-height:calc(100vh - 245px)!important;overflow:auto}.right-panel .mt-3{margin-top:6px!important}.right-panel .font-black.text-lg{font-size:14px!important}.demand-panel{display:none!important}#citizen-needs-panel{left:8px!important;right:auto!important;bottom:92px!important;width:205px!important;max-height:105px!important}.toolbar{left:8px!important;right:8px!important;bottom:8px!important;transform:none!important;overflow-x:auto;overflow-y:hidden;justify-content:flex-start!important;border-radius:18px!important;-webkit-overflow-scrolling:touch;touch-action:pan-x}.tool-btn{min-width:58px!important;width:58px!important;height:58px!important}.tool-btn span{font-size:9px!important}}
 </style>
 </head>
 <body oncontextmenu="return false;">
-<div id="loading-cover"><div class="text-center"><div class="loader mx-auto mb-4"></div><div class="font-black tracking-widest text-sm text-slate-200">MICRO SKYLINES AIRPORT STABLE COMPLETE</div><div class="text-xs text-slate-400 mt-2">smooth trains / airport / stable mobile boot</div></div></div>
+<div id="loading-cover"><div class="text-center"><div class="loader mx-auto mb-4"></div><div class="font-black tracking-widest text-sm text-slate-200">MICRO SKYLINES CITY RENDER FIXED</div><div class="text-xs text-slate-400 mt-2">city render fix / organized status panel / stable mobile</div></div></div>
 <div id="canvas-container"></div>
 
 <div class="hud-wrap fixed top-4 left-4 right-4 z-20 flex justify-between gap-4 pointer-events-none">
@@ -386,10 +388,59 @@ function createMulti(g,x,y,type,c){
     return;
   }
 }
-function createMeshForCell(x,y,c,animate=false){removeCellMesh(c);removeSmokeEmitterAt(x,y);if(isMultiSubCell(c,x,y))return;if(!visibleCellKeys.has(cellKey(x,y))||c.type===TYPES.EMPTY)return;const g=new THREE.Group();g.position.set(x,0,y);g.userData.gridX=x;g.userData.gridY=y;if(c.type===TYPES.WATER)createWater(g,x,y);else if(c.type===TYPES.TREE)createTree(g,x,y,.85+hash01(x,y,7)*.45);else if(c.type===TYPES.ROAD)createRoad(g,x,y);else if(c.type===TYPES.RAIL)createRail(g,x,y);else if(c.type===TYPES.CROSSING)createCrossing(g,x,y);else if(c.type===TYPES.BUSSTOP)createBusStop(g,x,y);else if(c.type===TYPES.PARK)createPark(g,x,y);else if(isZone(c.type))createBuilding(g,x,y,c);else if(c.type===TYPES.STATION)createStation(g,x,y);else if(c.type===TYPES.SCHOOL)createSimpleFacility(g,'SCHOOL',0x8b5cf6,makeMat(0xb45309,.76,0),c,c.type);else if(c.type===TYPES.HOSPITAL)createSimpleFacility(g,'HOSPITAL',0xf43f5e,matWhite,c,c.type);else if(c.type===TYPES.POWER){createSimpleFacility(g,'POWER',0xfacc15,makeMat(0x3f3f46,.52,.55),c,c.type);if(constructionProgress(c,c.type)>.82)addSmokeEmitter(x,y,1.6);}else if(c.type===TYPES.FIRE)createSimpleFacility(g,'FIRE',0xef4444,matFireRed,c,c.type);else if(c.type===TYPES.POLICE)createSimpleFacility(g,'POLICE',0x3b82f6,matWhite,c,c.type);else if(c.type===TYPES.FACTORY){createSimpleFacility(g,'FACTORY',0x71717a,makeMat(0x52525b,.62,.44),c,c.type);if(constructionProgress(c,c.type)>.82)addSmokeEmitter(x,y,1.2);}else if(c.type===TYPES.LIBRARY)createSimpleFacility(g,'LIBRARY',0x6366f1,makeMat(0x9a3412,.78,0),c,c.type);else if(isMultiFacility(c.type))createMulti(g,x,y,c.type,c);meshGroup.add(g);c.meshObj=g;if(animate){g.scale.y=.02;buildingAnimations.push({obj:g,t:0,speed:1.8+hash01(x,y,13)});}}
+function createSafeFallbackCell(g,type,c){
+  // どこかの細かい3D部品でエラーが出ても、街そのものは必ず表示する簡易モデル
+  if(type===TYPES.WATER){g.add(smallBox(1.02,.09,1.02,matWater,0,.02,0,false,true));return;}
+  if(type===TYPES.TREE){createTree(g,0,0,.82);return;}
+  if(type===TYPES.ROAD||type===TYPES.BUSSTOP){g.add(smallBox(1,.055,1,matRoad,0,.04,0,false,true));g.add(smallBox(.08,.012,1,matRoadLine,0,.075,0,false,false));if(type===TYPES.BUSSTOP)g.add(smallBox(.35,.34,.12,matBusSign,.32,.25,-.34,true,false));return;}
+  if(type===TYPES.RAIL){g.add(smallBox(1,.05,1,matBallast,0,.025,0,false,true));g.add(smallBox(.055,.055,.92,matRail,-.18,.09,0,true,true));g.add(smallBox(.055,.055,.92,matRail,.18,.09,0,true,true));return;}
+  if(type===TYPES.CROSSING){g.add(smallBox(1,.055,1,matRoad,0,.04,0,false,true));g.add(smallBox(.055,.06,.96,matRail,-.18,.11,0,true,true));g.add(smallBox(.055,.06,.96,matRail,.18,.11,0,true,true));return;}
+  if(type===TYPES.STATION){g.add(smallBox(1.25,.12,4.45,makeMat(0xcbd5e1,.6,.08),0,.08,0,true,true));g.add(smallBox(.9,.62,.8,makeMat(0x334155,.36,.32),.95,.36,-1.55,true,true));addLabelPlane(g,'STATION','#67e8f9',1.1,.95,-1.98,.8);return;}
+  if(type===TYPES.AIRPORT){const ox=3.5,oz=2;g.add(smallBox(8,.045,5,makeMat(0x1f2937,.75,.1),ox,.025,oz,false,true));g.add(smallBox(7.4,.022,.62,matRoad,ox,.075,oz+1.25,false,true));for(let i=-3;i<=3;i++)g.add(smallBox(.42,.014,.045,matRoadLine,ox+i*.9,.105,oz+1.25,false,false));g.add(smallBox(1.6,.72,1.05,matTrainGlass,ox-2.2,.42,oz-.9,true,true));g.add(cyl(.16,1.55,matSignalPost,ox+2.4,.78,oz-.9));addLabelPlane(g,'AIRPORT','#c7d2fe',1.55,ox,oz-2.15,1.15);return;}
+  if(isZone(type)){const col=type===TYPES.RES?0x22c55e:type===TYPES.COM?0x38bdf8:0xfacc15;g.add(smallBox(.92,.035,.92,new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.15}),0,.02,0,false,false));const h=.45+Math.max(0,c.level||1)*.32;g.add(smallBox(.62,h,.62,makeMat(col,.55,.12),0,h/2,0,true,true));return;}
+  if(isMultiFacility(type)){let def={w:2,h:2,label:'施設'};for(const k in MULTI_TOOLS){if(MULTI_TOOLS[k].type===type){def={w:MULTI_TOOLS[k].w,h:MULTI_TOOLS[k].h,label:MULTI_TOOLS[k].name};break;}}const ox=(def.w-1)/2,oz=(def.h-1)/2;g.add(smallBox(def.w,.045,def.h,makeMat(0x334155,.7,.12),ox,.025,oz,false,true));g.add(smallBox(Math.max(.8,def.w*.42),.72,Math.max(.7,def.h*.38),matGlass,ox,.38,oz,true,true));addLabelPlane(g,def.label.replace('国際',''),'#e0f2fe',1.05,ox,oz-def.h*.5-.12,1.0);return;}
+  g.add(smallBox(.82,.52,.66,makeMat(0x94a3b8,.6,.12),0,.26,0,true,true));
+}
+function createMeshForCell(x,y,c,animate=false){
+  removeCellMesh(c);
+  removeSmokeEmitterAt(x,y);
+  if(isMultiSubCell(c,x,y))return;
+  if(!visibleCellKeys.has(cellKey(x,y))||c.type===TYPES.EMPTY)return;
+  const g=new THREE.Group();
+  g.position.set(x,0,y);
+  g.userData.gridX=x;
+  g.userData.gridY=y;
+  try{
+    if(c.type===TYPES.WATER)createWater(g,x,y);
+    else if(c.type===TYPES.TREE)createTree(g,x,y,.85+hash01(x,y,7)*.45);
+    else if(c.type===TYPES.ROAD)createRoad(g,x,y);
+    else if(c.type===TYPES.RAIL)createRail(g,x,y);
+    else if(c.type===TYPES.CROSSING)createCrossing(g,x,y);
+    else if(c.type===TYPES.BUSSTOP)createBusStop(g,x,y);
+    else if(c.type===TYPES.PARK)createPark(g,x,y);
+    else if(isZone(c.type))createBuilding(g,x,y,c);
+    else if(c.type===TYPES.STATION)createStation(g,x,y);
+    else if(c.type===TYPES.SCHOOL)createSimpleFacility(g,'SCHOOL',0x8b5cf6,makeMat(0xb45309,.76,0),c,c.type);
+    else if(c.type===TYPES.HOSPITAL)createSimpleFacility(g,'HOSPITAL',0xf43f5e,matWhite,c,c.type);
+    else if(c.type===TYPES.POWER){createSimpleFacility(g,'POWER',0xfacc15,makeMat(0x3f3f46,.52,.55),c,c.type);if(constructionProgress(c,c.type)>.82)addSmokeEmitter(x,y,1.6);}
+    else if(c.type===TYPES.FIRE)createSimpleFacility(g,'FIRE',0xef4444,matFireRed,c,c.type);
+    else if(c.type===TYPES.POLICE)createSimpleFacility(g,'POLICE',0x3b82f6,matWhite,c,c.type);
+    else if(c.type===TYPES.FACTORY){createSimpleFacility(g,'FACTORY',0x71717a,makeMat(0x52525b,.62,.44),c,c.type);if(constructionProgress(c,c.type)>.82)addSmokeEmitter(x,y,1.2);}
+    else if(c.type===TYPES.LIBRARY)createSimpleFacility(g,'LIBRARY',0x6366f1,makeMat(0x9a3412,.78,0),c,c.type);
+    else if(isMultiFacility(c.type))createMulti(g,x,y,c.type,c);
+    if(g.children.length===0)createSafeFallbackCell(g,c.type,c);
+  }catch(err){
+    console.warn('cell render fallback',x,y,c.type,err);
+    while(g.children.length)g.remove(g.children[0]);
+    createSafeFallbackCell(g,c.type,c);
+  }
+  meshGroup.add(g);
+  c.meshObj=g;
+  if(animate){g.scale.y=.02;buildingAnimations.push({obj:g,t:0,speed:1.8+hash01(x,y,13)});}
+}
 function updateCellAndNeighbors(x,y){[[x,y],[x-1,y],[x+1,y],[x,y-1],[x,y+1]].forEach(([px,py])=>{if(inside(px,py)){const c=state.grid[py][px];if(c.type!==TYPES.EMPTY)createMeshForCell(px,py,c,false);}});}
 function clearRenderedMeshes(){for(const key of renderedCellKeys){const [x,y]=key.split(',').map(Number);const c=cellAt(x,y);if(c){c.meshObj=null;c.glowObj=null;}}meshGroup.clear();streetLights.length=0;smokeEmitters.length=0;parkActors.length=0;crossingObjects.length=0;signalObjects.length=0;renderedCellKeys.clear();visibleCellKeys.clear();buildingAnimations.length=0;}
-function buildVisibleMeshes(force=false){const cx=clamp(Math.round(controls.target.x),0,COLS-1),cy=clamp(Math.round(controls.target.z),0,ROWS-1),threshold=state.highQuality?6:9;if(!force&&Math.abs(cx-lastRenderCX)<threshold&&Math.abs(cy-lastRenderCY)<threshold)return;lastRenderCX=cx;lastRenderCY=cy;clearRenderedMeshes();const r=state.highQuality?(BOOT_IS_MOBILE?28:38):(BOOT_IS_MOBILE?18:26);for(let y=Math.max(0,cy-r);y<=Math.min(ROWS-1,cy+r);y++)for(let x=Math.max(0,cx-r);x<=Math.min(COLS-1,cx+r);x++)visibleCellKeys.add(cellKey(x,y));for(let y=Math.max(0,cy-r);y<=Math.min(ROWS-1,cy+r);y++)for(let x=Math.max(0,cx-r);x<=Math.min(COLS-1,cx+r);x++){const c=state.grid[y][x];if(c.type!==TYPES.EMPTY){renderedCellKeys.add(cellKey(x,y));createMeshForCell(x,y,c,false);}}updateLighting();}
+function buildVisibleMeshes(force=false){const cx=clamp(Math.round(controls.target.x),0,COLS-1),cy=clamp(Math.round(controls.target.z),0,ROWS-1),threshold=state.highQuality?6:9;if(!force&&Math.abs(cx-lastRenderCX)<threshold&&Math.abs(cy-lastRenderCY)<threshold)return;lastRenderCX=cx;lastRenderCY=cy;clearRenderedMeshes();const r=state.highQuality?(BOOT_IS_MOBILE?34:46):(BOOT_IS_MOBILE?30:36);for(let y=Math.max(0,cy-r);y<=Math.min(ROWS-1,cy+r);y++)for(let x=Math.max(0,cx-r);x<=Math.min(COLS-1,cx+r);x++)visibleCellKeys.add(cellKey(x,y));for(let y=Math.max(0,cy-r);y<=Math.min(ROWS-1,cy+r);y++)for(let x=Math.max(0,cx-r);x<=Math.min(COLS-1,cx+r);x++){const c=state.grid[y][x];if(c.type!==TYPES.EMPTY){renderedCellKeys.add(cellKey(x,y));createMeshForCell(x,y,c,false);}}updateLighting();}
 function getGridIntersect(event){const rect=renderer.domElement.getBoundingClientRect();let cx=event.clientX,cy=event.clientY;if(event.touches&&event.touches[0]){cx=event.touches[0].clientX;cy=event.touches[0].clientY;}mouse.x=((cx-rect.left)/rect.width)*2-1;mouse.y=-((cy-rect.top)/rect.height)*2+1;raycaster.setFromCamera(mouse,camera);const hit=raycaster.intersectObject(ground,false)[0];return hit?{x:Math.round(hit.point.x),y:Math.round(hit.point.z),clientX:cx,clientY:cy}:null;}
 function canPlaceOn(c,type){if(!c||c.type===TYPES.WATER||isMultiFacility(c.type))return false;if(type===TYPES.ROAD&&c.type===TYPES.RAIL)return true;if(type===TYPES.RAIL&&c.type===TYPES.ROAD)return true;if(type===TYPES.ROAD||type===TYPES.RAIL||type===TYPES.PARK)return c.type===TYPES.EMPTY||c.type===TYPES.TREE;if(type===TYPES.STATION)return c.type===TYPES.RAIL||c.type===TYPES.EMPTY||c.type===TYPES.TREE;if(type===TYPES.BUSSTOP)return c.type===TYPES.ROAD||c.type===TYPES.EMPTY||c.type===TYPES.TREE;return c.type===TYPES.EMPTY||c.type===TYPES.TREE;}
 function canPlaceMulti(sx,sy,def){for(let yy=sy;yy<sy+def.h;yy++)for(let xx=sx;xx<sx+def.w;xx++){if(!inside(xx,yy))return false;const c=cellAt(xx,yy);if(!c||!(c.type===TYPES.EMPTY||c.type===TYPES.TREE))return false;}return true;}
@@ -536,7 +587,7 @@ try{
   document.querySelectorAll('.speed-btn').forEach(b=>b.classList.toggle('active',parseInt(b.dataset.speed,10)===state.speed));
   // 最初の重い描画を1フレーム遅らせて、Safari/iPadでローディングが固まるのを防ぐ
   requestAnimationFrame(()=>{
-    try{ buildVisibleMeshes(true); updateStatsImmediate(); updateUI(); updateLighting(); safeHideCover(); toast('完全安定版を開始しました。空港・電車・保存を修正済みです。'); }
+    try{ buildVisibleMeshes(true); updateStatsImmediate(); updateUI(); updateLighting(); safeHideCover(); toast('街表示修正版を開始しました。建物・道路・施設の描画を安定化済みです。'); }
     catch(e){ console.error('initial render failed',e); safeHideCover(); toast('初期描画を軽量モードで再試行します'); state.highQuality=false; try{ buildVisibleMeshes(true); }catch(err){console.error(err);} }
   });
   animate();
