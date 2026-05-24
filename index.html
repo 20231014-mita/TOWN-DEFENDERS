@@ -53,6 +53,9 @@ button{font:inherit;color:inherit;border:0;cursor:pointer;touch-action:manipulat
 body.easyMode .quickPanel{width:340px}.easyToggle{position:fixed;right:14px;bottom:92px;z-index:30;pointer-events:auto;padding:10px 13px;border-radius:999px;background:rgba(15,23,42,.88);border:1px solid rgba(125,211,252,.25);font-size:12px;font-weight:950;color:#e0f2fe;box-shadow:0 12px 32px rgba(0,0,0,.25)}.easyToggle.active{background:linear-gradient(135deg,#22c55e,#0891b2);color:white}
 .adviceControls{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.adviceBtn{border-radius:999px;padding:7px 10px;background:rgba(15,23,42,.78);border:1px solid rgba(255,255,255,.12);font-size:10px;font-weight:950;color:#cbd5e1}.adviceBtn.active{background:linear-gradient(135deg,#22c55e,#0891b2);border-color:rgba(134,239,172,.55);color:white}.adviceStatus{font-size:11px;color:#dbeafe;font-weight:900;line-height:1.35}.advisorMini{margin-top:7px;padding:8px;border-radius:12px;background:rgba(14,165,233,.12);border:1px solid rgba(125,211,252,.20)}.advisorLegend{display:flex;gap:7px;flex-wrap:wrap;margin-top:5px;font-size:10px;color:#cbd5e1;font-weight:850}.legendDot{display:inline-block;width:9px;height:9px;border-radius:999px;margin-right:4px}.dotGood{background:#22c55e}.dotBad{background:#ef4444}
 @media(max-width:900px){.easyTopGuide{top:104px;width:calc(100vw - 16px);padding:9px}.easyTopGuide .guideMain{font-size:13px}.uiModeBar{left:8px;right:8px;bottom:146px;transform:none}.easyToggle{right:8px;bottom:76px}.toolbar{padding:7px}.tool{min-width:62px}.side{top:178px}.timeBox{top:78px}}
+
+.easyTopGuide.closed,.quickPanel.closed{display:none!important}.reopenGuideBtn{position:fixed;left:14px;top:118px;z-index:45;border-radius:999px;padding:9px 12px;background:linear-gradient(135deg,#2563eb,#0891b2);border:1px solid rgba(125,211,252,.35);font-size:11px;font-weight:950;color:white;display:none}.reopenGuideBtn.show{display:block}.followExit{position:fixed;left:50%;top:16px;transform:translateX(-50%);z-index:80;display:none;gap:8px;align-items:center;background:rgba(2,6,23,.82);border:1px solid rgba(125,211,252,.35);border-radius:999px;padding:9px 13px;font-size:12px;font-weight:950;color:#fff;box-shadow:0 12px 38px rgba(0,0,0,.35)}.followExit.show{display:flex}
+
 @media(max-width:650px){.easyTopGuide{top:84px}.easyTopGuide .guideSub{display:none}.problemBadges{display:none}.adviceControls{display:none}.uiModeBar{bottom:72px}.toolbar{bottom:8px}.easyToggle{bottom:132px;font-size:11px;padding:8px 10px}.toast{bottom:148px}.side{top:138px;width:224px}.topStats .stat:nth-of-type(n+4){display:none}.timeBox{top:72px}.tool{min-width:56px;width:56px;height:56px}.uiModeBar button{padding:8px 10px;font-size:10px}}
 body.compactUI .side{width:58px;padding:10px;overflow:hidden}body.compactUI .side > *:not(.sideHead){display:none}body.compactUI .side .sideHead{justify-content:center}body.compactUI .side .sideHead > div:first-child{display:none}
 
@@ -80,7 +83,7 @@ body.compactUI .side{width:58px;padding:10px;overflow:hidden}body.compactUI .sid
 <section id="easyTopGuide" class="panel easyTopGuide">
   <div class="guideLine">
     <div><div class="label">NEXT STEP</div><div id="easyMainAction" class="guideMain">まず道路を作って住宅を増やしましょう。</div></div>
-    <button id="easyModeBtn" class="mini primary" style="min-width:86px">かんたん</button>
+    <div style="display:flex;gap:6px;align-items:center"><button id="easyModeBtn" class="mini primary" style="min-width:86px">かんたん</button><button id="guideClose" class="iconBtn" title="閉じる">×</button></div>
   </div>
   <div id="easySubAction" class="guideSub">右の都市状態と下の建設カテゴリを見ながら進めると迷いにくいです。</div>
   <div id="easyBadges" class="problemBadges"><span class="problemBadge good">街は安定</span></div>
@@ -90,6 +93,8 @@ body.compactUI .side{width:58px;padding:10px;overflow:hidden}body.compactUI .sid
     <div id="advisorStatus" class="adviceStatus">緑:おすすめ / 赤:問題</div>
   </div>
 </section>
+<button id="reopenGuideBtn" class="reopenGuideBtn">ガイドを開く</button>
+<div id="followExit" class="followExit"><span id="followLabel">乗り物視点</span><button id="followBackBtn" class="mini primary">戻る</button></div>
 
 <aside id="sidePanel" class="panel side">
   <div class="sideHead"><div><div class="label">CITY PULSE</div><h2>都市の状態</h2></div><div style="display:flex;align-items:center;gap:8px"><div style="font-size:24px">🏙️</div><button id="toggleSide" class="iconBtn" title="開閉">⇔</button></div></div>
@@ -130,7 +135,7 @@ body.compactUI .side{width:58px;padding:10px;overflow:hidden}body.compactUI .sid
   </div>
   <div class="small need">
     <div class="label">表示・保存</div>
-    <div class="miniRow" style="margin-top:8px;grid-template-columns:repeat(4,1fr)"><button id="nightBtn" class="mini">夜景</button><button id="qualityBtn" class="mini active">画質</button><button id="settingsBtn" class="mini">設定</button><button id="helpBtn" class="mini help">遊び方</button></div>
+    <div class="miniRow" style="margin-top:8px;grid-template-columns:repeat(4,1fr)"><button id="nightBtn" class="mini">夜景</button><button id="qualityBtn" class="mini active">画質</button><button id="settingsBtn" class="mini">設定</button><button id="helpBtn" class="mini help">遊び方</button></div><button id="quickOpen" class="mini" style="width:100%;margin-top:8px">建設ガイドを開く</button>
     <div class="miniRow" style="margin-top:8px;grid-template-columns:repeat(2,1fr)"><button id="tutorialBtn" class="mini primary">ミッション</button><button id="saveCodeBtn" class="mini">セーブコード</button></div>
     <div class="miniRow" style="margin-top:8px;grid-template-columns:repeat(2,1fr)"><button id="achievementsBtn" class="mini primary">実績</button><button id="cityInfoBtn" class="mini">街の声/事件</button></div>
     <button id="districtBtn" class="mini" style="width:100%;margin-top:8px">地区名・エリア管理</button>
@@ -143,7 +148,7 @@ body.compactUI .side{width:58px;padding:10px;overflow:hidden}body.compactUI .sid
 <section id="quickPanel" class="panel quickPanel">
   <div class="quickTop">
     <div>
-      <div class="quickTitle">建設ガイド</div>
+      <div class="quickTitle">建設ガイド <button id="quickClose" class="mini" style="padding:3px 7px;margin-left:6px">閉じる</button></div>
       <div id="toolPill" class="toolPill"><i id="toolIcon">📷</i><span id="toolName">カメラ</span></div><div id="toolCategoryBadge" class="simpleBadge">見る・調べる</div>
     </div>
     <div style="text-align:right">
@@ -215,7 +220,7 @@ body.compactUI .side{width:58px;padding:10px;overflow:hidden}body.compactUI .sid
     <div class="guideStep"><b>3</b><span>市民の要望に合わせて、公園・学校・病院などを追加します。</span></div>
     <div class="guideStep"><b>4</b><span>渋滞が増えたら、駅・バス停・道路分散で交通を改善します。</span></div>
   </div>
-  <div class="nextAction"><div class="actionTitle">操作</div>カメラ: ドラッグで回転 / Shift+ドラッグで移動 / ホイールでズーム。建設ツールはドラッグで連続配置できます。</div>
+  <div class="nextAction"><div class="actionTitle">操作</div>カメラ: スワイプで移動 / 2本指でズーム・移動 / PCは左ドラッグ回転、Shiftまたは右ドラッグで移動。</div>
 </div>
 
 <div id="settingsPanel" class="panel settingsPanel">
@@ -298,17 +303,17 @@ body.compactUI .side{width:58px;padding:10px;overflow:hidden}body.compactUI .sid
 (() => {
 'use strict';
 const GAME_TITLE = 'Micro City Reborn Complete';
-const SAVE_KEY = 'micro_city_reborn_complete_v1';
+const SAVE_KEY = 'micro_city_reborn_v34_fresh_save';
 const SAVE_BACKUP_KEY = SAVE_KEY + '_backup';
 const SAVE_BACKUP_KEYS = [SAVE_BACKUP_KEY, SAVE_KEY + '_backup_2', SAVE_KEY + '_backup_3'];
 const SAVE_SESSION_KEY = SAVE_KEY + '_session';
 const SAVE_LAST_OK_KEY = SAVE_KEY + '_last_ok';
-const SAVE_CODE_PREFIX = 'MCR20:';
-const GRID = 72;
+const SAVE_CODE_PREFIX = 'MCR34:';
+const GRID = 216;
 const HALF = GRID / 2;
 const IS_MOBILE = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || Math.min(innerWidth, innerHeight) < 760;
-const T = Object.freeze({EMPTY:0,WATER:1,TREE:2,ROAD:3,RAIL:4,STATION:5,BUSSTOP:6,RES:7,COM:8,IND:9,PARK:10,SCHOOL:11,HOSPITAL:12,POLICE:13,FIRE:14,POWER:15,HOTEL:16,AIRPORT:17,CITYHALL:18,LANDMARK:19,DOCK:20,ROADBRIDGE:21,RAILBRIDGE:22,FOOTBRIDGE:23});
-const NAME = ['空き地','水辺','森林','道路','線路','駅','バス停','住宅区画','商業区画','産業区画','公園','学校','病院','警察署','消防署','発電所','ホテル','国際空港','市役所','観光名所','船着場','道路橋','鉄道橋','歩道橋'];
+const T = Object.freeze({EMPTY:0,WATER:1,TREE:2,ROAD:3,RAIL:4,STATION:5,BUSSTOP:6,RES:7,COM:8,IND:9,PARK:10,SCHOOL:11,HOSPITAL:12,POLICE:13,FIRE:14,POWER:15,HOTEL:16,AIRPORT:17,CITYHALL:18,LANDMARK:19,DOCK:20,ROADBRIDGE:21,RAILBRIDGE:22,FOOTBRIDGE:23,MOUNTAIN:24});
+const NAME = ['空き地','水辺','森林','道路','線路','駅','バス停','住宅区画','商業区画','産業区画','公園','学校','病院','警察署','消防署','発電所','ホテル','国際空港','市役所','観光名所','船着場','道路橋','鉄道橋','歩道橋','山'];
 const COST = {road:10,rail:45,station:350,busstop:90,res:25,com:35,ind:35,park:75,school:500,hospital:650,police:620,fire:650,power:900,hotel:1200,dock:700,ferryport:1350,tourport:1600,cargoport:1700,roadbridge:180,railbridge:260,footbridge:120,airport:4800,cityhall:2500,landmark:1800,digwater:60,forest:40,landfill:80,bulldoze:5};
 const TOOL_TO_TYPE = {road:T.ROAD,rail:T.RAIL,station:T.STATION,busstop:T.BUSSTOP,dock:T.DOCK,ferryport:T.DOCK,tourport:T.DOCK,cargoport:T.DOCK,roadbridge:T.ROADBRIDGE,railbridge:T.RAILBRIDGE,footbridge:T.FOOTBRIDGE,res:T.RES,com:T.COM,ind:T.IND,park:T.PARK,school:T.SCHOOL,hospital:T.HOSPITAL,police:T.POLICE,fire:T.FIRE,power:T.POWER,hotel:T.HOTEL,cityhall:T.CITYHALL,landmark:T.LANDMARK};
 const MULTI = {airport:{type:T.AIRPORT,w:8,h:5,cost:COST.airport,name:'国際空港'}};
@@ -373,7 +378,7 @@ function updateQuickPanel(){
   set('quickNeed',needs()[0]||'安定');
   if(el('toolCategoryBadge')) set('toolCategoryBadge',toolCategory(state.tool));
   if(el('toolbarHint')){
-    el('toolbarHint').textContent = state.tool==='camera' ? '自由視点: 左ドラッグ回転 / 右 or Shiftドラッグ移動 / WASD移動 / Q,E回転 / R,Fズーム' : info.name+'を配置中: マップをタップ、またはドラッグで連続配置';
+    el('toolbarHint').textContent = state.tool==='camera' ? '自由視点: スワイプ移動 / 2本指ズーム・移動 / PCは左ドラッグ回転・右ドラッグ移動' : info.name+'を配置中: マップをタップ、またはドラッグで連続配置';
   }
 }
 
@@ -420,7 +425,17 @@ const ground = new THREE.Mesh(geoPlane,M.ground); ground.rotation.x=-Math.PI/2; 
 const cursor = new THREE.Mesh(new THREE.BoxGeometry(1.04,.08,1.04), new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.55,wireframe:true})); cursor.visible=false; scene.add(cursor);
 const ray = new THREE.Raycaster(); const mouse = new THREE.Vector2();
 const cam = {target:new THREE.Vector3(0,0,0),theta:.65,phi:1.02,dist:62,drag:false,button:0,lastX:0,lastY:0};
-function updateCamera(){cam.phi=clamp(cam.phi,.12,Math.PI-.10);cam.dist=clamp(cam.dist,5,180);cam.target.x=clamp(cam.target.x,-HALF,HALF);cam.target.z=clamp(cam.target.z,-HALF,HALF);cam.target.y=clamp(cam.target.y,0,18);camera.position.set(cam.target.x+Math.sin(cam.phi)*Math.sin(cam.theta)*cam.dist, cam.target.y+Math.cos(cam.phi)*cam.dist, cam.target.z+Math.sin(cam.phi)*Math.cos(cam.theta)*cam.dist);camera.lookAt(cam.target);}
+function updateCamera(){
+  if(cam.follow&&cam.follow.object){
+    const obj=cam.follow.object, pos=obj.position.clone();
+    const forward=new THREE.Vector3(0,0,1).applyQuaternion(obj.quaternion).normalize();
+    const behind=pos.clone().add(forward.clone().multiplyScalar(-2.4));
+    behind.y+=cam.follow.type==='plane'?1.15:cam.follow.type==='train'?.72:.55;
+    camera.position.lerp(behind,.18);
+    camera.lookAt(pos.x,pos.y+(cam.follow.type==='plane'?.28:.18),pos.z);
+    return;
+  }
+  cam.phi=clamp(cam.phi,.12,Math.PI-.10);cam.dist=clamp(cam.dist,5,260);cam.target.x=clamp(cam.target.x,-HALF,HALF);cam.target.z=clamp(cam.target.z,-HALF,HALF);cam.target.y=clamp(cam.target.y,0,26);camera.position.set(cam.target.x+Math.sin(cam.phi)*Math.sin(cam.theta)*cam.dist, cam.target.y+Math.cos(cam.phi)*cam.dist, cam.target.z+Math.sin(cam.phi)*Math.cos(cam.theta)*cam.dist);camera.lookAt(cam.target);}
 updateCamera();
 
 function getCell(x,y){return inMap(x,y)?state.grid[y][x]:null;}
@@ -441,8 +456,29 @@ function adj(x,y,pred){let n=0;[[1,0],[-1,0],[0,1],[0,-1]].forEach(d=>{const c=g
 function neighbors(x,y,pred){const a=[];[[1,0],[-1,0],[0,1],[0,-1]].forEach(d=>{const nx=x+d[0],ny=y+d[1];const c=getCell(nx,ny);if(c&&pred(c.type))a.push({x:nx,y:ny});});return a;}
 function landValue(x,y){const c=getCell(x,y); if(!c||c.type===T.WATER)return 0; let v=42; v += adj(x,y,isRoad)?8:-7; v += countNear(x,y,T.PARK,4)*3 + countNear(x,y,T.STATION,5)*8 + countNear(x,y,T.BUSSTOP,4)*4 + countNear(x,y,T.SCHOOL,5)*5 + countNear(x,y,T.HOSPITAL,5)*5 + countNear(x,y,T.POLICE,5)*4 + countNear(x,y,T.FIRE,5)*4 + countNear(x,y,T.HOTEL,5)*4; v -= countNear(x,y,T.IND,4)*4 + countNear(x,y,T.POWER,5)*7; v += clamp(14-Math.hypot(x-GRID/2,y-GRID/2)*.38,0,14); return clamp(Math.round(v),0,100);}
 
-function initGrid(){state.grid=[];seed=1234567;for(let y=0;y<GRID;y++){const row=[];for(let x=0;x<GRID;x++){let t=T.EMPTY;const river=Math.abs(Math.sin(x*.18)+Math.cos(y*.09)+(x-GRID*.21)*.12)<.42 && y>3&&y<GRID-4;const lake=Math.hypot(x-12,y-14)<4.4 || Math.hypot(x-58,y-52)<5.2; if(river||lake)t=T.WATER; else if(hash(x,y,4)>.86&&Math.hypot(x-36,y-36)>9)t=T.TREE;row.push(cell(t));}state.grid.push(row);}const cx=36,cy=36;for(let x=cx-9;x<=cx+9;x++)safeSet(x,cy,T.ROAD);for(let y=cy-8;y<=cy+8;y++)safeSet(cx,y,T.ROAD);for(let x=cx-15;x<=cx+15;x++)safeSet(x,cy+9,T.RAIL);safeSet(cx,cy+9,T.STATION);safeSet(cx+9,cy+9,T.STATION);[[cx-4,cy-2,T.RES],[cx-3,cy-2,T.RES],[cx-2,cy-2,T.RES],[cx+2,cy-2,T.COM],[cx+3,cy-2,T.COM],[cx+4,cy-2,T.COM],[cx-4,cy+2,T.RES],[cx-3,cy+2,T.RES],[cx+3,cy+2,T.COM],[cx+4,cy+2,T.COM],[cx-7,cy+4,T.IND],[cx-7,cy+5,T.IND],[cx+6,cy+3,T.PARK],[cx-5,cy-1,T.SCHOOL],[cx+5,cy-1,T.HOSPITAL],[cx-5,cy+5,T.FIRE],[cx+5,cy+5,T.POLICE],[cx+8,cy-2,T.BUSSTOP],[cx+11,cy-2,T.BUSSTOP]].forEach(v=>{const c=getCell(v[0],v[1]);if(c&&c.type!==T.WATER){c.type=v[2];c.level=isZone(v[2])?1:0;c.age=9;}});}
-function safeSet(x,y,t){if(inMap(x,y)&&state.grid[y][x].type!==T.WATER){state.grid[y][x].type=t;state.grid[y][x].age=9;}}
+function initGrid(){
+  state.grid=[];seed=1234567;
+  const cx=Math.floor(GRID/2), cy=Math.floor(GRID/2);
+  for(let y=0;y<GRID;y++){
+    const row=[];
+    for(let x=0;x<GRID;x++){
+      let t=T.EMPTY;
+      const sea=x<18 || y>GRID-15 || (x<28&&y>GRID-32);
+      const river=Math.abs(Math.sin((x-GRID*.22)*.055)+Math.cos(y*.046)+(x-GRID*.24)*.018)<.22 && y>12&&y<GRID-18;
+      const lake=Math.hypot(x-GRID*.22,y-GRID*.20)<8.8 || Math.hypot(x-GRID*.78,y-GRID*.68)<10.5;
+      const mountain=(x>GRID-42&&y<48) || Math.hypot(x-GRID*.82,y-GRID*.24)<18 || Math.hypot(x-GRID*.18,y-GRID*.74)<15;
+      if(sea||river||lake)t=T.WATER; else if(mountain)t=T.MOUNTAIN; else if(hash(x,y,4)>.94&&Math.hypot(x-cx,y-cy)>16)t=T.TREE;
+      row.push(cell(t));
+    }
+    state.grid.push(row);
+  }
+  for(let x=cx-16;x<=cx+16;x++)safeSet(x,cy,T.ROAD);
+  for(let y=cy-14;y<=cy+14;y++)safeSet(cx,y,T.ROAD);
+  for(let x=cx-24;x<=cx+24;x++)safeSet(x,cy+12,T.RAIL);
+  safeSet(cx,cy+12,T.STATION);safeSet(cx+12,cy+12,T.STATION);
+  [[cx-4,cy-2,T.RES],[cx-3,cy-2,T.RES],[cx-2,cy-2,T.RES],[cx+2,cy-2,T.COM],[cx+3,cy-2,T.COM],[cx+4,cy-2,T.COM],[cx-4,cy+2,T.RES],[cx-3,cy+2,T.RES],[cx+3,cy+2,T.COM],[cx+4,cy+2,T.COM],[cx-7,cy+4,T.IND],[cx-7,cy+5,T.IND],[cx+6,cy+3,T.PARK],[cx-5,cy-1,T.SCHOOL],[cx+5,cy-1,T.HOSPITAL],[cx-5,cy+5,T.FIRE],[cx+5,cy+5,T.POLICE],[cx+8,cy-2,T.BUSSTOP],[cx+11,cy-2,T.BUSSTOP]].forEach(v=>{const c=getCell(v[0],v[1]);if(c&&c.type!==T.WATER&&c.type!==T.MOUNTAIN){c.type=v[2];c.level=isZone(v[2])?1:0;c.age=9;}});
+}
+function safeSet(x,y,t){if(inMap(x,y)&&state.grid[y][x].type!==T.WATER&&state.grid[y][x].type!==T.MOUNTAIN){state.grid[y][x].type=t;state.grid[y][x].age=9;}}
 
 function clearMesh(c){if(c&&c.mesh){staticGroup.remove(c.mesh);c.mesh.traverse(o=>{if(o.geometry&&o.userData.disposeGeo)o.geometry.dispose();});c.mesh=null;}}
 function labelSprite(text,color='#fff',scale=1){const cvs=document.createElement('canvas');cvs.width=256;cvs.height=84;const ctx=cvs.getContext('2d');ctx.fillStyle='rgba(2,6,23,.72)';ctx.fillRect(0,0,256,84);ctx.strokeStyle='rgba(255,255,255,.35)';ctx.strokeRect(4,4,248,76);ctx.fillStyle=color;ctx.font='900 30px system-ui,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(text,128,42);const tex=new THREE.CanvasTexture(cvs);tex.encoding=THREE.sRGBEncoding;const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true}));sp.scale.set(1.15*scale,.38*scale,1);return sp;}
@@ -993,105 +1029,121 @@ function railOrientation(x,y){
 }
 
 
-function renderRoad(g,x,y){
-  const east=railConn(x,y,1,0)&&false; // dummy keeps minifiers away
-  const rE=!!(getCell(x+1,y)&&isRoad(getCell(x+1,y).type));
-  const rW=!!(getCell(x-1,y)&&isRoad(getCell(x-1,y).type));
-  const rN=!!(getCell(x,y-1)&&isRoad(getCell(x,y-1).type));
-  const rS=!!(getCell(x,y+1)&&isRoad(getCell(x,y+1).type));
-  const horizontal=rE||rW, vertical=rN||rS;
-  const connCount=[rE,rW,rN,rS].filter(Boolean).length;
-  g.add(box(1,.04,1,M.walk,0,.02,0,false,true));
-  if(rN||rS||(!horizontal&&!vertical)) g.add(box(.56,.055,1.02,M.road,0,.055,0,false,true));
-  if(rE||rW) g.add(box(1.02,.056,.56,M.road,0,.056,0,false,true));
-  // 縁石と歩道の角を整理
-  if(vertical){addRoadCurb(g,-.39,0,.96,Math.PI/2);addRoadCurb(g,.39,0,.96,Math.PI/2);}
-  if(horizontal){addRoadCurb(g,0,-.39,.96,0);addRoadCurb(g,0,.39,.96,0);}
-  if(horizontal&&vertical){for(const sx of[-.40,.40])for(const sz of[-.40,.40])addRoadCornerApron(g,sx,sz);}
-  if(vertical&&!horizontal){
-    g.add(box(.03,.012,.58,M.roadLine,0,.09,0,false,false));
-    for(const sx of[-.22,.22])g.add(box(.04,.012,.18,M.roadLine,sx,.09,-.34,false,false));
-    g.add(box(.10,.008,1.0,DETAIL.laneRed,-.21,.082,0,false,false));
-    addBusLaneDecor(g,'v');
-  }else if(horizontal&&!vertical){
-    g.add(box(.58,.012,.03,M.roadLine,0,.09,0,false,false));
-    for(const sz of[-.22,.22])g.add(box(.18,.012,.04,M.roadLine,-.34,.09,sz,false,false));
-    g.add(box(1.0,.008,.10,DETAIL.laneRed,0,.082,.21,false,false));
-    addBusLaneDecor(g,'h');
-  }else if(horizontal&&vertical){
-    g.add(box(.03,.012,.24,M.roadLine,0,.09,-.35,false,false));
-    g.add(box(.03,.012,.24,M.roadLine,0,.09,.35,false,false));
-    g.add(box(.24,.012,.03,M.roadLine,-.35,.09,0,false,false));
-    g.add(box(.24,.012,.03,M.roadLine,.35,.09,0,false,false));
-    for(const a of[-.36,.36]){g.add(box(.04,.012,.16,M.roadLine,a,.09,-.36,false,false));g.add(box(.16,.012,.04,M.roadLine,-.36,.09,a,false,false));}
+function roadBits(x,y){
+  return {
+    e:!!(getCell(x+1,y)&&isRoad(getCell(x+1,y).type)),
+    w:!!(getCell(x-1,y)&&isRoad(getCell(x-1,y).type)),
+    n:!!(getCell(x,y-1)&&isRoad(getCell(x,y-1).type)),
+    s:!!(getCell(x,y+1)&&isRoad(getCell(x,y+1).type))
+  };
+}
+function addRoadLaneMark(g,dir){
+  if(dir==='N')g.add(box(.026,.012,.36,M.roadLine,0,.106,-.24,false,false));
+  if(dir==='S')g.add(box(.026,.012,.36,M.roadLine,0,.106,.24,false,false));
+  if(dir==='E')g.add(box(.36,.012,.026,M.roadLine,.24,.106,0,false,false));
+  if(dir==='W')g.add(box(.36,.012,.026,M.roadLine,-.24,.106,0,false,false));
+}
+function addCrosswalkAt(g,dir){
+  if(dir==='N')for(let i=-2;i<=2;i++)g.add(box(.09,.012,.026,M.roadLine,i*.115,.110,-.405,false,false));
+  if(dir==='S')for(let i=-2;i<=2;i++)g.add(box(.09,.012,.026,M.roadLine,i*.115,.110,.405,false,false));
+  if(dir==='E')for(let i=-2;i<=2;i++)g.add(box(.026,.012,.09,M.roadLine,.405,.110,i*.115,false,false));
+  if(dir==='W')for(let i=-2;i<=2;i++)g.add(box(.026,.012,.09,M.roadLine,-.405,.110,i*.115,false,false));
+}
+function addSidewalkForBranch(g,dir){
+  if(dir==='N'){
+    g.add(box(.18,.026,.52,DETAIL.plaza,-.36,.078,-.24,false,true));
+    g.add(box(.18,.026,.52,DETAIL.plaza,.36,.078,-.24,false,true));
+    addRoadCurb(g,-.265,-.24,.52,Math.PI/2); addRoadCurb(g,.265,-.24,.52,Math.PI/2);
+  }else if(dir==='S'){
+    g.add(box(.18,.026,.52,DETAIL.plaza,-.36,.078,.24,false,true));
+    g.add(box(.18,.026,.52,DETAIL.plaza,.36,.078,.24,false,true));
+    addRoadCurb(g,-.265,.24,.52,Math.PI/2); addRoadCurb(g,.265,.24,.52,Math.PI/2);
+  }else if(dir==='E'){
+    g.add(box(.52,.026,.18,DETAIL.plaza,.24,.078,-.36,false,true));
+    g.add(box(.52,.026,.18,DETAIL.plaza,.24,.078,.36,false,true));
+    addRoadCurb(g,.24,-.265,.52,0); addRoadCurb(g,.24,.265,.52,0);
+  }else if(dir==='W'){
+    g.add(box(.52,.026,.18,DETAIL.plaza,-.24,.078,-.36,false,true));
+    g.add(box(.52,.026,.18,DETAIL.plaza,-.24,.078,.36,false,true));
+    addRoadCurb(g,-.24,-.265,.52,0); addRoadCurb(g,-.24,.265,.52,0);
   }
-  if(horizontal&&!vertical&&hash(x,y,111)>.62) addManhole(g,.12,0,.052);
-  if(vertical&&!horizontal&&hash(x,y,112)>.62) addManhole(g,0,-.12,.052);
-  if((horizontal&&vertical)&&hash(x,y,113)>.48) addManhole(g,.18,.18,.045);
-  addRoadWear(g,x,y);
-  const isIntersection = connCount>=3 || (vertical&&horizontal);
-  if(isIntersection){
-    const cwVarA=Math.floor(hash(x,y,121)*3), cwVarB=Math.floor(hash(x,y,122)*3), cwVarC=Math.floor(hash(x,y,123)*3), cwVarD=Math.floor(hash(x,y,124)*3);
-    const cw1=new THREE.Group(); cw1.position.set(0,0,.34); addCrosswalk(cw1,'ew',cwVarA); g.add(cw1);
-    const cw2=new THREE.Group(); cw2.position.set(0,0,-.34); addCrosswalk(cw2,'ew',cwVarB); g.add(cw2);
-    const cw3=new THREE.Group(); cw3.position.set(.34,0,0); addCrosswalk(cw3,'ns',cwVarC); g.add(cw3);
-    const cw4=new THREE.Group(); cw4.position.set(-.34,0,0); addCrosswalk(cw4,'ns',cwVarD); g.add(cw4);
-    addStopLine(g,0,.24,0,.34); addStopLine(g,0,-.24,0,.34); addStopLine(g,.24,0,Math.PI/2,.34); addStopLine(g,-.24,0,Math.PI/2,.34);
-    addCenterMedian(g,0,.16,.16,0); addCenterMedian(g,0,-.16,.16,0); addCenterMedian(g,.16,0,.16,Math.PI/2); addCenterMedian(g,-.16,0,.16,Math.PI/2);
-    addTurnLaneGuides(g);
-    addRightTurnPocket(g,'h',1); addRightTurnPocket(g,'h',-1); addRightTurnPocket(g,'v',1); addRightTurnPocket(g,'v',-1);
-    addLaneArrowMark(g,'↑',.12,.11,0,.18); addLaneArrowMark(g,'↰',-.12,.11,0,.20);
-    addLaneArrowMark(g,'↓',-.12,-.11,0,.18); addLaneArrowMark(g,'↱',.12,-.11,0,.20);
-    addLaneArrowMark(g,'→',.11,-.12,0,.18); addLaneArrowMark(g,'↲',.11,.12,0,.20);
-    addLaneArrowMark(g,'←',-.11,.12,0,.18); addLaneArrowMark(g,'↳',-.11,-.12,0,.20);
-    addTrafficSignal(g,-.42,-.42,0); addTrafficSignal(g,.42,.42,Math.PI);
-    addRoadSign(g,'40',-.48,.38,{panelMat:DETAIL.signRed,textColor:'#0f172a',scale:.22,w:.18,h:.18,poleH:.48});
-    addRoadSign(g,'↗',.48,-.38,{panelMat:DETAIL.signBlue,textColor:'#dbeafe',scale:.24,w:.18,h:.18,poleH:.48});
-  }else{
-    const hv = horizontal && !vertical, vv = vertical && !horizontal;
-    if(hv){
-      if(hash(x,y,91)>.56) addUtilityPole(g,-.44,-.33,0);
-      if(hash(x,y,93)>.64) addGuardrail(g,.02,.41,.72,0);
-      if(hash(x,y,94)>.84) addRoadSign(g,'40',-.44,.34,{panelMat:DETAIL.signRed,textColor:'#0f172a',scale:.22,w:.18,h:.18,poleH:.44,rot:0});
-      if(hash(x,y,98)>.93) addPedestrianBridge(g,Math.PI/2);
-      const leftJ = inside(x-1,y)&&adj(x-1,y,isRoad)>=3, rightJ = inside(x+1,y)&&adj(x+1,y,isRoad)>=3;
-      if(leftJ||rightJ){
-        addCenterMedian(g,0,0,.32,Math.PI/2);
-        addLaneArrowMark(g,'←',-.16,0,0,.18); addLaneArrowMark(g,'→',.16,0,0,.18);
-        if(leftJ){ addRightTurnPocket(g,'h',-1); addRoadTextMark(g,'止まれ',-.28,0,.14); addRoadTextMark(g,'右折専用',-.06,-.12,.13); }
-        if(rightJ){ addRightTurnPocket(g,'h',1); addRoadTextMark(g,'止まれ',.28,0,.14); addRoadTextMark(g,'右折専用',.06,.12,.13); }
-      } else if(getCell(x,y).type===T.ROAD && hash(x,y,301)>.74){
-        addParkedVehicle(g,.28,hash(x,y,302)>.5?.28:-.28,Math.PI/2,hash(x,y,303)>.82?'taxi':'car');
-      }
-    }
-    if(vv){
-      if(hash(x,y,95)>.56) addUtilityPole(g,.33,-.44,Math.PI/2);
-      if(hash(x,y,96)>.64) addGuardrail(g,-.41,.02,.72,Math.PI/2);
-      if(hash(x,y,97)>.84) addRoadSign(g,'徐行',.34,-.44,{panelMat:DETAIL.signBlue,textColor:'#dbeafe',scale:.18,w:.22,h:.18,poleH:.44,rot:Math.PI/2});
-      if(hash(x,y,99)>.93) addPedestrianBridge(g,0);
-      const upJ = inside(x,y-1)&&adj(x,y-1,isRoad)>=3, downJ = inside(x,y+1)&&adj(x,y+1,isRoad)>=3;
-      if(upJ||downJ){
-        addCenterMedian(g,0,0,.32,0);
-        addLaneArrowMark(g,'↑',0,-.16,0,.18); addLaneArrowMark(g,'↓',0,.16,0,.18);
-        if(upJ){ addRightTurnPocket(g,'v',-1); addRoadTextMark(g,'止まれ',0,-.28,.14); addRoadTextMark(g,'右折専用',.12,-.06,.13); }
-        if(downJ){ addRightTurnPocket(g,'v',1); addRoadTextMark(g,'止まれ',0,.28,.14); addRoadTextMark(g,'右折専用',-.12,.06,.13); }
-      } else if(getCell(x,y).type===T.ROAD && hash(x,y,304)>.74){
-        addParkedVehicle(g,hash(x,y,305)>.5?.28:-.28,.28,0,hash(x,y,306)>.82?'taxi':'car');
-      }
-    }
+}
+function renderRoad(g,x,y){
+  const b=roadBits(x,y);
+  let dirs=[]; if(b.n)dirs.push('N'); if(b.s)dirs.push('S'); if(b.e)dirs.push('E'); if(b.w)dirs.push('W');
+  if(!dirs.length)dirs=['N','S'];
+  const connCount=dirs.length;
+  // sidewalks are only drawn beside the connected branches. This prevents the old white-box look.
+  for(const d of dirs)addSidewalkForBranch(g,d);
+  for(const sx of[-.34,.34])for(const sz of[-.34,.34])g.add(box(.20,.026,.20,DETAIL.plaza,sx,.076,sz,false,true));
+  // asphalt branches and center core, matching dead-end / straight / corner / T / cross shapes.
+  g.add(box(.56,.046,.56,M.road,0,.066,0,false,true));
+  if(dirs.includes('N'))g.add(box(.54,.045,.52,M.road,0,.066,-.26,false,true));
+  if(dirs.includes('S'))g.add(box(.54,.045,.52,M.road,0,.066,.26,false,true));
+  if(dirs.includes('E'))g.add(box(.52,.045,.54,M.road,.26,.066,0,false,true));
+  if(dirs.includes('W'))g.add(box(.52,.045,.54,M.road,-.26,.066,0,false,true));
+  // simple white lane lines only on real road direction.
+  const straightNS=dirs.includes('N')&&dirs.includes('S')&&!dirs.includes('E')&&!dirs.includes('W');
+  const straightEW=dirs.includes('E')&&dirs.includes('W')&&!dirs.includes('N')&&!dirs.includes('S');
+  if(straightNS){g.add(box(.026,.012,.86,M.roadLine,0,.106,0,false,false));}
+  else if(straightEW){g.add(box(.86,.012,.026,M.roadLine,0,.106,0,false,false));}
+  else {for(const d of dirs)addRoadLaneMark(g,d);}
+  // crosswalks only at junctions and road ends connected to other roads.
+  for(const d of dirs)addCrosswalkAt(g,d);
+  // signals on T/cross intersections only.
+  if(connCount>=3){
+    addTrafficSignal(g,-.43,-.43,0);addTrafficSignal(g,.43,.43,Math.PI);
+    if(connCount===4){addTrafficSignal(g,.43,-.43,Math.PI/2);addTrafficSignal(g,-.43,.43,-Math.PI/2);}
   }
 }
 
-function renderRail(g,x,y){
-  const e=railConn(x,y,1,0), w=railConn(x,y,-1,0), n=railConn(x,y,0,-1), s=railConn(x,y,0,1);
-  g.add(box(1,.05,1,M.ballast,0,.025,0,false,true));
-  if(e)addRailPiece(g,'E'); if(w)addRailPiece(g,'W'); if(n)addRailPiece(g,'N'); if(s)addRailPiece(g,'S');
-  if(!(e||w||n||s)){addRailPiece(g,'N');addRailPiece(g,'S');}
-  if((e||w)&&(n||s)){
-    g.add(box(.18,.045,.18,DETAIL.steelDark,0,.09,0,true,true));
-    const sw=labelSprite('分岐','#e5e7eb',.12); sw.position.set(0,.16,0); g.add(sw);
+function addRailBranch(g,dir){
+  if(dir==='N'){
+    g.add(box(.42,.050,.56,M.ballast,0,.035,-.26,false,true));
+    g.add(box(.045,.052,.56,M.rail,-.16,.098,-.26,true,true));
+    g.add(box(.045,.052,.56,M.rail,.16,.098,-.26,true,true));
+    for(let i=0;i<4;i++)g.add(box(.52,.032,.045,M.wood,0,.076,-.08-i*.12,false,true));
+  }else if(dir==='S'){
+    g.add(box(.42,.050,.56,M.ballast,0,.035,.26,false,true));
+    g.add(box(.045,.052,.56,M.rail,-.16,.098,.26,true,true));
+    g.add(box(.045,.052,.56,M.rail,.16,.098,.26,true,true));
+    for(let i=0;i<4;i++)g.add(box(.52,.032,.045,M.wood,0,.076,.08+i*.12,false,true));
+  }else if(dir==='E'){
+    g.add(box(.56,.050,.42,M.ballast,.26,.035,0,false,true));
+    g.add(box(.56,.052,.045,M.rail,.26,.098,-.16,true,true));
+    g.add(box(.56,.052,.045,M.rail,.26,.098,.16,true,true));
+    for(let i=0;i<4;i++)g.add(box(.045,.032,.52,M.wood,.08+i*.12,.076,0,false,true));
+  }else if(dir==='W'){
+    g.add(box(.56,.050,.42,M.ballast,-.26,.035,0,false,true));
+    g.add(box(.56,.052,.045,M.rail,-.26,.098,-.16,true,true));
+    g.add(box(.56,.052,.045,M.rail,-.26,.098,.16,true,true));
+    for(let i=0;i<4;i++)g.add(box(.045,.032,.52,M.wood,-.08-i*.12,.076,0,false,true));
   }
 }
+function addRailCurveHint(g,dirs){
+  // small diagonal switch plates make corners and branches read correctly without a full square box.
+  const pairs=[['N','E',Math.PI/4],['E','S',-Math.PI/4],['S','W',Math.PI/4],['W','N',-Math.PI/4]];
+  for(const [a,b,rot] of pairs){
+    if(dirs.includes(a)&&dirs.includes(b)&&dirs.length===2){
+      const sw=box(.44,.026,.035,M.rail,0,.118,0,true,true);sw.rotation.y=rot;g.add(sw);
+      const sl=box(.34,.022,.030,M.wood,0,.082,0,false,true);sl.rotation.y=rot;g.add(sl);
+    }
+  }
+}
+function renderRail(g,x,y){
+  const e=railConn(x,y,1,0), w=railConn(x,y,-1,0), n=railConn(x,y,0,-1), s=railConn(x,y,0,1);
+  let dirs=[]; if(n)dirs.push('N'); if(s)dirs.push('S'); if(e)dirs.push('E'); if(w)dirs.push('W');
+  if(!dirs.length)dirs=['N','S'];
+  // Only draw ballast along the actual connection shape: no more full gray square for every rail tile.
+  g.add(box(.46,.050,.46,M.ballast,0,.030,0,false,true));
+  for(const d of dirs)addRailBranch(g,d);
+  addRailCurveHint(g,dirs);
+  if(dirs.length>=3){
+    g.add(box(.26,.045,.26,DETAIL.steelDark,0,.10,0,true,true));
+    const sp=labelSprite('分岐','#e5e7eb',.10); sp.position.set(0,.19,0); g.add(sp);
+  }
+}
+
 function renderStation(g,x,y){
   const sg=new THREE.Group();
   const horizontal=railOrientation(x,y)==='h';
@@ -1280,13 +1332,17 @@ function renderHotel(g,x,y,c){
 }
 function airplaneMesh(scale=1){
   const g=new THREE.Group();
-  g.add(box(.18*scale,.16*scale,1.06*scale,M.white,0,.12*scale,0,true,true));
-  const nose=cone(.18*scale,.35*scale,M.white,0,.12*scale,.62*scale); nose.rotation.x=Math.PI/2; g.add(nose);
-  g.add(box(1.05*scale,.035*scale,.24*scale,DETAIL.steel,0,.13*scale,.02*scale,true,true));
-  g.add(box(.42*scale,.035*scale,.18*scale,M.blue,0,.2*scale,-.48*scale,true,true));
-  g.add(box(.06*scale,.30*scale,.16*scale,M.blue,0,.34*scale,-.52*scale,true,true));
-  g.add(box(.12*scale,.065*scale,.1*scale,DETAIL.glassCyan,0,.21*scale,.45*scale,true,false));
-  return g;
+  const body=mat(0xf8fafc,.24,.36,0xffffff,.04), blue=DETAIL.awningBlue;
+  g.add(box(.18*scale,.17*scale,1.20*scale,body,0,.16*scale,0,true,true));
+  const nose=cone(.18*scale,.34*scale,body,0,.16*scale,.68*scale); nose.rotation.x=Math.PI/2; g.add(nose);
+  const tail=cone(.14*scale,.24*scale,body,0,.15*scale,-.68*scale); tail.rotation.x=-Math.PI/2; g.add(tail);
+  g.add(box(1.18*scale,.035*scale,.22*scale,blue,0,.17*scale,.03*scale,true,true));
+  g.add(box(.46*scale,.034*scale,.18*scale,blue,0,.23*scale,-.52*scale,true,true));
+  g.add(box(.06*scale,.34*scale,.17*scale,blue,0,.42*scale,-.58*scale,true,true));
+  g.add(box(.13*scale,.07*scale,.12*scale,DETAIL.glassCyan,0,.26*scale,.50*scale,true,false));
+  for(let i=-3;i<=3;i++)g.add(box(.018*scale,.035*scale,.012*scale,M.glass,.095*scale,.19*scale,i*.12*scale,true,false));
+  g.add(box(.07*scale,.035*scale,.04*scale,M.yellow,-.48*scale,.18*scale,.05*scale,true,false));g.add(box(.07*scale,.035*scale,.04*scale,M.yellow,.48*scale,.18*scale,.05*scale,true,false));
+  g.userData.followName='飛行機';return g;
 }
 function renderAirport(g,x,y,c){
   const ox=3.5, oz=2, p=clamp(c.age/9,.28,1);
@@ -1443,8 +1499,9 @@ function renderDock(g,x,y,c){
 }
 function renderBridge(g,x,y,c){
   addWaterSurface(g,x,y);
-  const rail=neighbors(x,y,isRail).length>=2, road=neighbors(x,y,isRoad).length>=2;
-  const horizontal = (getCell(x-1,y)&&isBridge(getCell(x-1,y).type)||getCell(x+1,y)&&isBridge(getCell(x+1,y).type)||getCell(x-1,y)&&getCell(x-1,y).type!==T.WATER||getCell(x+1,y)&&getCell(x+1,y).type!==T.WATER) && !(getCell(x,y-1)&&getCell(x,y-1).type!==T.WATER&&getCell(x,y+1)&&getCell(x,y+1).type!==T.WATER);
+  const ew=(getCell(x-1,y)&& (isRoad(getCell(x-1,y).type)||isRail(getCell(x-1,y).type)||isBridge(getCell(x-1,y).type)||getCell(x-1,y).type!==T.WATER)) || (getCell(x+1,y)&& (isRoad(getCell(x+1,y).type)||isRail(getCell(x+1,y).type)||isBridge(getCell(x+1,y).type)||getCell(x+1,y).type!==T.WATER));
+  const ns=(getCell(x,y-1)&& (isRoad(getCell(x,y-1).type)||isRail(getCell(x,y-1).type)||isBridge(getCell(x,y-1).type)||getCell(x,y-1).type!==T.WATER)) || (getCell(x,y+1)&& (isRoad(getCell(x,y+1).type)||isRail(getCell(x,y+1).type)||isBridge(getCell(x,y+1).type)||getCell(x,y+1).type!==T.WATER));
+  const horizontal = ew && !ns;
   const deck=new THREE.Group(); deck.rotation.y=horizontal?Math.PI/2:0; g.add(deck);
   const matDeck=c.type===T.RAILBRIDGE?DETAIL.steelDark:c.type===T.FOOTBRIDGE?DETAIL.pierWood:M.road;
   deck.add(box(c.type===T.FOOTBRIDGE?.42:.86,.08,1.05,matDeck,0,.18,0,true,true));
@@ -1459,14 +1516,24 @@ function renderWater(g,x,y){
   addWaterSurface(g,x,y);
 }
 
-function renderCell(x,y,animate=false){const c=getCell(x,y); if(!c)return; clearMesh(c); if(c.type===T.EMPTY||isMultiSub(c,x,y))return; const g=new THREE.Group(); g.position.set(worldX(x),0,worldZ(y)); g.userData.cell={x,y}; try{switch(c.type){case T.WATER:renderWater(g,x,y);break;case T.TREE:addTree(g,x,y,.72+hash(x,y,2)*.35);break;case T.ROAD:renderRoad(g,x,y);break;case T.RAIL:renderRail(g,x,y);break;case T.STATION:renderStation(g,x,y);break;case T.BUSSTOP:renderBusStop(g,x,y);break;case T.RES:case T.COM:case T.IND:renderZone(g,x,y,c);break;case T.PARK:renderPark(g,x,y);break;case T.SCHOOL:renderService(g,x,y,c,'SCHOOL',mat(0xb45309,.75,.05),0x8b5cf6);break;case T.HOSPITAL:renderService(g,x,y,c,'HOSPITAL',M.white,0xf43f5e);break;case T.POLICE:renderService(g,x,y,c,'POLICE',M.white,0x3b82f6);break;case T.FIRE:renderService(g,x,y,c,'FIRE',M.red,0xef4444);break;case T.POWER:renderService(g,x,y,c,'POWER',mat(0x3f3f46,.55,.5),0xfacc15);break;case T.CITYHALL:renderCityHall(g,x,y,c);break;case T.LANDMARK:renderLandmark(g,x,y,c);break;case T.HOTEL:renderHotel(g,x,y,c);break;case T.AIRPORT:renderAirport(g,x,y,c);break;case T.DOCK:renderDock(g,x,y,c);break;case T.ROADBRIDGE:case T.RAILBRIDGE:case T.FOOTBRIDGE:renderBridge(g,x,y,c);break;default:g.add(box(.7,.3,.7,M.concrete));}}
+
+function renderMountain(g,x,y,c){
+  const h=.45+hash(x,y,910)*1.25;
+  const base=mat(0x6b7280,.88,.05);
+  const snow=mat(0xe5e7eb,.65,.02);
+  g.add(cone(.52,h,base,0,h/2,0));
+  if(h>1.05)g.add(cone(.22,h*.28,snow,0,h*.90,0));
+  if(hash(x,y,911)>.55)g.add(sphere(.14,DETAIL.grass,.28,.12,-.18));
+}
+
+function renderCell(x,y,animate=false){const c=getCell(x,y); if(!c)return; clearMesh(c); if(c.type===T.EMPTY||isMultiSub(c,x,y))return; const g=new THREE.Group(); g.position.set(worldX(x),0,worldZ(y)); g.userData.cell={x,y}; try{switch(c.type){case T.WATER:renderWater(g,x,y);break;case T.TREE:addTree(g,x,y,.72+hash(x,y,2)*.35);break;case T.MOUNTAIN:renderMountain(g,x,y,c);break;case T.ROAD:renderRoad(g,x,y);break;case T.RAIL:renderRail(g,x,y);break;case T.STATION:renderStation(g,x,y);break;case T.BUSSTOP:renderBusStop(g,x,y);break;case T.RES:case T.COM:case T.IND:renderZone(g,x,y,c);break;case T.PARK:renderPark(g,x,y);break;case T.SCHOOL:renderService(g,x,y,c,'SCHOOL',mat(0xb45309,.75,.05),0x8b5cf6);break;case T.HOSPITAL:renderService(g,x,y,c,'HOSPITAL',M.white,0xf43f5e);break;case T.POLICE:renderService(g,x,y,c,'POLICE',M.white,0x3b82f6);break;case T.FIRE:renderService(g,x,y,c,'FIRE',M.red,0xef4444);break;case T.POWER:renderService(g,x,y,c,'POWER',mat(0x3f3f46,.55,.5),0xfacc15);break;case T.CITYHALL:renderCityHall(g,x,y,c);break;case T.LANDMARK:renderLandmark(g,x,y,c);break;case T.HOTEL:renderHotel(g,x,y,c);break;case T.AIRPORT:renderAirport(g,x,y,c);break;case T.DOCK:renderDock(g,x,y,c);break;case T.ROADBRIDGE:case T.RAILBRIDGE:case T.FOOTBRIDGE:renderBridge(g,x,y,c);break;default:g.add(box(.7,.3,.7,M.concrete));}}
 catch(e){console.warn('render fallback',x,y,c.type,e);g.clear();g.add(box(.78,.48,.78,M.concrete,0,.24,0,true,true));}
 staticGroup.add(g);c.mesh=g;if(animate){g.scale.y=.04;animations.push({obj:g,t:0});}}
 function renderAll(){staticGroup.clear();for(let y=0;y<GRID;y++)for(let x=0;x<GRID;x++){const c=getCell(x,y);c.mesh=null;if(c.type!==T.EMPTY)renderCell(x,y,false);}updateLight();updateRouteLines();updateAdvisorOverlays();}
 function rerenderAround(x,y){for(let yy=y-1;yy<=y+1;yy++)for(let xx=x-1;xx<=x+1;xx++)if(inMap(xx,yy))renderCell(xx,yy,false);}
 
 function paintTerrain(x,y,c){const cost=COST[state.tool]||0;if(!c)return;if(state.money<cost){toast('資金が足りません');return;}if(state.tool==='digwater'){if(!(c.type===T.EMPTY||c.type===T.TREE)){toast('水路は空き地か森に作れます');return;}clearMesh(c);state.money-=cost;state.grid[y][x]=cell(T.WATER);}else if(state.tool==='forest'){if(c.type!==T.EMPTY){toast('森は空き地に作れます');return;}clearMesh(c);state.money-=cost;state.grid[y][x]=cell(T.TREE);}else if(state.tool==='landfill'){if(c.type!==T.WATER){toast('埋め立ては水マスにだけ使えます');return;}clearMesh(c);state.money-=cost;state.grid[y][x]=cell(T.EMPTY);}renderCell(x,y,true);rerenderAround(x,y);updateRouteLines();updateStats();updateDevelopmentSystems(false);updateAdvisorOverlays();updateUI();save(false);}
-function canPlace(x,y,type){const c=getCell(x,y); if(!c||c.type===T.AIRPORT)return false; if(type===T.DOCK)return isShoreWaterCell(x,y); if(type===T.ROADBRIDGE||type===T.RAILBRIDGE||type===T.FOOTBRIDGE)return c.type===T.WATER; if(c.type===T.WATER)return false; if(type===T.ROAD||type===T.RAIL||type===T.PARK)return c.type===T.EMPTY||c.type===T.TREE; if(type===T.STATION)return c.type===T.RAIL||c.type===T.EMPTY||c.type===T.TREE; if(type===T.BUSSTOP)return c.type===T.ROAD||c.type===T.EMPTY||c.type===T.TREE; return c.type===T.EMPTY||c.type===T.TREE;}
+function canPlace(x,y,type){const c=getCell(x,y); if(!c||c.type===T.AIRPORT||c.type===T.MOUNTAIN)return false; if(type===T.DOCK)return isShoreWaterCell(x,y); if(type===T.ROADBRIDGE||type===T.RAILBRIDGE||type===T.FOOTBRIDGE)return c.type===T.WATER; if(c.type===T.WATER)return false; if(type===T.ROAD||type===T.RAIL||type===T.PARK)return c.type===T.EMPTY||c.type===T.TREE; if(type===T.STATION)return c.type===T.RAIL||c.type===T.EMPTY||c.type===T.TREE; if(type===T.BUSSTOP)return c.type===T.ROAD||c.type===T.EMPTY||c.type===T.TREE; return c.type===T.EMPTY||c.type===T.TREE;}
 function canPlaceMulti(x,y,def){for(let yy=y;yy<y+def.h;yy++)for(let xx=x;xx<x+def.w;xx++){const c=getCell(xx,yy); if(!c||!(c.type===T.EMPTY||c.type===T.TREE))return false;}return true;}
 function removeMultiAt(x,y){const c=getCell(x,y); if(!c||c.type!==T.AIRPORT)return false; const rx=c.rootX,ry=c.rootY;for(let yy=0;yy<GRID;yy++)for(let xx=0;xx<GRID;xx++){const cc=getCell(xx,yy);if(cc.type===T.AIRPORT&&cc.rootX===rx&&cc.rootY===ry){clearMesh(cc);state.grid[yy][xx]=cell(T.EMPTY);}}return true;}
 function placeMulti(x,y,tool){const def=MULTI[tool]; const sx=x-Math.floor(def.w/2),sy=y-Math.floor(def.h/2); if(state.money<def.cost){toast('資金が足りません');return;} if(!canPlaceMulti(sx,sy,def)){toast(def.name+'は '+def.w+'×'+def.h+' マスの空き地が必要です');return;} state.money-=def.cost; for(let yy=sy;yy<sy+def.h;yy++)for(let xx=sx;xx<sx+def.w;xx++){const c=getCell(xx,yy);clearMesh(c);c.type=def.type;c.level=1;c.age=0;c.rootX=sx;c.rootY=sy;c.seed=hash(xx,yy,91);} renderCell(sx,sy,true); for(let yy=sy-1;yy<sy+def.h+1;yy++)for(let xx=sx-1;xx<sx+def.w+1;xx++)if(inMap(xx,yy))rerenderAround(xx,yy); updateStats();updateTutorialMissions(true);updateUI();save(false);toast(def.name+'を建設しました');}
@@ -1604,22 +1671,15 @@ function addRouteLine(a,b){
   routeGroup.add(line);
 }
 function boatMesh(kind='boat'){
-  const g=new THREE.Group();
-  const ferry=kind==='ferry';
-  const hull=ferry?mat(0xe5eef7,.30,.20,0xffffff,.08):mat(0x0f766e,.34,.24,0x064e3b,.08);
-  const deck=ferry?DETAIL.whitePanel:DETAIL.pierConcrete;
-  const stripe=ferry?DETAIL.awningBlue:DETAIL.signOrange;
-  g.add(box(ferry?.38:.30,.12,ferry?.96:.78,hull,0,.12,0,true,true));
-  g.add(box(ferry?.32:.20,.12,ferry?.46:.30,deck,0,.24,-.04,true,true));
-  g.add(box(ferry?.30:.05,.025,ferry?.96:.78,stripe,0,.19,0,true,false));
-  g.add(box(ferry?.22:.15,.12,ferry?.26:.18,DETAIL.glassCyan,0,.32,.08,true,false));
-  const nose=cone(ferry?.18:.15,.24,stripe,0,.12,.50); nose.rotation.x=Math.PI/2; g.add(nose);
-  const stern=cone(ferry?.16:.12,.18,hull,0,.11,-.50); stern.rotation.x=-Math.PI/2; g.add(stern);
-  for(let i=0;i<(ferry?4:2);i++)g.add(box(.05,.03,.015,M.win,-.10+i*.07,.32,.20,true,false));
-  g.add(cyl(.018,.18,DETAIL.steelDark,0,.42,-.04));
-  g.add(box(.04,.08,.04,M.red,0,.50,-.04,true,false));
-  g.userData.bob=rnd()*Math.PI*2;
-  return g;
+  const g=new THREE.Group();const ferry=kind==='ferry';
+  const hull=ferry?mat(0xe2e8f0,.28,.20,0xffffff,.08):mat(0x0f766e,.34,.24,0x064e3b,.08), stripe=ferry?DETAIL.awningBlue:DETAIL.signOrange;
+  g.add(box(ferry?.42:.32,.14,ferry?1.10:.82,hull,0,.12,0,true,true));
+  const bow=cone(ferry?.21:.17,.30,stripe,0,.12,.58);bow.rotation.x=Math.PI/2;g.add(bow);
+  const stern=cone(ferry?.18:.14,.22,hull,0,.11,-.58);stern.rotation.x=-Math.PI/2;g.add(stern);
+  g.add(box(ferry?.32:.22,.14,ferry?.46:.28,DETAIL.whitePanel,0,.27,-.06,true,true));g.add(box(ferry?.24:.16,.10,ferry?.25:.18,DETAIL.glassCyan,0,.38,.08,true,false));
+  g.add(box(ferry?.40:.30,.025,ferry?1.02:.76,stripe,0,.20,0,true,false));for(const sx of[-.16,.16])g.add(cyl(.015,.16,DETAIL.steelDark,sx,.40,-.23));
+  g.add(box(.18,.025,.07,M.red,0,.11,-.48,true,false));g.add(box(.12,.035,.05,M.yellow,0,.18,.48,true,false));
+  g.userData.bob=rnd()*Math.PI*2;g.userData.followName=ferry?'フェリー':'船';return g;
 }
 function docks(){const a=[];for(let y=0;y<GRID;y++)for(let x=0;x<GRID;x++){const c=getCell(x,y);if(c.type===T.DOCK&&c.age>=2)a.push({x,y,cx:x,cy:y});}return a;}
 function spawnBoat(){
@@ -1671,11 +1731,12 @@ function spawnMover(type='car'){
   mesh.position.set(worldX(start.x),type==='person'?.05:.08,worldZ(start.y));dynamicGroup.add(mesh);
   const next=ns[Math.floor(rnd()*ns.length)];
   const obj={mesh,type,x:start.x,y:start.y,tx:next.x,ty:next.y,px:start.x,py:start.y,t:0,speed:type==='bus'?2.45:type==='person'?.82:2.85+rnd()*1.25,life:0,stop:0,offset:type==='person'?(rnd()>.5?.38:-.38):(type==='bus'?.24:.12)};
+  attachFollowTarget(mesh,obj,type==='person'?'人':type==='bus'?'バス':'車');
   (type==='person'?people:vehicles).push(obj);
 }
-function spawnTrain(){const sts=[];for(let y=0;y<GRID;y++)for(let x=0;x<GRID;x++)if(getCell(x,y).type===T.STATION)sts.push({x,y});perfLimits();if(sts.length<1||trains.length>=PERF.maxTrains)return;const s=sts[Math.floor(rnd()*sts.length)],ns=neighbors(s.x,s.y,isRail);if(!ns.length)return;const next=ns[Math.floor(rnd()*ns.length)];const group=new THREE.Group(),cars=[];for(let i=0;i<5;i++){const car=trainCar(i===0,i===4);group.add(car);cars.push(car);}dynamicGroup.add(group);trains.push({group,cars,x:s.x,y:s.y,tx:next.x,ty:next.y,px:s.x,py:s.y,speed:2.73,life:0,trail:[{x:s.x,y:s.y}],stop:3,lastStation:key(s.x,s.y)});}
+function spawnTrain(){const sts=[];for(let y=0;y<GRID;y++)for(let x=0;x<GRID;x++)if(getCell(x,y).type===T.STATION)sts.push({x,y});perfLimits();if(sts.length<1||trains.length>=PERF.maxTrains)return;const s=sts[Math.floor(rnd()*sts.length)],ns=neighbors(s.x,s.y,isRail);if(!ns.length)return;const next=ns[Math.floor(rnd()*ns.length)];const group=new THREE.Group(),cars=[];for(let i=0;i<5;i++){const car=trainCar(i===0,i===4);group.add(car);cars.push(car);}dynamicGroup.add(group);const tr={group,cars,x:s.x,y:s.y,tx:next.x,ty:next.y,px:s.x,py:s.y,speed:2.73,life:0,trail:[{x:s.x,y:s.y}],stop:3,lastStation:key(s.x,s.y),type:'train'};attachFollowTarget(group,tr,'電車');trains.push(tr);}
 function airports(){const a=[];for(let y=0;y<GRID;y++)for(let x=0;x<GRID;x++){const c=getCell(x,y);if(isMultiRoot(c,x,y)&&c.age>=7)a.push({x,y,cx:x+3.5,cy:y+3.35});}return a;}
-function spawnPlane(){const a=airports();perfLimits();if(a.length<2||planes.length>=Math.min(PERF.maxPlanes,(a.length-1)*2))return;const from=a[Math.floor(rnd()*a.length)];let to=a[Math.floor(rnd()*a.length)];if(to===from)to=a[(a.indexOf(from)+1)%a.length];const mesh=airplaneMesh(.9);dynamicGroup.add(mesh);planes.push({mesh,from,to,t:0,d:18+Math.hypot(to.cx-from.cx,to.cy-from.cy)*.12});log('空港便が出発しました。');}
+function spawnPlane(){const a=airports();perfLimits();if(a.length<2||planes.length>=Math.min(PERF.maxPlanes,(a.length-1)*2))return;const from=a[Math.floor(rnd()*a.length)];let to=a[Math.floor(rnd()*a.length)];if(to===from)to=a[(a.indexOf(from)+1)%a.length];const mesh=airplaneMesh(.9);dynamicGroup.add(mesh);const plane={mesh,from,to,t:0,d:18+Math.hypot(to.cx-from.cx,to.cy-from.cy)*.12,type:'plane'};attachFollowTarget(mesh,plane,'飛行機');planes.push(plane);log('空港便が出発しました。');}
 function chooseNext(x,y,px,py,pred){let ns=neighbors(x,y,pred);if(ns.length>1)ns=ns.filter(n=>!(n.x===px&&n.y===py));return ns[Math.floor(rnd()*ns.length)]||null;}
 
 function moveObj(o,dt,pred,arr){
@@ -1750,7 +1811,7 @@ function sampleTrail(trail,d){let left=d;for(let i=0;i<trail.length-1;i++){const
 function updateTrain(tr,dt){if(tr.stop>0){tr.stop-=dt;placeTrain(tr);return;}const dx=tr.tx-tr.x,dy=tr.ty-tr.y,dist=Math.hypot(dx,dy);if(dist<.035){const cx=Math.round(tr.tx),cy=Math.round(tr.ty);tr.x=cx;tr.y=cy;tr.trail.unshift({x:tr.x,y:tr.y});if(tr.trail.length>180)tr.trail.length=180;if(getCell(cx,cy).type===T.STATION&&tr.lastStation!==key(cx,cy)){tr.stop=3;tr.lastStation=key(cx,cy);placeTrain(tr);return;}if(getCell(cx,cy).type!==T.STATION)tr.lastStation='';const next=chooseNext(cx,cy,tr.px,tr.py,isRail);if(!next||tr.life>520){dynamicGroup.remove(tr.group);trains.splice(trains.indexOf(tr),1);return;}tr.px=cx;tr.py=cy;tr.tx=next.x;tr.ty=next.y;}else{const step=Math.min(dist,tr.speed*dt);tr.x+=dx/dist*step;tr.y+=dy/dist*step;if(!tr.trail[0]||Math.hypot(tr.trail[0].x-tr.x,tr.trail[0].y-tr.y)>.04){tr.trail.unshift({x:tr.x,y:tr.y});if(tr.trail.length>180)tr.trail.length=180;}}tr.life+=dt;placeTrain(tr);}
 function placeTrain(tr){for(let i=0;i<tr.cars.length;i++){const s=sampleTrail(tr.trail,i*.78);const car=tr.cars[i];car.position.set(worldX(s.x),.12,worldZ(s.y));if(s.dir.lengthSq()>.001){const q=new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,0,1),s.dir);car.quaternion.slerp(q,.35);}}}
 function transferScore(){let s=0;for(let y=0;y<GRID;y++)for(let x=0;x<GRID;x++){const c=getCell(x,y);if(c.type===T.STATION){s+=countNear(x,y,T.BUSSTOP,3)*2+countNear(x,y,T.DOCK,5)*3;}if(c.type===T.HOTEL){s+=countNear(x,y,T.STATION,5)*2+countNear(x,y,T.DOCK,5)*2;}if(c.type===T.DOCK){s+=countNear(x,y,T.STATION,5)*2+countNear(x,y,T.BUSSTOP,4);}}return clamp(s,0,24);}
-function updatePlanes(dt){state.flights=planes.length;if(airports().length>=2&&rnd()<dt*.08)spawnPlane();for(let i=planes.length-1;i>=0;i--){const p=planes[i];p.t+=dt/p.d;const q=clamp(p.t,0,1),from=p.from,to=p.to;let x=lerp(from.cx,to.cx,q),y=lerp(from.cy,to.cy,q),h=.2+Math.sin(q*Math.PI)*8;if(q<.12){x=from.cx-3.4+q/.12*6.8;y=from.cy;h=.18+q*1.5;}else if(q>.88){const s=(q-.88)/.12;x=to.cx-3.4+s*6.8;y=to.cy;h=.28*(1-s)+.16;}p.mesh.position.set(worldX(x),h,worldZ(y));const dir=new THREE.Vector3(to.cx-from.cx,0,to.cy-from.cy).normalize();if(q<.12||q>.88)dir.set(1,0,0);const quat=new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,0,1),dir);p.mesh.quaternion.slerp(quat,Math.min(1,dt*4));p.mesh.rotation.x=q<.25?-.10:q>.75?.08:0;if(p.t>=1){dynamicGroup.remove(p.mesh);planes.splice(i,1);}}state.flights=planes.length;}
+function updatePlanes(dt){state.flights=planes.length;if(airports().length>=2&&rnd()<dt*.08)spawnPlane();for(let i=planes.length-1;i>=0;i--){const p=planes[i];p.t+=dt/p.d;const q=clamp(p.t,0,1),from=p.from,to=p.to;const dx=to.cx-from.cx,dy=to.cy-from.cy,len=Math.max(.001,Math.hypot(dx,dy));const nx=-dy/len,ny=dx/len;let x=lerp(from.cx,to.cx,q)+nx*Math.sin(q*Math.PI)*1.4,y=lerp(from.cy,to.cy,q)+ny*Math.sin(q*Math.PI)*1.4,h=.35+Math.sin(q*Math.PI)*10;if(q<.10){const s=q/.10;x=from.cx-3.4+s*6.8;y=from.cy;h=.22+s*1.6;}else if(q>.90){const s=(q-.90)/.10;x=to.cx-3.4+s*6.8;y=to.cy;h=.38*(1-s)+.18;}p.mesh.position.set(worldX(x),h,worldZ(y));const dir=new THREE.Vector3(dx,0,dy).normalize();if(q<.10||q>.90)dir.set(1,0,0);const quat=new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,0,1),dir);p.mesh.quaternion.slerp(quat,Math.min(1,dt*5));p.mesh.rotation.x=q<.25?-.12:q>.75?.08:0;p.mesh.rotation.z=Math.sin(q*Math.PI*2)*.035;if(p.t>=1){dynamicGroup.remove(p.mesh);planes.splice(i,1);}}state.flights=planes.length;}
 
 function updateStats(){let pop=0,jobs=0,road=0,rail=0,stations=0,power=600,powerUse=0,hotel=0,attract=0,landSum=0,landN=0,police=0,fire=0,hospital=0,air=0,dock=0,cityhall=0,landmarks=0;for(let y=0;y<GRID;y++)for(let x=0;x<GRID;x++){const c=getCell(x,y);if(c.type===T.ROAD||c.type===T.BUSSTOP){road++;}if(c.type===T.RAIL){rail++;}if(c.type===T.STATION){stations++;rail++;road++;attract+=18;}if(c.type===T.PARK)attract+=8;if(c.type===T.SCHOOL){jobs+=16;attract+=4;}if(c.type===T.HOSPITAL){jobs+=28;hospital++;}if(c.type===T.POLICE){jobs+=20;police++;}if(c.type===T.FIRE){jobs+=18;fire++;}if(c.type===T.POWER){jobs+=18;power+=1700;}if(c.type===T.HOTEL){jobs+=45;hotel+=180;attract+=10;}if(c.type===T.CITYHALL){jobs+=55;cityhall++;attract+=6;}if(c.type===T.LANDMARK){jobs+=35;landmarks++;attract+=45;}if(c.type===T.DOCK){const di=dockInfo(c);jobs+=di.jobs;attract+=di.attract;dock++; if(c.kind==='tour')hotel+=di.bonus*3; if(c.kind==='cargo')jobs+=di.bonus*3;}if(c.type===T.ROADBRIDGE||c.type===T.RAILBRIDGE||c.type===T.FOOTBRIDGE){attract+=c.type===T.FOOTBRIDGE?3:1; road+=c.type===T.ROADBRIDGE||c.type===T.FOOTBRIDGE?1:0; rail+=c.type===T.RAILBRIDGE?1:0;}if(isMultiRoot(c,x,y)&&c.type===T.AIRPORT){jobs+=160;attract+=65;air++;}if(c.type===T.RES&&c.level>0)pop+=c.level*(10+c.level*3);if(c.type===T.COM&&c.level>0)jobs+=c.level*(12+c.level*4);if(c.type===T.IND&&c.level>0)jobs+=c.level*(14+c.level*5);if(c.type!==T.WATER){const exact=c.type!==T.EMPTY&&c.type!==T.TREE;if(exact||((x*13+y*7)%10===0)){const lv=landValue(x,y);c.land=lv;const w=exact?1:10;landSum+=lv*w;landN+=w;}}}
 const companyBonus=companyStats(); jobs+=companyBonus.jobs; attract+=companyBonus.attract; hotel+=companyBonus.hotel; const transfer=transferScore(); const access=clamp(stations*13+countType(T.BUSSTOP)*5+air*18+dock*4+transfer+Math.min(30,road*.28)-state.congestion*.15,0,100);const tourists=Math.round(clamp(attract*2.2+access*2.1+hotel*.45+dock*6,0,hotel+attract*8+150));const traffic=clamp((vehicles.length*2.4+people.length*.8+pop*.016+jobs*.014+tourists*.014)/Math.max(1,road)*11+state.congestion*.2,0,100);powerUse=pop*1.25+jobs*.85+air*300+hotel*.4+dock*18;const land=landN?Math.round(landSum/landN):50;const happy=clamp(Math.round(73+(land-50)*.12+attract*.04+hospital*5+police*4+fire*4-Math.max(0,traffic-60)*.32-(powerUse>power?22:0)),5,100);state.pop=pop;state.jobs=jobs;state.traffic=Math.round(traffic);state.powerCap=Math.round(power);state.powerUse=Math.round(powerUse);state.cityhall=cityhall;state.landmarks=landmarks;state.stations=stations;state.rail=rail;state.airports=air;state.docks=dock;state.hotel=hotel;state.access=Math.round(access);state.tourists=Math.round(state.tourists*.75+tourists*.25);state.land=land;state.happy=happy;state.safety=clamp(Math.round(100-Math.max(0,traffic-55)*.35+police*5+fire*4+hospital*3-(powerUse>power?10:0)),0,100);state.tourScore=Math.round(attract+access+hotel*.08+dock*2);state.demand.r=clamp(65+jobs*.35-pop*.20+(land-50)*.2-(powerUse>power?25:0),0,100);state.demand.c=clamp(pop*.22+happy*.25+state.tourists*.04-countType(T.COM)*4,0,100);state.demand.i=clamp(pop*.16+countType(T.COM)*2-countType(T.IND)*4,0,100);state.demand.t=clamp(20+access*.5+happy*.25+air*12+dock*6+hotel*.02,0,100);}
@@ -1840,10 +1901,70 @@ function updateLight(){const night=state.night||state.hour>=19||state.hour<5; if
 function getPointerCell(ev){const rect=renderer.domElement.getBoundingClientRect();mouse.x=((ev.clientX-rect.left)/rect.width)*2-1;mouse.y=-((ev.clientY-rect.top)/rect.height)*2+1;ray.setFromCamera(mouse,camera);const hit=ray.intersectObject(ground,false)[0];if(!hit)return null;const x=gridX(hit.point.x),y=gridY(hit.point.z);return inMap(x,y)?{x,y,cx:ev.clientX,cy:ev.clientY}:null;}
 function showTip(p){if(!p||state.tool!=='camera'){el('tip').style.display='none';return;}const c=getCell(p.x,p.y);if(!c)return;let text=NAME[c.type]+'\n地価 '+landValue(p.x,p.y);if(isZone(c.type))text+='\nレベル '+c.level+' / 道路接続 '+(adj(p.x,p.y,isRoad)>0?'あり':'なし');if(c.type===T.AIRPORT)text+='\n8×5マスの大型空港。2個以上で航空路線が開通。';if(c.type===T.DOCK)text+='\n水辺の船着場。2個以上で船便が発着します。';if(c.type===T.STATION)text+='\n5両編成の電車が3秒停車します。';el('tipTitle').textContent=NAME[c.type];el('tipText').textContent=text;const t=el('tip');let x=p.cx+16,y=p.cy+16;if(x+240>innerWidth)x=p.cx-255;if(y+150>innerHeight)y=p.cy-160;t.style.left=x+'px';t.style.top=y+'px';t.style.display='block';}
 
+
+function attachFollowTarget(root,obj,label){root.userData.followObj=obj;root.userData.followLabel=label;root.traverse?.(o=>{o.userData.followObj=obj;o.userData.followLabel=label;});}
+function getDynamicHit(ev){const rect=renderer.domElement.getBoundingClientRect();mouse.x=((ev.clientX-rect.left)/rect.width)*2-1;mouse.y=-((ev.clientY-rect.top)/rect.height)*2+1;ray.setFromCamera(mouse,camera);const hits=ray.intersectObjects(dynamicGroup.children,true);for(const h of hits){let o=h.object;while(o){if(o.userData?.followObj)return {object:o.userData.followObj.mesh||o.userData.followObj.group||o,label:o.userData.followLabel||'乗り物',type:o.userData.followObj.type||'vehicle'};o=o.parent;}}return null;}
+function setFollowTarget(hit){if(!hit)return false;cam.follow=hit;el('followLabel').textContent=hit.label+'視点';el('followExit').classList.add('show');toast(hit.label+'視点に切り替えました');return true;}
+function clearFollowTarget(){cam.follow=null;el('followExit').classList.remove('show');toast('通常カメラに戻りました');}
+
+const activePointers=new Map();
+let pinchState=null;
+function panCameraByPixels(dx,dy){
+  const panSpeed=cam.dist*.0022;
+  const right=new THREE.Vector3(Math.cos(cam.theta),0,-Math.sin(cam.theta));
+  const forward=new THREE.Vector3(Math.sin(cam.theta),0,Math.cos(cam.theta));
+  cam.target.add(right.multiplyScalar(-dx*panSpeed));
+  cam.target.add(forward.multiplyScalar(dy*panSpeed));
+  updateCamera();
+}
 let pointerStart=null;
-renderer.domElement.addEventListener('pointerdown',ev=>{state.lastPaint='';cam.drag=true;cam.button=ev.button;cam.lastX=ev.clientX;cam.lastY=ev.clientY;pointerStart={x:ev.clientX,y:ev.clientY,p:getPointerCell(ev),tool:state.tool};renderer.domElement.setPointerCapture?.(ev.pointerId);const p=getPointerCell(ev);if(state.tool!=='camera'&&p){state.dragging=true;paint(p.x,p.y);}});
-renderer.domElement.addEventListener('pointermove',ev=>{const dx=ev.clientX-cam.lastX,dy=ev.clientY-cam.lastY;cam.lastX=ev.clientX;cam.lastY=ev.clientY;const p=getPointerCell(ev);if(p){cursor.position.set(worldX(p.x),.15,worldZ(p.y));cursor.visible=state.tool!=='camera';if(state.dragging&&state.tool!=='camera'&&!MULTI[state.tool]&&!ev.shiftKey&&cam.button!==2)paint(p.x,p.y);showTip(p);}else{cursor.visible=false;showTip(null);}if(cam.drag){const isPan=ev.shiftKey||cam.button===2||ev.buttons===4;const canMoveCamera=state.tool==='camera'||isPan;if(canMoveCamera){if(isPan){const panSpeed=cam.dist*.0022;const right=new THREE.Vector3(Math.cos(cam.theta),0,-Math.sin(cam.theta));const forward=new THREE.Vector3(Math.sin(cam.theta),0,Math.cos(cam.theta));cam.target.add(right.multiplyScalar(-dx*panSpeed));cam.target.add(forward.multiplyScalar(dy*panSpeed));}else{cam.theta-=dx*.006;cam.phi+=dy*.006;}updateCamera();}}});
-window.addEventListener('pointerup',ev=>{if(pointerStart&&pointerStart.tool==='camera'&&pointerStart.p){const moved=Math.hypot(ev.clientX-pointerStart.x,ev.clientY-pointerStart.y);if(moved<8)showBuildingDetail(pointerStart.p.x,pointerStart.p.y);}pointerStart=null;cam.drag=false;state.dragging=false;state.lastPaint='';});
+renderer.domElement.addEventListener('pointerdown',ev=>{
+  activePointers.set(ev.pointerId,{x:ev.clientX,y:ev.clientY,lastX:ev.clientX,lastY:ev.clientY,type:ev.pointerType});
+  state.lastPaint='';cam.drag=true;cam.button=ev.button;cam.lastX=ev.clientX;cam.lastY=ev.clientY;
+  pointerStart={x:ev.clientX,y:ev.clientY,p:getPointerCell(ev),tool:state.tool,type:ev.pointerType};
+  renderer.domElement.setPointerCapture?.(ev.pointerId);
+  if(activePointers.size>=2){
+    const pts=[...activePointers.values()].slice(0,2);
+    pinchState={dist:Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y),midX:(pts[0].x+pts[1].x)/2,midY:(pts[0].y+pts[1].y)/2};
+    state.dragging=false;return;
+  }
+  const p=getPointerCell(ev);
+  if(state.tool!=='camera'&&p){state.dragging=true;paint(p.x,p.y);}
+});
+renderer.domElement.addEventListener('pointermove',ev=>{
+  const prev=activePointers.get(ev.pointerId);
+  if(prev){prev.lastX=prev.x;prev.lastY=prev.y;prev.x=ev.clientX;prev.y=ev.clientY;prev.type=ev.pointerType;}
+  const dx=ev.clientX-cam.lastX,dy=ev.clientY-cam.lastY;cam.lastX=ev.clientX;cam.lastY=ev.clientY;
+  const p=getPointerCell(ev);
+  if(p){cursor.position.set(worldX(p.x),.15,worldZ(p.y));cursor.visible=state.tool!=='camera';if(state.dragging&&state.tool!=='camera'&&!MULTI[state.tool]&&!ev.shiftKey&&cam.button!==2)paint(p.x,p.y);showTip(p);}else{cursor.visible=false;showTip(null);}
+  if(activePointers.size>=2){
+    const pts=[...activePointers.values()].slice(0,2);
+    const nd=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y);
+    const mx=(pts[0].x+pts[1].x)/2,my=(pts[0].y+pts[1].y)/2;
+    if(pinchState){
+      const ratio=pinchState.dist/Math.max(20,nd);
+      cam.dist*=clamp(ratio,.86,1.16);
+      panCameraByPixels(mx-pinchState.midX,my-pinchState.midY);
+    }
+    pinchState={dist:nd,midX:mx,midY:my};
+    return;
+  }
+  if(cam.drag){
+    const isTouch=ev.pointerType==='touch';
+    const isPan=isTouch||ev.shiftKey||cam.button===2||ev.buttons===4;
+    const canMoveCamera=state.tool==='camera'||isPan;
+    if(canMoveCamera){
+      if(isPan){panCameraByPixels(dx,dy);}else{cam.theta-=dx*.006;cam.phi+=dy*.006;updateCamera();}
+    }
+  }
+});
+function endPointer(ev){
+  activePointers.delete(ev.pointerId);pinchState=null;
+  if(pointerStart&&pointerStart.tool==='camera'&&pointerStart.p){const moved=Math.hypot(ev.clientX-pointerStart.x,ev.clientY-pointerStart.y);if(moved<8){if(!setFollowTarget(getDynamicHit(ev)))showBuildingDetail(pointerStart.p.x,pointerStart.p.y);}}
+  pointerStart=null;cam.drag=false;state.dragging=false;state.lastPaint='';
+}
+window.addEventListener('pointerup',endPointer);
+window.addEventListener('pointercancel',endPointer);
 function zoomCamera(mult){cam.dist*=mult;updateCamera();}
 renderer.domElement.addEventListener('wheel',ev=>{ev.preventDefault();ev.stopPropagation();zoomCamera(ev.deltaY>0?1.08:.92);},{passive:false});
 
@@ -1851,6 +1972,7 @@ const cameraKeys={};
 window.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(['w','a','s','d','q','e','r','f','arrowup','arrowdown','arrowleft','arrowright'].includes(k)){cameraKeys[k]=true;e.preventDefault();}});
 window.addEventListener('keyup',e=>{cameraKeys[e.key.toLowerCase()]=false;});
 function updateFreeCamera(dt){
+  if(cam.follow)return;
   const sp=cam.dist*dt*.55;
   const right=new THREE.Vector3(Math.cos(cam.theta),0,-Math.sin(cam.theta));
   const forward=new THREE.Vector3(Math.sin(cam.theta),0,Math.cos(cam.theta));
@@ -2275,7 +2397,12 @@ document.addEventListener('click',e=>{
 el('advisorToggle')?.addEventListener('click',()=>{state.advisor=Object.assign({enabled:true,problems:true},state.advisor||{});state.advisor.enabled=!state.advisor.enabled;updateAdvisorOverlays();save(false);});
 el('problemToggle')?.addEventListener('click',()=>{state.advisor=Object.assign({enabled:true,problems:true},state.advisor||{});state.advisor.problems=!state.advisor.problems;updateAdvisorOverlays();save(false);});
 el('saveBtn').addEventListener('click',()=>save(true));
-el('resetBtn').addEventListener('click',()=>{if(confirm('街を最初から作り直しますか？')){clearAllSaves();location.reload();}});
+el('guideClose')?.addEventListener('click',()=>{el('easyTopGuide')?.classList.add('closed');el('reopenGuideBtn')?.classList.add('show');});
+el('reopenGuideBtn')?.addEventListener('click',()=>{el('easyTopGuide')?.classList.remove('closed');el('reopenGuideBtn')?.classList.remove('show');});
+el('quickClose')?.addEventListener('click',()=>el('quickPanel')?.classList.add('closed'));
+el('quickOpen')?.addEventListener('click',()=>el('quickPanel')?.classList.remove('closed'));
+el('followBackBtn')?.addEventListener('click',clearFollowTarget);
+el('resetBtn').addEventListener('click',()=>{const a=confirm('本当に全ての進行状況をリセットしますか？');if(!a)return;const b=confirm('最終確認です。保存データ・バックアップ・セーブを消して最初から始めます。よろしいですか？');if(b){clearAllSaves();location.reload();}});
 el('toolbar').addEventListener('wheel',e=>{if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){el('toolbar').scrollLeft+=e.deltaY;e.preventDefault();}},{passive:false});
 function safeStorageSet(storage,key,value){try{storage.setItem(key,value);return true;}catch(e){console.warn('storage set failed',key,e);return false;}}
 function safeStorageGet(storage,key){try{return storage.getItem(key);}catch(e){console.warn('storage get failed',key,e);return null;}}
@@ -2284,8 +2411,8 @@ function validateSavePayload(d){
   return !!(d && Array.isArray(d.grid) && d.grid.length===GRID && Array.isArray(d.grid[0]));
 }
 function clearAllSaves(){
-  [SAVE_KEY,...SAVE_BACKUP_KEYS,SAVE_LAST_OK_KEY].forEach(k=>safeStorageRemove(localStorage,k));
-  safeStorageRemove(sessionStorage,SAVE_SESSION_KEY);
+  [SAVE_KEY,...SAVE_BACKUP_KEYS,SAVE_LAST_OK_KEY,'micro_city_reborn_complete_v1','micro_city_reborn_complete_v1_backup','micro_city_reborn_complete_v1_backup_2','micro_city_reborn_complete_v1_backup_3','micro_city_reborn_complete_v1_last_ok'].forEach(k=>safeStorageRemove(localStorage,k));
+  [SAVE_SESSION_KEY,'micro_city_reborn_complete_v1_session'].forEach(k=>safeStorageRemove(sessionStorage,k));
 }
 function save(show){
   try{
@@ -2339,6 +2466,7 @@ function frame(){
   try{
     const factor=state.speed===0?0:(state.speed===3?2.6:.72);
     if(factor>0){
+      updateFreeCamera(dt);
       acc+=dt*factor;
       if(acc>1.05){acc=0;simulateHour();updateLight();}
       for(let i=vehicles.length-1;i>=0;i--)moveObj(vehicles[i],dt*factor,isRoad,vehicles);
